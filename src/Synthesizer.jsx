@@ -1,20 +1,24 @@
 import React, { useEffect } from 'react';
 import * as Tone from 'tone';
 
-export default function Synthesizer({ notes, oscType }) {
+export default function Synthesizer({ patterns, oscType }) {
   useEffect(() => {
     const synth = new Tone.Synth();
+    Tone.Transport.bpm.value = 90;
     synth.oscillator.type = oscType;
     synth.toDestination();
 
-    let index = 0;
+    let patternIndex = 0;
+    let stepIndex = 0;
 
     const getLength = (next) => {
       let counter = 0;
-      for (let i = next; i < notes.length; i++) {
-        if (notes[i] === '') {
-          counter++;
+      let pattern = patterns[patternIndex];
+      for (let i = next; i < pattern.length; i++) {
+        if (pattern[i] !== '') {
+          break;
         }
+        counter++;
       }
       switch (counter) {
         case 1:
@@ -38,15 +42,20 @@ export default function Synthesizer({ notes, oscType }) {
     };
 
     const repeat = (time) => {
-      let note = notes[index];
+      let note = patterns[patternIndex][stepIndex];
       if (note !== 'X' && note !== '') {
-        const next = index + 1;
+        const next = stepIndex + 1;
         synth.triggerAttackRelease(note, getLength(next), time);
       }
-      if (index < 7) {
-        index++;
+
+      if (stepIndex < 7) {
+        stepIndex++;
       } else {
-        index = 0;
+        patternIndex++;
+        stepIndex = 0;
+      }
+      if (patterns[patternIndex] === undefined) {
+        patternIndex = 0;
       }
     };
     Tone.Transport.scheduleRepeat((time) => {
