@@ -3,7 +3,7 @@ import { SynthContext } from './contexts/SynthContextProvider';
 import * as Tone from 'tone';
 
 export default function Synthesizer({ patterns, oscTypes }) {
-  const { setCurrentPattern, currentPattern } = useContext(SynthContext);
+  const { setCurrentPattern, currentPattern, setCurrentStep, currentStep } = useContext(SynthContext);
   useEffect(() => {
     Tone.Transport.bpm.value = 70;
     const synths = [new Tone.Synth(), new Tone.Synth(), new Tone.Synth(), new Tone.Synth()];
@@ -18,8 +18,9 @@ export default function Synthesizer({ patterns, oscTypes }) {
 
     gain.toDestination();
 
-    let patternIndex = currentPattern;
+    let patternIndex = 0;
     let stepIndex = 0;
+    setCurrentStep(stepIndex);
 
     const getLength = (next, pattern) => {
       let counter = 0;
@@ -66,8 +67,8 @@ export default function Synthesizer({ patterns, oscTypes }) {
 
     const repeat = (time) => {
       if (stepIndex === 0) {
-        console.log('Pattern index: ' + patternIndex);
         setCurrentPattern(patternIndex);
+        setCurrentStep(stepIndex);
       }
       synths.forEach((synth, index) => {
         const pattern = getPattern(index);
@@ -78,10 +79,11 @@ export default function Synthesizer({ patterns, oscTypes }) {
         }
       });
       if (stepIndex < 7) {
-        console.log('Step index: ' + stepIndex);
+        setCurrentStep(stepIndex);
         stepIndex++;
       } else {
         patternIndex++;
+        setCurrentStep(stepIndex);
         stepIndex = 0;
       }
       if (patterns.synth1[patternIndex] === undefined) {

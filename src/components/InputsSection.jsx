@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SynthContext } from '../contexts/SynthContextProvider';
 import { song } from '../song';
+import SynthInputsContainer from './SynthInputsContainer';
 
 export default function InputsSection() {
   const { currentPattern } = useContext(SynthContext);
@@ -47,27 +48,11 @@ export default function InputsSection() {
   }, [currentPattern]);
 
   return (
-    <div>
-      <div>
-        {synth1Pattern.map((note, index) => {
-          return <input key={index} value={note} onChange={(e) => handleSynth1Inputs(e, index)} />;
-        })}
-      </div>
-      <div>
-        {synth2Pattern.map((note, index) => {
-          return <input key={index} value={note} onChange={(e) => handleSynth2Inputs(e, index)} />;
-        })}
-      </div>
-      <div>
-        {synth3Pattern.map((note, index) => {
-          return <input key={index} value={note} onChange={(e) => handleSynth3Inputs(e, index)} />;
-        })}
-      </div>
-      <div>
-        {synth4Pattern.map((note, index) => {
-          return <input key={index} value={note} onChange={(e) => handleSynth4Inputs(e, index)} />;
-        })}
-      </div>
-    </div>
+    <section style={{ display: 'flex', flexDirection: 'row' }}>
+      <SynthInputsContainer id={'synth1Inputs'} pattern={synth1Pattern} onChangeHandler={handleSynth1Inputs} />
+      <SynthInputsContainer id={'synth2Inputs'} pattern={synth2Pattern} onChangeHandler={handleSynth2Inputs} />
+      <SynthInputsContainer id={'synth3Inputs'} pattern={synth3Pattern} onChangeHandler={handleSynth3Inputs} />
+      <SynthInputsContainer id={'synth4Inputs'} pattern={synth4Pattern} onChangeHandler={handleSynth4Inputs} />
+    </section>
   );
 }

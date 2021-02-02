@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import './App.css';
 import Synthesizer from './Synthesizer';
 import { song } from './song';
 import InputsSection from './components/InputsSection';
 import { SynthContext } from './contexts/SynthContextProvider';
 
 function App() {
-  const { isPlaying, setIsPlaying, setCurrentPattern } = useContext(SynthContext);
+  const { isPlaying, setIsPlaying, setCurrentPattern, setCurrentStep } = useContext(SynthContext);
   // const [isPlaying, setIsPlaying] = useState(false);
   // const [currentPattern, setCurrentPattern] = useState(0);
 
@@ -16,6 +17,7 @@ function App() {
   const stop = () => {
     setIsPlaying(false);
     setCurrentPattern(0);
+    setCurrentStep(null);
   };
 
   return (
