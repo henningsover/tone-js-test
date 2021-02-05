@@ -5,6 +5,7 @@ import '../App.css';
 export default function SynthInputsContainer({ id, pattern, onChangeHandler }) {
   const { isPlaying, currentStep } = useContext(SynthContext);
   let inputs;
+  const synthToUpdate = id.replace('Inputs', '');
 
   useEffect(() => {
     inputs = document.getElementById(id).querySelectorAll('input');
@@ -23,7 +24,7 @@ export default function SynthInputsContainer({ id, pattern, onChangeHandler }) {
   return (
     <div id={id} style={{ display: 'flex', flexDirection: 'column' }}>
       {pattern.map((note, index) => {
-        return <input key={index} value={note} onChange={(e) => onChangeHandler(e, index)} />;
+        return <input key={index} value={note} onKeyDown={(e) => onChangeHandler(e, index, synthToUpdate)} />;
       })}
     </div>
   );

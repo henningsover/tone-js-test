@@ -3,9 +3,10 @@ import { SynthContext } from './contexts/SynthContextProvider';
 import * as Tone from 'tone';
 
 export default function Synthesizer({ patterns, oscTypes }) {
-  const { setCurrentPattern, currentPattern, setCurrentStep, currentStep } = useContext(SynthContext);
+  const { setCurrentPattern, currentPattern, setCurrentStep, currentStep, songMode } = useContext(SynthContext);
+
   useEffect(() => {
-    Tone.Transport.bpm.value = 70;
+    // Tone.Transport.bpm.value = 70;
     const synths = [new Tone.Synth(), new Tone.Synth(), new Tone.Synth(), new Tone.Synth()];
 
     synths[0].oscillator.type = oscTypes.synth1;
@@ -18,7 +19,7 @@ export default function Synthesizer({ patterns, oscTypes }) {
 
     gain.toDestination();
 
-    let patternIndex = 0;
+    let patternIndex = currentPattern;
     let stepIndex = 0;
     setCurrentStep(stepIndex);
 
@@ -32,7 +33,7 @@ export default function Synthesizer({ patterns, oscTypes }) {
       }
       switch (counter) {
         case 1:
-          return '8n';
+          return '16n';
         case 2:
           return '8n + 16n';
         case 3:
@@ -74,15 +75,21 @@ export default function Synthesizer({ patterns, oscTypes }) {
         const pattern = getPattern(index);
         const note = pattern[stepIndex];
         if (note !== 'X' && note !== '') {
+          synth.triggerRelease(time);
           const next = stepIndex + 1;
-          synth.triggerAttackRelease(note, getLength(next, pattern), time);
+          synth.triggerAttack(note, time + 0.01);
+        }
+        if (note === 'X') {
+          synth.triggerRelease(time);
         }
       });
-      if (stepIndex < 7) {
+      if (stepIndex < patterns.synth1[1].length - 1) {
         setCurrentStep(stepIndex);
         stepIndex++;
       } else {
-        patternIndex++;
+        if (songMode) {
+          patternIndex++;
+        }
         setCurrentStep(stepIndex);
         stepIndex = 0;
       }
