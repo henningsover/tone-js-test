@@ -1,23 +1,36 @@
 import React, { useEffect, useContext } from 'react';
 import { SynthContext } from './contexts/SynthContextProvider';
+import Instrument from './data/InstrumentKit';
 import * as Tone from 'tone';
 
 export default function Synthesizer({ patterns, oscTypes }) {
   const { setCurrentPattern, currentPattern, setCurrentStep, currentStep, songMode } = useContext(SynthContext);
 
   useEffect(() => {
-    // Tone.Transport.bpm.value = 70;
-    const synths = [new Tone.Synth(), new Tone.Synth(), new Tone.Synth(), new Tone.Synth()];
+    // Tone.Transport.bpm.value = 120;
+    const inst1 = new Instrument();
+    const inst2 = new Instrument();
+    const inst3 = new Instrument();
+    const inst4 = new Instrument();
+    const instruments = [inst1, inst2, inst3, inst4];
 
-    synths[0].oscillator.type = oscTypes.synth1;
-    synths[1].oscillator.type = oscTypes.synth2;
-    synths[2].oscillator.type = oscTypes.synth3;
-    synths[3].oscillator.type = oscTypes.synth4;
+    instruments.forEach((intrument, i) => {
+      console.log(oscTypes[`synth${i + 1}`]);
+      intrument.updateSynthType(oscTypes[`synth${i + 1}`]);
+    });
+    // Object.keys(oscTypes).forEach((type, i) => {
+    //   instruments[i].updateOscillatorType(oscTypes[type]);
+    // });
 
-    const gain = new Tone.Gain(0.6);
-    synths.forEach((synth) => synth.connect(gain));
+    // instruments[0].updateOscillatorType(oscTypes.synth1);
+    // instruments[1].updateOscillatorType(oscTypes.synth2);
+    // instruments[2].updateOscillatorType(oscTypes.synth3);
+    // instruments[3].updateOscillatorType(oscTypes.synth4);
 
-    gain.toDestination();
+    // const gain = new Tone.Gain(0.6);
+    // instruments.forEach((synth) => synth.connect(gain));
+
+    // gain.toDestination();
 
     let patternIndex = currentPattern;
     let stepIndex = 0;
@@ -71,19 +84,28 @@ export default function Synthesizer({ patterns, oscTypes }) {
         setCurrentPattern(patternIndex);
         setCurrentStep(stepIndex);
       }
-      synths.forEach((synth, index) => {
+      instruments.forEach((instrument, index) => {
         const pattern = getPattern(index);
         const note = pattern[stepIndex];
-        if (note !== 'X' && note !== '') {
-          synth.triggerRelease(time);
-          const next = stepIndex + 1;
-          synth.triggerAttack(note, time + 0.01);
+        const instrumentType = instrument.synth.name;
+        if (instrumentType === 'NoiseSynth') {
+          if (note !== '') {
+            console.log(instrumentType);
+            instrument.updatePercussionType(note);
+            instrument.synth.triggerAttackRelease('16n', time);
+          }
         }
-        if (note === 'X') {
-          synth.triggerRelease(time);
+        if (instrumentType === 'Synth') {
+          if (note !== 'X' && note !== '') {
+            instrument.synth.triggerRelease(time);
+            instrument.synth.triggerAttack(note, time + 0.01);
+          }
+          if (note === 'X') {
+            instrument.synth.triggerRelease(time);
+          }
         }
       });
-      if (stepIndex < patterns.synth1[1].length - 1) {
+      if (stepIndex < patterns.synth1[0].length - 1) {
         setCurrentStep(stepIndex);
         stepIndex++;
       } else {
@@ -107,7 +129,7 @@ export default function Synthesizer({ patterns, oscTypes }) {
     return () => {
       Tone.Transport.stop();
       Tone.Transport.cancel();
-      synths.forEach((synth) => synth.dispose());
+      instruments.forEach((instrument) => instrument.synth.dispose());
     };
   }, []);
   return null;

@@ -24,7 +24,16 @@ export default function SynthInputsContainer({ id, pattern, onChangeHandler }) {
   return (
     <div id={id} style={{ display: 'flex', flexDirection: 'column' }}>
       {pattern.map((note, index) => {
-        return <input key={index} value={note} onKeyDown={(e) => onChangeHandler(e, index, synthToUpdate)} />;
+        return (
+          <input
+            key={index}
+            value={note}
+            className="synth-input"
+            //TODO Handle input as piano keys
+            // onKeyDown={(e) => onChangeHandler(e, index, synthToUpdate)}
+            onChange={(e) => onChangeHandler(e, index, synthToUpdate)}
+          />
+        );
       })}
     </div>
   );

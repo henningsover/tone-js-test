@@ -9,6 +9,7 @@ export default function SynthContextProvider({ children }) {
   const [songMode, setSongMode] = useState(true);
   const [patternMode, setPatternMode] = useState(false);
   const [song, setSong] = useState(null);
+  const [copiedPattern, setCopiedPattern] = useState(null);
 
   return (
     <SynthContext.Provider
@@ -25,6 +26,8 @@ export default function SynthContextProvider({ children }) {
         setPatternMode,
         song,
         setSong,
+        copiedPattern,
+        setCopiedPattern,
       }}
     >
       {children}

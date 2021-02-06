@@ -11,17 +11,19 @@ export default function InputsSection() {
   const [synth3Pattern, setSynth3Pattern] = useState(song.patterns.synth3[currentPattern]);
   const [synth4Pattern, setSynth4Pattern] = useState(song.patterns.synth4[currentPattern]);
 
-  const handleSynth1Inputs = (e, index, synth) => {
+  const handleSynth1Inputs = (e, index) => {
     e.preventDefault();
-    const charCode = e.code;
-    const target = e.target;
-    const stepValue = getNote(charCode, 4);
-    if (charCode === 'ArrowUp') {
-      target.previousSibling.focus();
-    }
-    if (charCode === 'ArrowDown') {
-      target.nextSibling.focus();
-    }
+    //TODO Handle input as piano keys
+    // const charCode = e.code;
+    // const target = e.target;
+    // const stepValue = getNote(charCode, 4);
+    // if (charCode === 'ArrowUp') {
+    //   target.previousSibling.focus();
+    // }
+    // if (charCode === 'ArrowDown') {
+    //   target.nextSibling.focus();
+    // }
+    const stepValue = e.target.value.toUpperCase();
     if (stepValue !== undefined) {
       const updatedPattern = [...synth1Pattern];
       updatedPattern[index] = stepValue;
@@ -58,7 +60,7 @@ export default function InputsSection() {
     setSynth2Pattern(song.patterns.synth2[currentPattern]);
     setSynth3Pattern(song.patterns.synth3[currentPattern]);
     setSynth4Pattern(song.patterns.synth4[currentPattern]);
-  }, [currentPattern]);
+  }, [currentPattern, song]);
 
   return (
     <>
