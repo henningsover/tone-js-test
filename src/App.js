@@ -22,6 +22,8 @@ function App() {
     setSong,
     copiedPattern,
     setCopiedPattern,
+    octave,
+    setOctave,
   } = useContext(SynthContext);
 
   const start = () => {
@@ -82,6 +84,10 @@ function App() {
     setSong(updatedSong);
   };
 
+  const handleOctaveChange = (e) => {
+    setOctave(parseInt(e.target.value));
+  };
+
   useEffect(() => {
     const songFromStorage = JSON.parse(localStorage.getItem('batman'));
     if (songFromStorage) {
@@ -89,8 +95,6 @@ function App() {
     } else {
       setSong(song2);
     }
-    console.log('set song');
-    console.log(song2);
   }, []);
 
   useEffect(() => {
@@ -111,6 +115,7 @@ function App() {
       <button onClick={() => handleClearPattern()}>Clear</button>
       <button onClick={() => handleCopyPattern()}>Copy</button>
       <button onClick={() => handlePastePattern()}>Paste</button>
+      <input type="number" min="1" max="9" value={octave} onChange={(e) => handleOctaveChange(e)} />
       {song ? (
         <select id="patternSelect" onChange={(e) => handlePatternSelect(e)}>
           {Object.keys(song.patterns.synth1).map((pattern, index) => {

@@ -46,7 +46,7 @@ export default class Instrument {
           decay: 0.6,
           sustain: 0,
         },
-        gain: 1,
+        gain: 0.9,
       },
       HH: {
         noise: {
@@ -58,7 +58,7 @@ export default class Instrument {
           decay: 0.1,
           sustain: 0,
         },
-        gain: 1,
+        gain: 0.9,
       },
       K: {
         noise: {

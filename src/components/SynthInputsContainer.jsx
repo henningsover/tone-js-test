@@ -30,8 +30,8 @@ export default function SynthInputsContainer({ id, pattern, onChangeHandler }) {
             value={note}
             className="synth-input"
             //TODO Handle input as piano keys
-            // onKeyDown={(e) => onChangeHandler(e, index, synthToUpdate)}
-            onChange={(e) => onChangeHandler(e, index, synthToUpdate)}
+            onKeyDown={(e) => onChangeHandler(e, index, synthToUpdate)}
+            // onChange={(e) => onChangeHandler(e, index, synthToUpdate)}
           />
         );
       })}
