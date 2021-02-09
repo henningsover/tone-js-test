@@ -11,6 +11,7 @@ export default function SynthContextProvider({ children }) {
   const [song, setSong] = useState(null);
   const [copiedPattern, setCopiedPattern] = useState(null);
   const [octave, setOctave] = useState(4);
+  const [masterListIndex, setMasterListIndex] = useState(0);
 
   return (
     <SynthContext.Provider
@@ -31,6 +32,8 @@ export default function SynthContextProvider({ children }) {
         setCopiedPattern,
         octave,
         setOctave,
+        masterListIndex,
+        setMasterListIndex,
       }}
     >
       {children}

@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import './App.css';
 import Synthesizer from './Synthesizer';
-import { song1, song2 } from './song';
+import { song1, song2, masterList } from './song';
 import InputsSection from './components/InputsSection';
 import { SynthContext } from './contexts/SynthContextProvider';
 import * as Tone from 'tone';
 import Instrument from './data/InstrumentKit';
 import * as C from './constants';
+import MasterList from './components/MasterList';
 
 function App() {
   const {
@@ -24,6 +25,8 @@ function App() {
     setCopiedPattern,
     octave,
     setOctave,
+    masterListIndex,
+    setMasterListIndex,
   } = useContext(SynthContext);
 
   const start = () => {
@@ -36,13 +39,15 @@ function App() {
   };
 
   const handlePatternSelect = (e) => {
+    setSongMode(false);
     setCurrentPattern(e.target.value);
   };
 
   const handleSongMode = () => {
     setSongMode(true);
     setPatternMode(false);
-    setCurrentPattern(0);
+    setMasterListIndex(0);
+    setCurrentPattern(song.masterList[0]);
   };
   const handlePatternMode = () => {
     setPatternMode(true);
@@ -50,7 +55,9 @@ function App() {
   };
 
   const handleSave = () => {
-    localStorage.setItem('batman', JSON.stringify(song));
+    const updatedSong = { ...song };
+    setSong(updatedSong);
+    localStorage.setItem('batman', JSON.stringify(updatedSong));
   };
 
   const handleNewPattern = () => {
@@ -103,9 +110,17 @@ function App() {
     }
   }, [currentPattern]);
 
+  // useEffect(() => {
+  //   if (song) {
+  //     console.log(song.masterList);
+  //     console.log(song.patterns.synth1);
+  //   }
+  // }, [song]);
+
   return (
     <div>
       <h1>Welcome</h1>
+      {song && <MasterList />}
       <button onClick={() => start()}>Play</button>
       <button onClick={() => stop()}>Stop</button>
       <button onClick={() => handleSongMode()}>Song</button>

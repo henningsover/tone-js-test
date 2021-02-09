@@ -233,3 +233,5 @@ export const song2 = {
     synth4: instrument4,
   },
 };
+
+export const masterList = [0, 1, 2, 3, 4, 5];
