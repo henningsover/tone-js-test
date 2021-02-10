@@ -2,8 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import { SynthContext } from '../contexts/SynthContextProvider';
 import '../App.css';
 import { getNote, getPerc } from './inputsHelper';
+import { cloneDeep } from 'lodash';
 
-export default function SynthInputsContainer({ id, pattern, setPattern, type }) {
+export default function SynthInputsContainer({ id, pattern, setPattern, synthType }) {
   const { currentStep, currentPattern, song, setSong, octave } = useContext(SynthContext);
   const synthToUpdate = id.replace('Inputs', '');
 
@@ -15,7 +16,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern, type }) 
   const handleSynthInputs = (e, index) => {
     e.preventDefault();
     const charCode = e.code;
-    const stepValue = type === synthTypes.Synth ? getNote(charCode, octave) : getPerc(charCode);
+    const stepValue = synthType === synthTypes.Synth ? getNote(charCode, octave) : getPerc(charCode);
     const target = e.target;
     if (charCode === 'ArrowUp' && target.previousSibling) {
       target.previousSibling.focus();
@@ -26,10 +27,10 @@ export default function SynthInputsContainer({ id, pattern, setPattern, type }) 
     if (stepValue !== undefined) {
       const updatedPattern = [...pattern];
       updatedPattern[index] = stepValue;
-      const updatedSong = { ...song };
+      const updatedSong = cloneDeep(song);
       updatedSong.patterns[`${synthToUpdate}`][currentPattern] = updatedPattern;
       setSong(updatedSong);
-      setPattern(song.patterns[`${synthToUpdate}`][currentPattern]);
+      setPattern(updatedSong.patterns[`${synthToUpdate}`][currentPattern]);
     }
   };
 

@@ -34,10 +34,10 @@ export const emptySynthPattern = [
 ];
 
 export const emptyPattern = {
-  synth1: emptySynthPattern,
-  synth2: emptySynthPattern,
-  synth3: emptySynthPattern,
-  synth4: emptySynthPattern,
+  synth1: { 0: emptySynthPattern },
+  synth2: { 0: emptySynthPattern },
+  synth3: { 0: emptySynthPattern },
+  synth4: { 0: emptySynthPattern },
 };
 
 export const defaultOscTypes = {
@@ -48,9 +48,8 @@ export const defaultOscTypes = {
 };
 
 export const emptySong = {
-  title: 'new song',
-  author: 'admin',
   oscTypes: { ...defaultOscTypes },
   patterns: { ...emptyPattern },
-  masterList: [''],
+  masterList: ['0'],
+  title: 'new song',
 };

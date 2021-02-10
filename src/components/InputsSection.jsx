@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SynthContext } from '../contexts/SynthContextProvider';
 import SynthInputsContainer from './SynthInputsContainer';
-import { getNote } from './inputsHelper';
 
 export default function InputsSection() {
-  const { currentPattern, song, setSong, octave } = useContext(SynthContext);
+  const { currentPattern, song } = useContext(SynthContext);
 
   const [synth1Pattern, setSynth1Pattern] = useState(song.patterns.synth1[`${currentPattern}`]);
   const [synth2Pattern, setSynth2Pattern] = useState(song.patterns.synth2[`${currentPattern}`]);

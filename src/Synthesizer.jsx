@@ -8,7 +8,6 @@ export default function Synthesizer({ patterns, oscTypes }) {
     setCurrentPattern,
     currentPattern,
     setCurrentStep,
-    currentStep,
     songMode,
     song,
     masterListIndex,

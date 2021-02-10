@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { SynthContext } from '../contexts/SynthContextProvider';
 import MasterListRow from './MasterListRow';
+import { cloneDeep } from 'lodash';
 
 export default function MasterList() {
   const { song, setSong } = useContext(SynthContext);
 
   const handleAddToMasterList = () => {
-    const updatedSong = { ...song };
+    const updatedSong = cloneDeep(song);
     updatedSong.masterList.push('0');
     setSong(updatedSong);
   };

@@ -46,7 +46,7 @@ export default class Instrument {
           decay: 0.6,
           sustain: 0,
         },
-        gain: 0.9,
+        gain: 0.8,
       },
       HH: {
         noise: {
@@ -106,6 +106,9 @@ export default class Instrument {
     this.synth = newSynth;
     if (oscType !== 'noise') {
       this.synth.oscillator.type = oscType;
+    }
+    if (oscType == 'square') {
+      this.gain.gain.value = 0.8;
     }
     this.synth.connect(this.gain);
   }

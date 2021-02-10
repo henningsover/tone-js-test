@@ -8,6 +8,7 @@ import * as Tone from 'tone';
 import Instrument from './data/InstrumentKit';
 import * as C from './constants';
 import MasterList from './components/MasterList';
+import { cloneDeep } from 'lodash';
 
 function App() {
   const {
@@ -55,14 +56,14 @@ function App() {
   };
 
   const handleSave = () => {
-    const updatedSong = { ...song };
+    const updatedSong = cloneDeep(song);
     setSong(updatedSong);
     localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
   };
 
   const handleNewPattern = () => {
     const lastPattern = Object.keys(song.patterns.synth1).length - 1;
-    const updatedSong = { ...song };
+    const updatedSong = cloneDeep(song);
     console.log(lastPattern);
     Object.keys(song.patterns).forEach((synth) => {
       updatedSong.patterns[synth][lastPattern + 1] = C.emptySynthPattern;
@@ -76,7 +77,7 @@ function App() {
   };
 
   const handlePastePattern = () => {
-    const updatedSong = { ...song };
+    const updatedSong = cloneDeep(song);
     Object.keys(song.patterns).forEach((synth) => {
       updatedSong.patterns[synth][currentPattern] = updatedSong.patterns[synth][copiedPattern];
     });
@@ -84,7 +85,7 @@ function App() {
   };
 
   const handleClearPattern = () => {
-    const updatedSong = { ...song };
+    const updatedSong = cloneDeep(song);
     Object.keys(song.patterns).forEach((synth) => {
       updatedSong.patterns[synth][currentPattern] = C.emptySynthPattern;
     });
@@ -96,9 +97,14 @@ function App() {
   };
 
   const handleSongName = (e) => {
-    const updatedSong = { ...song };
+    const updatedSong = cloneDeep(song);
     updatedSong.title = e.target.value;
     setSong(updatedSong);
+  };
+
+  const handleNewSong = () => {
+    setSong(C.emptySong);
+    console.log('new song');
   };
 
   useEffect(() => {
@@ -116,12 +122,12 @@ function App() {
     }
   }, [currentPattern]);
 
-  // useEffect(() => {
-  //   if (song) {
-  //     console.log(song.masterList);
-  //     console.log(song.patterns.synth1);
-  //   }
-  // }, [song]);
+  useEffect(() => {
+    if (song) {
+      console.log(song);
+      console.log(C.emptySong);
+    }
+  }, [song]);
 
   return (
     <div>
@@ -136,6 +142,7 @@ function App() {
       <button onClick={() => handleClearPattern()}>Clear</button>
       <button onClick={() => handleCopyPattern()}>Copy</button>
       <button onClick={() => handlePastePattern()}>Paste</button>
+      <button onClick={() => handleNewSong()}>New song</button>
       <input type="number" min="1" max="9" value={octave} onChange={(e) => handleOctaveChange(e)} />
       <input type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
       {song ? (
