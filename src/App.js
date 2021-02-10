@@ -57,7 +57,7 @@ function App() {
   const handleSave = () => {
     const updatedSong = { ...song };
     setSong(updatedSong);
-    localStorage.setItem('batman', JSON.stringify(updatedSong));
+    localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
   };
 
   const handleNewPattern = () => {
@@ -93,6 +93,12 @@ function App() {
 
   const handleOctaveChange = (e) => {
     setOctave(parseInt(e.target.value));
+  };
+
+  const handleSongName = (e) => {
+    const updatedSong = { ...song };
+    updatedSong.title = e.target.value;
+    setSong(updatedSong);
   };
 
   useEffect(() => {
@@ -131,6 +137,7 @@ function App() {
       <button onClick={() => handleCopyPattern()}>Copy</button>
       <button onClick={() => handlePastePattern()}>Paste</button>
       <input type="number" min="1" max="9" value={octave} onChange={(e) => handleOctaveChange(e)} />
+      <input type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
       {song ? (
         <select id="patternSelect" onChange={(e) => handlePatternSelect(e)}>
           {Object.keys(song.patterns.synth1).map((pattern, index) => {

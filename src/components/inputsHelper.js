@@ -20,3 +20,14 @@ export const getNote = (charCode, octave) => {
   };
   return keyboardMap[charCode];
 };
+
+export const getPerc = (charCode) => {
+  const keyboardMap = {
+    KeyS: 'S',
+    KeyH: 'HH',
+    KeyK: 'K',
+    Space: 'X',
+    Backspace: '',
+  };
+  return keyboardMap[charCode];
+};

@@ -1,16 +1,21 @@
 import React, { useContext, useEffect } from 'react';
 import { SynthContext } from '../contexts/SynthContextProvider';
 import '../App.css';
-import { getNote } from './inputsHelper';
+import { getNote, getPerc } from './inputsHelper';
 
-export default function SynthInputsContainer({ id, pattern, setPattern }) {
+export default function SynthInputsContainer({ id, pattern, setPattern, type }) {
   const { currentStep, currentPattern, song, setSong, octave } = useContext(SynthContext);
   const synthToUpdate = id.replace('Inputs', '');
+
+  const synthTypes = {
+    Synth: 0,
+    NoiseSynth: 1,
+  };
 
   const handleSynthInputs = (e, index) => {
     e.preventDefault();
     const charCode = e.code;
-    const stepValue = getNote(charCode, octave);
+    const stepValue = type === synthTypes.Synth ? getNote(charCode, octave) : getPerc(charCode);
     const target = e.target;
     if (charCode === 'ArrowUp' && target.previousSibling) {
       target.previousSibling.focus();
@@ -43,7 +48,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
   }, [currentStep]);
 
   return (
-    <div id={id} style={{ display: 'flex', flexDirection: 'column' }}>
+    <div id={id} style={{ display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid' }}>
       {pattern.map((note, index) => {
         return (
           <input

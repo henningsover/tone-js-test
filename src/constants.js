@@ -43,11 +43,13 @@ export const emptyPattern = {
 export const defaultOscTypes = {
   synth1: 'square',
   synth2: 'square',
-  synth3: 'sawtooth',
+  synth3: 'triangle',
   synth4: 'noise',
 };
 
 export const emptySong = {
+  title: 'new song',
+  author: 'admin',
   oscTypes: { ...defaultOscTypes },
   patterns: { ...emptyPattern },
   masterList: [''],

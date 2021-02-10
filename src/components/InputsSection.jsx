@@ -22,10 +22,30 @@ export default function InputsSection() {
     <>
       {song && (
         <section style={{ display: 'flex', flexDirection: 'row' }}>
-          <SynthInputsContainer id={'synth1Inputs'} pattern={synth1Pattern} setPattern={setSynth1Pattern} />
-          <SynthInputsContainer id={'synth2Inputs'} pattern={synth2Pattern} setPattern={setSynth2Pattern} />
-          <SynthInputsContainer id={'synth3Inputs'} pattern={synth3Pattern} setPattern={setSynth3Pattern} />
-          <SynthInputsContainer id={'synth4Inputs'} pattern={synth4Pattern} setPattern={setSynth4Pattern} />
+          <SynthInputsContainer
+            id={'synth1Inputs'}
+            pattern={synth1Pattern}
+            setPattern={setSynth1Pattern}
+            synthType={0}
+          />
+          <SynthInputsContainer
+            id={'synth2Inputs'}
+            pattern={synth2Pattern}
+            setPattern={setSynth2Pattern}
+            synthType={0}
+          />
+          <SynthInputsContainer
+            id={'synth3Inputs'}
+            pattern={synth3Pattern}
+            setPattern={setSynth3Pattern}
+            synthType={0}
+          />
+          <SynthInputsContainer
+            id={'synth4Inputs'}
+            pattern={synth4Pattern}
+            setPattern={setSynth4Pattern}
+            synthType={1}
+          />
         </section>
       )}
     </>
