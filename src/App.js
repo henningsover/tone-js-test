@@ -5,7 +5,8 @@ import { song1, song2, masterList } from './song';
 import InputsSection from './components/InputsSection';
 import { SynthContext } from './contexts/SynthContextProvider';
 import * as Tone from 'tone';
-import Instrument from './data/InstrumentKit';
+// import Instrument from './data/InstrumentKit';
+import Instrument, { DrumTest } from './data/InstrumentKitTest';
 import * as C from './constants';
 import MasterList from './components/MasterList';
 import { cloneDeep } from 'lodash';
@@ -107,8 +108,31 @@ function App() {
     console.log('new song');
   };
 
+  const test = () => {
+    // const drum = new Drum('triangle');
+    // drum.gain.toDestination();
+    // drum.play('C4');
+    // const kickDrum = new Tone.MembraneSynth({
+    //   volume: 4,
+    //   octaves: 2,
+    //   envelope: {
+    //     decay: 0.4,
+    //     sustain: 0.1,
+    //     release: 0.01,
+    //   },
+    // });
+    // const gain = new Tone.Gain(0.5).toDestination();
+    // kickDrum.connect(gain);
+    // console.log(kickDrum.get());
+
+    // kickDrum.triggerAttackRelease('C3', '32n');
+    const drum = new DrumTest('hihat');
+    drum.gain.toDestination();
+    drum.play();
+  };
+
   useEffect(() => {
-    const songFromStorage = JSON.parse(localStorage.getItem('batman'));
+    const songFromStorage = JSON.parse(localStorage.getItem('tester'));
     if (songFromStorage) {
       setSong(songFromStorage);
     } else {
@@ -124,8 +148,10 @@ function App() {
 
   useEffect(() => {
     if (song) {
-      console.log(song);
-      console.log(C.emptySong);
+      const tracks = song.oscTypes;
+      Object.keys(tracks).forEach((track) => {
+        console.log(tracks[track]);
+      });
     }
   }, [song]);
 
@@ -133,6 +159,7 @@ function App() {
     <div>
       <h1>Welcome</h1>
       {song && <MasterList />}
+      <button onClick={() => test()}>Test me</button>
       <button onClick={() => start()}>Play</button>
       <button onClick={() => stop()}>Stop</button>
       <button onClick={() => handleSongMode()}>Song</button>

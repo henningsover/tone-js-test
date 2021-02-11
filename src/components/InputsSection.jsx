@@ -15,7 +15,7 @@ export default function InputsSection() {
     setSynth2Pattern(song.patterns.synth2[`${currentPattern}`]);
     setSynth3Pattern(song.patterns.synth3[`${currentPattern}`]);
     setSynth4Pattern(song.patterns.synth4[`${currentPattern}`]);
-  }, [currentPattern]);
+  }, [currentPattern, song]);
 
   return (
     <>

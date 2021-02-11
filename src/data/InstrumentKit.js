@@ -4,8 +4,16 @@ import * as Tone from 'tone';
 export default class Instrument {
   constructor() {
     this.synth = null;
+    this.freqEnv = null;
     this.gain = new Tone.Gain();
-    this.gain.toDestination();
+  }
+
+  get gainSettings() {
+    return {
+      square: 0.8,
+      sawtooth: 1,
+      triangle: 1,
+    };
   }
 
   get defaultSettings() {
@@ -18,7 +26,7 @@ export default class Instrument {
           attack: 0.005,
           decay: 0.1,
           sustain: 0.3,
-          release: 1,
+          release: 0,
         },
       },
       NoiseSynth: {
@@ -75,8 +83,16 @@ export default class Instrument {
     };
   }
 
+  setPlayMethod(playMethod) {
+    this.playMethod = playMethod;
+  }
+
   updateOscillatorType(oscType) {
     this.synth.oscillator.type = oscType;
+  }
+
+  _setGain(oscType) {
+    this.gain.gain.value = this.gainSettings[oscType];
   }
 
   updateGain(value) {
@@ -85,12 +101,7 @@ export default class Instrument {
 
   updatePercussionType(perc) {
     let settings = this.percussionSettings[perc];
-    this.synth.noise.type = settings.noise.type;
-    this.synth.noise._playbackRate = settings.noise.playbackRate;
-    this.synth.envelope.attack = settings.envelope.attack;
-    this.synth.envelope.decay = settings.envelope.decay;
-    this.synth.envelope.release = settings.envelope.release;
-    this.gain.gain.value = settings.gain;
+    this.synth.set({ ...settings });
   }
 
   updateSynthType(oscType) {
@@ -106,10 +117,10 @@ export default class Instrument {
     this.synth = newSynth;
     if (oscType !== 'noise') {
       this.synth.oscillator.type = oscType;
-    }
-    if (oscType == 'square') {
-      this.gain.gain.value = 0.8;
+      this._setGain(oscType);
     }
     this.synth.connect(this.gain);
   }
 }
+
+export class Drum extends Instrument {}

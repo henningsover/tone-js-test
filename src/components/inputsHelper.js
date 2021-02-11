@@ -23,9 +23,9 @@ export const getNote = (charCode, octave) => {
 
 export const getPerc = (charCode) => {
   const keyboardMap = {
-    KeyS: 'S',
-    KeyH: 'HH',
-    KeyK: 'K',
+    KeyS: 'snare',
+    KeyH: 'hihat',
+    KeyK: 'kick',
     Space: 'X',
     Backspace: '',
   };
