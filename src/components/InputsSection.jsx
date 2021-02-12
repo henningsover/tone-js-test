@@ -43,7 +43,7 @@ export default function InputsSection() {
             id={'synth4Inputs'}
             pattern={synth4Pattern}
             setPattern={setSynth4Pattern}
-            synthType={1}
+            synthType={0}
           />
         </section>
       )}

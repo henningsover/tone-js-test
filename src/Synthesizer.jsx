@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { SynthContext } from './contexts/SynthContextProvider';
 import Instrument from './data/InstrumentKitTest';
-import { DrumTest } from './data/InstrumentKitTest';
 import * as Tone from 'tone';
+import { isEmpty } from 'lodash';
 
 export default function Synthesizer({ patterns, oscTypes }) {
   const {
@@ -16,6 +16,7 @@ export default function Synthesizer({ patterns, oscTypes }) {
   } = useContext(SynthContext);
 
   useEffect(() => {
+    // Tone.Transport.bpm.value = 80;
     // Tone.Transport.bpm.value = 120;
     // const inst1 = new Instrument();
     // const inst2 = new Instrument();
@@ -30,21 +31,42 @@ export default function Synthesizer({ patterns, oscTypes }) {
     //   octaves: -1,
     // });
     // const instruments = [inst1, inst2, inst3, kick, snare, hihat];
-    const tracks = song.oscTypes;
-    const instruments = {
-      square: new Instrument('square'),
-      sine: new Instrument('sine'),
-      sawtooth: new Instrument('sawtooth'),
-      triangle: new Instrument('triangle'),
-      kick: new Instrument('kick'),
-      snare: new Instrument('snare'),
-      hihat: new Instrument('hihat'),
+    // const instruments = {
+    //   square: new Instrument('square'),
+    //   sine: new Instrument('sine'),
+    //   sawtooth: new Instrument('sawtooth'),
+    //   triangle: new Instrument('triangle'),
+    //   kick: new Instrument('kick'),
+    //   snare: new Instrument('snare'),
+    //   hihat: new Instrument('hihat'),
+    // };
+
+    const instrumentList = {
+      0: 'square',
+      1: 'sine',
+      2: 'sawtooth',
+      3: 'triangle',
+      4: 'kick',
+      5: 'snare',
+      6: 'hihat',
     };
-    const masterGain = new Tone.Gain(0.2);
+    const tracksAudioSrc = {
+      0: {},
+      1: {},
+      2: {},
+      3: {},
+    };
+    const instruments = {
+      0: {},
+      1: {},
+      2: {},
+      3: {},
+    };
+    const masterGain = new Tone.Gain(1);
     masterGain.toDestination();
-    Object.keys(instruments).forEach((inst) => {
-      instruments[inst].gain.connect(masterGain);
-    });
+    // Object.keys(instruments).forEach((inst) => {
+    //   instruments[inst].gain.connect(masterGain);
+    // });
 
     let internalMasterListIndex = masterListIndex;
     let stepIndex = 0;
@@ -70,41 +92,25 @@ export default function Synthesizer({ patterns, oscTypes }) {
       if (stepIndex === 0) {
         setCurrentStep(stepIndex);
       }
-      Object.keys(tracks).forEach((track, index) => {
+      Object.keys(tracksAudioSrc).forEach((track, index) => {
         const pattern = getPattern(index);
-        const note = pattern[stepIndex];
-        const instrument = Object.keys(instruments).includes(note) ? instruments[note] : instruments[tracks[track]];
-        // if (instrumentType === 'NoiseSynth') {
-        //   if (note !== '') {
-        //     instrument.updatePercussionType(note);
-        //     instrument.synth.triggerAttackRelease('16n', time);
-        //   }
-        // }
-        if (note !== 'X' && note !== '') {
-          // if (Object.keys(instruments).includes(note)) {
-          //   console.log(note);
-          //   instruments[note].play(time);
-          // } else {
-          //   const waveForm = tracks[track];
-          //   // instruments[waveForm].stop(time);
-          //   // instruments[waveForm].play(note, time);
-          //   instruments[waveForm].synth.triggerRelease(time);
-          //   instruments[waveForm].synth.triggerAttack(note, time + 0.001);
-          // }
-          instrument.play(time, note);
-
-          // if (index === 3) {
-          //   console.log('drum track');
-          //   instrument.setDrum(note);
-          //   instrument.gain.connect(masterGain);
-          //   instrument.play(time);
-          // } else {
-          //   instrument.synth.triggerRelease(time);
-          //   instrument.synth.triggerAttack(note, time + 0.01);
-          // }
+        const note = pattern[stepIndex][0];
+        const inst = pattern[stepIndex][1];
+        if (inst !== '') {
+          if (instruments[index][inst] && inst !== tracksAudioSrc[track]) {
+            tracksAudioSrc[track] = instruments[index][inst];
+            tracksAudioSrc[track].gain.connect(masterGain);
+          } else {
+            instruments[index][inst] = new Instrument(instrumentList[inst]);
+            tracksAudioSrc[track] = instruments[index][inst];
+            tracksAudioSrc[track].gain.connect(masterGain);
+          }
         }
-        if (note === 'X') {
-          instrument.synth.triggerRelease(time);
+        if (note !== 'X' && note !== '' && isEmpty(tracksAudioSrc[track]) === false) {
+          tracksAudioSrc[track].play(time, note);
+        }
+        if (note === 'X' && isEmpty(tracksAudioSrc[track]) === false) {
+          tracksAudioSrc[track].synth.triggerRelease(time);
         }
       });
       if (stepIndex < patterns.synth1[0].length - 1) {
@@ -136,7 +142,11 @@ export default function Synthesizer({ patterns, oscTypes }) {
     return () => {
       Tone.Transport.stop();
       Tone.Transport.cancel();
-      Object.keys(instruments).forEach((inst) => instruments[inst].synth.dispose());
+      Object.keys(instruments).forEach((track, index) => {
+        for (const instrument in instruments[track]) {
+          if (instruments[track][instrument] !== {}) instruments[track][instrument].synth.dispose();
+        }
+      });
     };
   }, []);
   return null;
