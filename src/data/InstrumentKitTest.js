@@ -25,18 +25,19 @@ export default class Instrument {
   get gainSettings() {
     return {
       square: 0.5,
-      sawtooth: 1,
-      triangle: 1,
+      sine: 1,
+      sawtooth: 0.5,
+      triangle: 2,
       snare: 0.9,
-      hihat: 0.8,
-      kick: 0.8,
+      hihat: 0.7,
+      kick: 0.5,
     };
   }
 
   get envelopeDefaults() {
     return {
       Synth: {
-        attack: 0,
+        attack: 0.001,
         decay: 0.1,
         sustain: 0.3,
         release: 0.01,
@@ -115,7 +116,7 @@ export default class Instrument {
 
   play(time, note) {
     if (this.synth.name === 'MembraneSynth') {
-      this.synth.triggerAttackRelease('C3', '16n', time);
+      this.synth.triggerAttackRelease(note, '16n', time);
     }
     if (this.synth.name === 'Synth') {
       this.synth.triggerAttack(note, time);
@@ -132,17 +133,7 @@ export default class Instrument {
   updateGain(value) {
     this.gain.gain.value = value;
   }
-
-  update(inst) {
-    // If we have already defined the synth
-    if (this.synth) {
-      this.synth.disconnect(this.gain);
-      this.synth.dispose();
-    }
-    //The new Synth!
-    this.synthType = this.synthTypes[inst];
-    this.settings = this.defaultSettings[inst];
-    this.synth = new Tone[this.synthType](this.settings);
-    this.synth.connect(this.gain);
+  updateSynth(oscType) {
+    this.synth.set(this.defaultSettings[oscType]);
   }
 }

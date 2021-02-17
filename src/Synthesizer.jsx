@@ -3,6 +3,7 @@ import { SynthContext } from './contexts/SynthContextProvider';
 import Instrument from './data/InstrumentKitTest';
 import * as Tone from 'tone';
 import { isEmpty } from 'lodash';
+import Track from './data/TrackKit';
 
 export default function Synthesizer({ patterns, oscTypes }) {
   const {
@@ -13,60 +14,63 @@ export default function Synthesizer({ patterns, oscTypes }) {
     song,
     masterListIndex,
     setMasterListIndex,
+    tracks,
   } = useContext(SynthContext);
 
   useEffect(() => {
-    // Tone.Transport.bpm.value = 80;
-    // Tone.Transport.bpm.value = 120;
-    // const inst1 = new Instrument();
-    // const inst2 = new Instrument();
-    // const inst3 = new Instrument();
-    // const kick = new DrumTest('kick');
-    // const snare = new DrumTest('snare');
-    // const hihat = new DrumTest('hihat');
-    // inst4.freqEnv = new Tone.FrequencyEnvelope({
-    //   attack: 0.1,
-    //   sustain: 0.95,
-    //   baseFrequency: '',
-    //   octaves: -1,
-    // });
-    // const instruments = [inst1, inst2, inst3, kick, snare, hihat];
-    // const instruments = {
-    //   square: new Instrument('square'),
-    //   sine: new Instrument('sine'),
-    //   sawtooth: new Instrument('sawtooth'),
-    //   triangle: new Instrument('triangle'),
-    //   kick: new Instrument('kick'),
-    //   snare: new Instrument('snare'),
-    //   hihat: new Instrument('hihat'),
+    // const instrumentList = {
+    //   0: 'square',
+    //   1: 'sine',
+    //   2: 'sawtooth',
+    //   3: 'triangle',
+    //   4: 'kick',
+    //   5: 'snare',
+    //   6: 'hihat',
     // };
 
-    const instrumentList = {
-      0: 'square',
-      1: 'sine',
-      2: 'sawtooth',
-      3: 'triangle',
-      4: 'kick',
-      5: 'snare',
-      6: 'hihat',
-    };
-    const tracksAudioSrc = {
-      0: {},
-      1: {},
-      2: {},
-      3: {},
-    };
-    const instruments = {
-      0: {},
-      1: {},
-      2: {},
-      3: {},
-    };
+    // const tracksAudioSrc = {
+    //   0: {},
+    //   1: {},
+    //   2: {},
+    //   3: {},
+    // };
+    // const instruments = {
+    //   0: {},
+    //   1: {},
+    //   2: {},
+    //   3: {},
+    // };
+    // const instruments = {
+    //   0: {
+    //     Synth: new Tone.Synth(),
+    //     MembraneSynth: new Tone.MembraneSynth(),
+    //     NoiseSynth: new Tone.NoiseSynth(),
+    //   },
+    //   1: {
+    //     Synth: new Tone.Synth(),
+    //     MembraneSynth: new Tone.MembraneSynth(),
+    //     NoiseSynth: new Tone.NoiseSynth(),
+    //   },
+    //   2: {
+    //     Synth: new Tone.Synth(),
+    //     MembraneSynth: new Tone.MembraneSynth(),
+    //     NoiseSynth: new Tone.NoiseSynth(),
+    //   },
+    //   3: {
+    //     Synth: new Tone.Synth(),
+    //     MembraneSynth: new Tone.MembraneSynth(),
+    //     NoiseSynth: new Tone.NoiseSynth(),
+    //   },
+    // };
+    const tracks = [new Track(), new Track(), new Track(), new Track()];
+
     const masterGain = new Tone.Gain(1);
     masterGain.toDestination();
-    // Object.keys(instruments).forEach((inst) => {
-    //   instruments[inst].gain.connect(masterGain);
-    // });
+    Tone.Transport.bpm.value = 140;
+
+    tracks.forEach((track) => {
+      track.trackGain.connect(masterGain);
+    });
 
     let internalMasterListIndex = masterListIndex;
     let stepIndex = 0;
@@ -89,29 +93,34 @@ export default function Synthesizer({ patterns, oscTypes }) {
     };
 
     const repeat = (time) => {
+      console.log('time from loop: ' + time);
       if (stepIndex === 0) {
         setCurrentStep(stepIndex);
       }
-      Object.keys(tracksAudioSrc).forEach((track, index) => {
+      tracks.forEach((track, index) => {
         const pattern = getPattern(index);
-        const note = pattern[stepIndex][0];
-        const inst = pattern[stepIndex][1];
-        if (inst !== '') {
-          if (instruments[index][inst] && inst !== tracksAudioSrc[track]) {
-            tracksAudioSrc[track] = instruments[index][inst];
-            tracksAudioSrc[track].gain.connect(masterGain);
-          } else {
-            instruments[index][inst] = new Instrument(instrumentList[inst]);
-            tracksAudioSrc[track] = instruments[index][inst];
-            tracksAudioSrc[track].gain.connect(masterGain);
-          }
-        }
-        if (note !== 'X' && note !== '' && isEmpty(tracksAudioSrc[track]) === false) {
-          tracksAudioSrc[track].play(time, note);
-        }
-        if (note === 'X' && isEmpty(tracksAudioSrc[track]) === false) {
-          tracksAudioSrc[track].synth.triggerRelease(time);
-        }
+        // const note = pattern[stepIndex][0];
+        // const inst = pattern[stepIndex][1];
+        track.decode(pattern[stepIndex], time);
+        // if (inst !== '') {
+        //   if (instruments[index][inst] && inst !== tracksAudioSrc[track]) {
+        //     tracksAudioSrc[track] = instruments[index][inst];
+        //     tracksAudioSrc[track].gain.connect(masterGain);
+        //     console.log(tracksAudioSrc[track]);
+        //   } else {
+        //     instruments[index][inst] = new Instrument(instrumentList[inst]);
+        //     tracksAudioSrc[track] = instruments[index][inst];
+        //     tracksAudioSrc[track].gain.connect(masterGain);
+        //   }
+        // }
+        // if (note !== 'X' && note !== '' && isEmpty(tracksAudioSrc[track]) === false) {
+        //   tracksAudioSrc[track].play(time, note);
+        // }
+        // if (note === 'X' && isEmpty(tracksAudioSrc[track]) === false) {
+        //   if (tracksAudioSrc[track].synth.name === 'Synth') {
+        //     tracksAudioSrc[track].synth.triggerRelease(time);
+        //   }
+        // }
       });
       if (stepIndex < patterns.synth1[0].length - 1) {
         setCurrentStep(stepIndex);
@@ -136,16 +145,23 @@ export default function Synthesizer({ patterns, oscTypes }) {
     Tone.Transport.scheduleRepeat((time) => {
       repeat(time);
     }, '16n');
-
-    Tone.Transport.start();
+    setTimeout(() => {
+      Tone.Transport.start();
+    }, 200);
 
     return () => {
       Tone.Transport.stop();
       Tone.Transport.cancel();
-      Object.keys(instruments).forEach((track, index) => {
-        for (const instrument in instruments[track]) {
-          if (instruments[track][instrument] !== {}) instruments[track][instrument].synth.dispose();
-        }
+      // Object.keys(instruments).forEach((track, index) => {
+      //   for (const instrument in instruments[track]) {
+      //     if (instruments[track][instrument] !== {}) instruments[track][instrument].synth.dispose();
+      //   }
+      // });
+      // track.forEach((track, index) => {
+
+      // })
+      tracks.forEach((track) => {
+        track.dispose();
       });
     };
   }, []);
