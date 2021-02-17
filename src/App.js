@@ -30,6 +30,7 @@ function App() {
   } = useContext(SynthContext);
 
   const start = () => {
+    Tone.start();
     setIsPlaying(true);
   };
 
@@ -105,11 +106,11 @@ function App() {
   };
 
   useEffect(() => {
-    const songFromStorage = JSON.parse(localStorage.getItem('tester'));
+    const songFromStorage = JSON.parse(localStorage.getItem('megaman 2'));
     if (songFromStorage) {
       setSong(songFromStorage);
     } else {
-      setSong(song2);
+      setSong(C.emptySong);
     }
   }, []);
 
