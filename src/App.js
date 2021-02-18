@@ -102,15 +102,17 @@ function App() {
   };
 
   const handleNewSong = () => {
-    setSong(C.emptySong);
+    const newSong = cloneDeep(C.emptySong);
+    setSong(newSong);
   };
 
   useEffect(() => {
-    const songFromStorage = JSON.parse(localStorage.getItem('megaman 2'));
+    const songFromStorage = JSON.parse(localStorage.getItem('batman new'));
     if (songFromStorage) {
       setSong(songFromStorage);
     } else {
-      setSong(C.emptySong);
+      const newSong = cloneDeep(C.emptySong);
+      setSong(newSong);
     }
   }, []);
 

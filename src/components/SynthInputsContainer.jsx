@@ -56,6 +56,17 @@ export default function SynthInputsContainer({ id, pattern, setPattern, synthTyp
     }
   };
 
+  const handleEffectNumberChange = (e, indexInPattern, indexInStep) => {
+    e.preventDefault();
+    const effectValue = e.target.value;
+    update(effectValue, indexInPattern, indexInStep);
+  };
+  const handleEffectValueChange = (e, indexInPattern, indexInStep) => {
+    e.preventDefault();
+    const effectValue = e.target.value;
+    update(effectValue, indexInPattern, indexInStep);
+  };
+
   useEffect(() => {
     const inputs = document.getElementById(id).querySelectorAll('.synth-inputs-container');
     if (currentStep !== null) {
@@ -92,6 +103,22 @@ export default function SynthInputsContainer({ id, pattern, setPattern, synthTyp
               max="6"
               value={step[1]}
               onChange={(e) => handleInstrumentChange(e, index, 1)}
+            />
+            <input
+              style={{ maxWidth: 50 }}
+              type="number"
+              min="0"
+              max="1"
+              value={step[2]}
+              onChange={(e) => handleEffectNumberChange(e, index, 2)}
+            />
+            <input
+              style={{ maxWidth: 50 }}
+              type="number"
+              min="0"
+              max="99"
+              value={step[3]}
+              onChange={(e) => handleEffectValueChange(e, index, 3)}
             />
           </div>
         );
