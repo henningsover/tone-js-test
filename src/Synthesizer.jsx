@@ -1,11 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { SynthContext } from './contexts/SynthContextProvider';
-import Instrument from './data/InstrumentKitTest';
 import * as Tone from 'tone';
-import { isEmpty } from 'lodash';
 import Track from './data/TrackKit';
 
-export default function Synthesizer({ patterns, oscTypes }) {
+export default function Synthesizer({ patterns }) {
   const {
     setCurrentPattern,
     currentPattern,
@@ -14,7 +12,6 @@ export default function Synthesizer({ patterns, oscTypes }) {
     song,
     masterListIndex,
     setMasterListIndex,
-    tracks,
   } = useContext(SynthContext);
 
   useEffect(() => {
