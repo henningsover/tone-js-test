@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SynthContext } from '../contexts/SynthContextProvider';
-import SynthInputsContainer from './SynthInputsContainer';
+import { SynthContext } from '../../contexts/SynthContextProvider';
+import SynthInputsContainer from './components/SynthInputsContainer';
 
 export default function InputsSection() {
   const { currentPattern, song } = useContext(SynthContext);

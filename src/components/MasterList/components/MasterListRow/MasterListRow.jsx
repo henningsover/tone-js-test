@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { SynthContext } from '../contexts/SynthContextProvider';
+import React, { useContext } from 'react';
+import { SynthContext } from '../../../../contexts/SynthContextProvider';
 
 export default function MasterListRow({ pattern, masterListIndex }) {
-  const { song, setSong, currentPattern } = useContext(SynthContext);
+  const { song, setSong } = useContext(SynthContext);
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -12,8 +12,6 @@ export default function MasterListRow({ pattern, masterListIndex }) {
       const masterListValue = parseInt(e.target.value);
       updatedSong.masterList[masterListIndex] = masterListValue;
       setSong(updatedSong);
-      console.log(updatedSong);
-      console.log('hej');
     }
   };
   //TODO - set currentPattern when li is pressed

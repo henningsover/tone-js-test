@@ -26,7 +26,6 @@ export default class Track {
       this.currentInstrument.stop(time);
     }
     if (this.currentInstrument !== this.instrumentList[instNumber]) {
-      console.log('new instrument');
       this.currentInstrument = this.instrumentList[instNumber];
       this.currentInstrument.synth.chain(this.vibrato, this.trackGain);
     }
@@ -37,7 +36,7 @@ export default class Track {
       this.currentInstrument.stop(time);
     }
     if (note !== 'X') {
-      this.currentInstrument.play(time, note);
+      this.currentInstrument.play(time + 0.001, note);
     }
   }
 

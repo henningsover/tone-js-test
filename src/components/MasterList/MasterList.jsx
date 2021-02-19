@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { SynthContext } from '../contexts/SynthContextProvider';
-import MasterListRow from './MasterListRow';
+import { SynthContext } from '../../contexts/SynthContextProvider';
+import MasterListRow from './components/MasterListRow';
 import { cloneDeep } from 'lodash';
 
 export default function MasterList() {
@@ -15,7 +15,7 @@ export default function MasterList() {
   return (
     <div>
       <ol id="masterList" style={{ listStyle: 'none', maxHeight: 88, width: 190, overflow: 'scroll' }}>
-        {song &&
+        {song.masterList &&
           song.masterList.length > 0 &&
           song.masterList.map((pattern, index) => {
             return <MasterListRow key={index} pattern={pattern} masterListIndex={index} />;
