@@ -4,20 +4,9 @@ import '../App.css';
 import { getNote, getPerc } from './inputsHelper';
 import { cloneDeep } from 'lodash';
 
-export default function SynthInputsContainer({ id, pattern, setPattern, synthType }) {
+export default function SynthInputsContainer({ id, pattern, setPattern }) {
   const { currentStep, currentPattern, song, setSong, octave } = useContext(SynthContext);
   const synthToUpdate = id.replace('Inputs', '');
-
-  const synthTypes = {
-    Synth: 0,
-    NoiseSynth: 1,
-  };
-
-  const defaultValues = {
-    note: 'C4',
-    instrument: '0',
-    volume: 50,
-  };
 
   const update = (value, indexInPattern, indexInStep) => {
     const updatedPattern = cloneDeep(pattern);
@@ -31,7 +20,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern, synthTyp
   const handleNoteChange = (e, indexInPattern, indexInStep) => {
     e.preventDefault();
     const charCode = e.code;
-    const noteValue = synthType === synthTypes.Synth ? getNote(charCode, octave) : getPerc(charCode);
+    const noteValue = getNote(charCode, octave);
     const target = e.target;
     if (charCode === 'ArrowUp' && target.previousSibling) {
       target.previousSibling.focus();
@@ -67,19 +56,19 @@ export default function SynthInputsContainer({ id, pattern, setPattern, synthTyp
     update(effectValue, indexInPattern, indexInStep);
   };
 
-  useEffect(() => {
-    const inputs = document.getElementById(id).querySelectorAll('.synth-inputs-container');
-    if (currentStep !== null) {
-      inputs.forEach((input) => {
-        input.classList.remove('current-pattern');
-      });
-      inputs[currentStep].classList.add('current-pattern');
-    } else {
-      inputs.forEach((input) => {
-        input.classList.remove('current-pattern');
-      });
-    }
-  }, [currentStep]);
+  // useEffect(() => {
+  //   const inputs = document.getElementById(id).querySelectorAll('.synth-inputs-container');
+  //   if (currentStep !== null) {
+  //     inputs.forEach((input) => {
+  //       input.classList.remove('current-pattern');
+  //     });
+  //     inputs[currentStep].classList.add('current-pattern');
+  //   } else {
+  //     inputs.forEach((input) => {
+  //       input.classList.remove('current-pattern');
+  //     });
+  //   }
+  // }, [currentStep]);
 
   return (
     <div id={id} style={{ display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid' }}>
