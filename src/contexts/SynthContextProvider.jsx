@@ -13,7 +13,6 @@ export default function SynthContextProvider({ children }) {
   const [copiedPattern, setCopiedPattern] = useState(null);
   const [octave, setOctave] = useState(4);
   const [masterListIndex, setMasterListIndex] = useState(0);
-  // const [tracksFromContext, setTracks] = useState([new Track(), new Track(), new Track(), new Track()]);
 
   return (
     <SynthContext.Provider
@@ -36,7 +35,6 @@ export default function SynthContextProvider({ children }) {
         setOctave,
         masterListIndex,
         setMasterListIndex,
-        // tracksFromContext,
       }}
     >
       {children}

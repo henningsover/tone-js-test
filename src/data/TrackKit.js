@@ -21,27 +21,25 @@ export default class Track {
     // };
   }
 
-  updateGain(value) {
-    this.gain.gain.value = value;
-  }
-
-  _setCurrentInstrument(time, instrumentNumber) {
-    if (this.currentInstrument !== null) {
+  _setCurrentInstrument(time, instNumber) {
+    if (this.currentInstrument !== null && this.currentInstrument.synth.name === 'Synth') {
       this.currentInstrument.stop(time);
     }
-    this.currentInstrument = this.instrumentList[instrumentNumber];
-    this.currentInstrument.gain.connect(this.trackGain);
+    if (this.currentInstrument !== this.instrumentList[instNumber]) {
+      console.log('new instrument');
+      this.currentInstrument = this.instrumentList[instNumber];
+      this.currentInstrument.synth.chain(this.vibrato, this.trackGain);
+    }
   }
 
-  // _handleNote(time, note) {
-  //   console.log(time);
-  //   if (note === 'X' && this.currentInstrument.synth.name === 'Synth') {
-  //     this.currentInstrument.synth.triggerRelease(time);
-  //   }
-  //   if (note !== 'X') {
-  //     this.currentInstrument.play(time, note);
-  //   }
-  // }
+  _handleNote(time, note) {
+    if (note === 'X' && this.currentInstrument.synth.name === 'Synth') {
+      this.currentInstrument.stop(time);
+    }
+    if (note !== 'X') {
+      this.currentInstrument.play(time, note);
+    }
+  }
 
   _handleEffect(effectNumber, effectValue) {
     const effectValueToDecimal = effectValue * 0.01;
@@ -54,20 +52,6 @@ export default class Track {
         break;
     }
   }
-  _resetEffects() {
-    this.trackGain.gain.value = 0.5;
-    this.vibrato.depth.value = 0;
-  }
-  _connect() {
-    if (this.currentEffect !== null && this.currentInstrument !== null) {
-      this.currentInstrument.synth.connect(this.currentEffect);
-      this.currentEffect.connect(this.trackGain);
-    }
-    if (this.currentInstrument !== null && this.currentEffect === null) {
-      // this.currentInstrument.synth.disconnect(this.currentEffect);
-      this.currentInstrument.gain.connect(this.trackGain);
-    }
-  }
 
   decode(stepValue, time) {
     const note = stepValue[0];
@@ -75,50 +59,14 @@ export default class Track {
     const effectNumber = stepValue[2];
     const effectValue = stepValue[3];
     if (instNumber !== '') {
-      if (this.currentInstrument !== null && this.currentInstrument.synth.name === 'Synth') {
-        this.currentInstrument.stop(time);
-      }
-      if (this.currentInstrument !== this.instrumentList[instNumber]) {
-        console.log('new instrument');
-        this.currentInstrument = this.instrumentList[instNumber];
-        this.currentInstrument.synth.chain(this.vibrato, this.trackGain);
-      }
+      this._setCurrentInstrument(time, instNumber);
     }
-
     if (effectNumber !== '' && effectValue !== '') {
-      // const newGain = parseInt(effect) * 0.01;
-      // this.trackGain.gain.value = newGain;
-      // // this.currentInstrument.synth.portamento = newGain;
-      // this.currentEffect = this.effectList[0];
       this._handleEffect(parseInt(effectNumber), parseInt(effectValue));
     }
-    // if (effectNumber === '' && effectValue === '') {
-    //   this._resetEffects();
-    // }
-    // this._connect();
-
     if (note !== '' && this.currentInstrument !== null) {
-      if (note === 'X' && this.currentInstrument.synth.name === 'Synth') {
-        this.currentInstrument.stop(time);
-      }
-      if (note !== 'X') {
-        this.currentInstrument.play(time, note);
-        // if (this.currentEffect) {
-        //   this.currentInstrument.gain.connect(this.trackGain);
-        // }
-      }
+      this._handleNote(time, note);
     }
-
-    // console.log('decode');
-    // if (stepValue[1] !== '') {
-    //   this._setCurrentInstrument(time, stepValue[1]);
-    // }
-    // // if(stepValue[2] !== '') {
-    // //   this._setEffect(stepValue[2])
-    // // }
-    // if (stepValue[0] !== '' && this.currentInstrument !== null) {
-    //   this._handleNote(time, stepValue[0]);
-    // }
   }
 
   dispose() {
