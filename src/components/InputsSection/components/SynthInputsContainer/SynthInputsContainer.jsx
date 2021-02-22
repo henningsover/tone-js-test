@@ -21,13 +21,6 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
     e.preventDefault();
     const charCode = e.code;
     const noteValue = getNote(charCode, octave);
-    const target = e.target;
-    if (charCode === 'ArrowUp' && target.previousSibling) {
-      target.previousSibling.focus();
-    }
-    if (charCode === 'ArrowDown' && target.nextSibling) {
-      target.nextSibling.focus();
-    }
     if (noteValue !== undefined) {
       updatePattern(noteValue, indexInPattern, indexInStep);
     }
@@ -69,6 +62,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
         input.classList.remove('current-pattern');
       });
     }
+    console.log('halloj');
   }, [currentStep]);
 
   return (
@@ -83,7 +77,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 value={step[0]}
                 className="synth-input"
                 //TODO Handle input as piano keys
-                data-synth="hej"
+                data-index-in-step="0"
                 onKeyDown={(e) => handleNoteChange(e, index, 0)}
                 // onChange={(e) => onChangeHandler(e, index, synthToUpdate)}
               />
@@ -93,6 +87,8 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 min="0"
                 max="6"
                 value={step[1]}
+                className="synth-input"
+                data-index-in-step="1"
                 onChange={(e) => handleInstrumentChange(e, index, 1)}
               />
               <input
@@ -101,6 +97,8 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 min="0"
                 max="1"
                 value={step[2]}
+                className="synth-input"
+                data-index-in-step="2"
                 onChange={(e) => handleEffectNumberChange(e, index, 2)}
               />
               <input
@@ -109,6 +107,8 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 min="0"
                 max="99"
                 value={step[3]}
+                className="synth-input"
+                data-index-in-step="3"
                 onChange={(e) => handleEffectValueChange(e, index, 3)}
               />
             </div>

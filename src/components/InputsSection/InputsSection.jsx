@@ -17,6 +17,39 @@ export default function InputsSection() {
     setSynth4Pattern(song.patterns.synth4[`${currentPattern}`]);
   }, [currentPattern, song]);
 
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => {
+      const acceptedKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'];
+      const charCode = e.code;
+      if (acceptedKeys.includes(charCode)) {
+        const inputs = document.querySelectorAll('.synth-input');
+        let focusedElement;
+        inputs.forEach((input) => {
+          if (input === document.activeElement) {
+            focusedElement = input;
+          }
+        });
+        if (focusedElement) {
+          e.preventDefault();
+          const inputsContainer = focusedElement.parentNode;
+          const indexInStep = focusedElement.dataset.indexInStep;
+          if (charCode === 'ArrowUp' && inputsContainer.previousSibling) {
+            inputsContainer.previousSibling.children[indexInStep].focus();
+          }
+          if (charCode === 'ArrowDown' && inputsContainer.nextSibling) {
+            inputsContainer.nextSibling.children[indexInStep].focus();
+          }
+          if (charCode === 'ArrowRight' && focusedElement.nextSibling) {
+            focusedElement.nextSibling.focus();
+          }
+          if (charCode === 'ArrowLeft' && focusedElement.previousSibling) {
+            focusedElement.previousSibling.focus();
+          }
+        }
+      }
+    });
+  }, []);
+
   return (
     <>
       {song && (
