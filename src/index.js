@@ -4,12 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import SynthContextProvider from './contexts/SynthContextProvider';
+import AuthContextProvider from './contexts/AuthContextProvider';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SynthContextProvider>
-      <App />
-    </SynthContextProvider>
+    <BrowserRouter>
+      <AuthContextProvider>
+        <SynthContextProvider>
+          <App />
+        </SynthContextProvider>
+      </AuthContextProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -55,7 +55,7 @@ export default function Synthesizer({ patterns }) {
         track.decode(pattern[stepIndex], time);
       });
 
-      if (stepIndex < patterns.synth1[0].length - 1) {
+      if (stepIndex < Object.keys(patterns.synth1[0]).length - 1) {
         setCurrentStep(stepIndex);
         stepIndex++;
       } else {

@@ -62,19 +62,18 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
         input.classList.remove('current-pattern');
       });
     }
-    console.log('halloj');
   }, [currentStep]);
 
   return (
     <div id={id} style={{ display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid' }}>
       {pattern &&
-        pattern.map((step, index) => {
+        Object.keys(pattern).map((step, index) => {
           return (
             <div key={index} className="synth-inputs-container">
               <input
                 style={{ maxWidth: 50 }}
                 // key={index}
-                value={step[0]}
+                value={pattern[step][0]}
                 className="synth-input"
                 //TODO Handle input as piano keys
                 data-index-in-step="0"
@@ -86,7 +85,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 type="number"
                 min="0"
                 max="6"
-                value={step[1]}
+                value={pattern[step][1]}
                 className="synth-input"
                 data-index-in-step="1"
                 onChange={(e) => handleInstrumentChange(e, index, 1)}
@@ -96,7 +95,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 type="number"
                 min="0"
                 max="1"
-                value={step[2]}
+                value={pattern[step][2]}
                 className="synth-input"
                 data-index-in-step="2"
                 onChange={(e) => handleEffectNumberChange(e, index, 2)}
@@ -106,7 +105,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 type="number"
                 min="0"
                 max="99"
-                value={step[3]}
+                value={pattern[step][3]}
                 className="synth-input"
                 data-index-in-step="3"
                 onChange={(e) => handleEffectValueChange(e, index, 3)}

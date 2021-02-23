@@ -1,8 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import Track from '../data/TrackKit';
 import * as Tone from 'tone';
 import * as C from '../constants';
 import { cloneDeep } from 'lodash';
+import { AuthContext } from './AuthContextProvider';
+import { firebaseAddSong, firebaseUpdateSong } from '../firebase';
 
 export const SynthContext = createContext({});
 
@@ -16,6 +18,9 @@ export default function SynthContextProvider({ children }) {
   const [copiedPattern, setCopiedPattern] = useState(null);
   const [octave, setOctave] = useState(4);
   const [masterListIndex, setMasterListIndex] = useState(0);
+  const [songList, setSongList] = useState(null);
+
+  const { currentUser } = useContext(AuthContext);
 
   const start = () => {
     Tone.start();
@@ -44,9 +49,25 @@ export default function SynthContextProvider({ children }) {
   };
 
   const handleSave = () => {
-    const updatedSong = cloneDeep(song);
-    setSong(updatedSong);
-    localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
+    let songId;
+    Object.keys(songList).forEach((songInList) => {
+      if (songList[songInList].title === song.title) {
+        songId = songInList;
+      }
+    });
+    if (songId) {
+      const updatedSong = cloneDeep(song);
+      setSong(updatedSong);
+      localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
+      firebaseUpdateSong(currentUser.uid, songId, song);
+    } else {
+      const updatedSong = cloneDeep(song);
+      setSong(updatedSong);
+      localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
+      firebaseAddSong(currentUser.uid, updatedSong);
+      console.log(currentUser.uid);
+      console.log(updatedSong);
+    }
   };
 
   const handleNewPattern = () => {
@@ -130,6 +151,8 @@ export default function SynthContextProvider({ children }) {
         handleOctaveChange,
         handlePatternMode,
         handlePatternSelect,
+        songList,
+        setSongList,
       }}
     >
       {children}
