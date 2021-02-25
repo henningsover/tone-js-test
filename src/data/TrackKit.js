@@ -27,7 +27,7 @@ export default class Track {
     }
     if (this.currentInstrument !== this.instrumentList[instNumber]) {
       this.currentInstrument = this.instrumentList[instNumber];
-      this.currentInstrument.synth.chain(this.vibrato, this.trackGain);
+      this.currentInstrument.gain.chain(this.vibrato, this.trackGain);
     }
   }
 

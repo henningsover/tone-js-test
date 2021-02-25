@@ -3,7 +3,7 @@ import { SynthContext } from '../../contexts/SynthContextProvider';
 import SynthInputsContainer from './components/SynthInputsContainer';
 
 export default function InputsSection() {
-  const { currentPattern, song } = useContext(SynthContext);
+  const { currentPattern, song, octave, setOctave } = useContext(SynthContext);
 
   const [synth1Pattern, setSynth1Pattern] = useState(song.patterns.synth1[`${currentPattern}`]);
   const [synth2Pattern, setSynth2Pattern] = useState(song.patterns.synth2[`${currentPattern}`]);
@@ -19,7 +19,7 @@ export default function InputsSection() {
 
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
-      const acceptedKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'];
+      const acceptedKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'KeyQ', 'KeyW'];
       const charCode = e.code;
       if (acceptedKeys.includes(charCode)) {
         const inputs = document.querySelectorAll('.synth-input');
@@ -33,17 +33,25 @@ export default function InputsSection() {
           e.preventDefault();
           const inputsContainer = focusedElement.parentNode;
           const indexInStep = focusedElement.dataset.indexInStep;
-          if (charCode === 'ArrowUp' && inputsContainer.previousSibling) {
+          if (charCode === acceptedKeys[0] && inputsContainer.previousSibling) {
             inputsContainer.previousSibling.children[indexInStep].focus();
           }
-          if (charCode === 'ArrowDown' && inputsContainer.nextSibling) {
+          if (charCode === acceptedKeys[1] && inputsContainer.nextSibling) {
             inputsContainer.nextSibling.children[indexInStep].focus();
           }
-          if (charCode === 'ArrowRight' && focusedElement.nextSibling) {
+          if (charCode === acceptedKeys[2] && focusedElement.nextSibling) {
             focusedElement.nextSibling.focus();
           }
-          if (charCode === 'ArrowLeft' && focusedElement.previousSibling) {
+          if (charCode === acceptedKeys[3] && focusedElement.previousSibling) {
             focusedElement.previousSibling.focus();
+          }
+          if (charCode === acceptedKeys[4] && octave > 1) {
+            const newOctave = octave - 1;
+            setOctave(newOctave);
+          }
+          if (charCode === acceptedKeys[5] && octave < 6) {
+            const newOctave = octave + 1;
+            setOctave(newOctave);
           }
         }
       }

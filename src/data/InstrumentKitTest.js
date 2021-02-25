@@ -28,7 +28,7 @@ export default class Instrument {
       sine: 1,
       sawtooth: 0.5,
       triangle: 2,
-      snare: 0.9,
+      snare: 0.7,
       hihat: 0.7,
       kick: 0.5,
     };

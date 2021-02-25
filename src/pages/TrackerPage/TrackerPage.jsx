@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../App.css';
 import Synthesizer from '../../Synthesizer';
 import InputsSection from '../../components/InputsSection';
@@ -10,10 +10,13 @@ import { cloneDeep } from 'lodash';
 import ControlPanel from '../../components/ControlPanel';
 import { firebaseGetOwnSongs, auth } from '../../firebase';
 import { useHistory } from 'react-router-dom';
+import LoadSongModal from '../../components/LoadSongModal';
+import * as S from './styled';
 
 export default function TrackerPage() {
   const { isPlaying, song, setSong, songList, setSongList } = useContext(SynthContext);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, logout, loading } = useContext(AuthContext);
+
   const history = useHistory();
 
   const handleSongChange = (e) => {
@@ -25,45 +28,31 @@ export default function TrackerPage() {
       }
       setSong(songToSet);
     });
-    // songList.foreach((song) => {
-    //   console.log(song);
-    // });
   };
 
   const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        history.push('/');
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+    logout();
   };
 
   useEffect(() => {
-    const newSong = cloneDeep(C.emptySong);
-    setSong(newSong);
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) {
-      firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
-    }
+    console.log(currentUser);
   }, [currentUser]);
 
   useEffect(() => {
-    if (songList) {
-      console.log(songList);
+    if (!currentUser) {
+      history.push('/');
     }
-  }, [songList]);
+  }, [currentUser]);
 
   return (
-    <div>
-      <h1>Welcome</h1>
-      {song && <MasterList />}
-      <ControlPanel />
-      <select onChange={(e) => handleSongChange(e)}>
+    <S.Container>
+      {loading ? null : (
+        <>
+          <div id="content-wrapper">
+            <h1>Welcome</h1>
+            <MasterList />
+            <ControlPanel />
+            {/* <select onChange={(e) => handleSongChange(e)}>
         {songList &&
           Object.keys(songList).map((song, index) => {
             return (
@@ -72,14 +61,18 @@ export default function TrackerPage() {
               </option>
             );
           })}
-      </select>
-      <button onClick={handleSignOut}>sign out</button>
-      {song && <InputsSection />}
+      </select> */}
+            <button onClick={handleSignOut}>sign out</button>
+            <InputsSection />
+          </div>
+          <LoadSongModal />
+        </>
+      )}
       {isPlaying ? (
         <>
           <Synthesizer patterns={song.patterns} />
         </>
       ) : null}
-    </div>
+    </S.Container>
   );
 }

@@ -10,6 +10,7 @@ import ControlPanel from './components/ControlPanel';
 import LoginPage from './pages/LoginPage/LoginPage';
 import TrackerPage from './pages/TrackerPage';
 import { Switch, Route } from 'react-router-dom';
+import { GlobalStyle } from './globalStyled';
 
 function App() {
   const { isPlaying, song, setSong } = useContext(SynthContext);
@@ -32,10 +33,13 @@ function App() {
     //   ) : null}
     //   <LoginPage />
     // </div>
-    <Switch>
-      <Route path="/tracker" component={TrackerPage} />
-      <Route path="/" component={LoginPage} />
-    </Switch>
+    <>
+      <GlobalStyle />
+      <Switch>
+        <Route path="/tracker" component={TrackerPage} />
+        <Route path="/" component={LoginPage} />
+      </Switch>
+    </>
   );
 }
 

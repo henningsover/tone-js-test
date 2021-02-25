@@ -19,6 +19,7 @@ export default function ControlPanel() {
     octave,
     song,
     currentPattern,
+    toggleLoadSongModal,
   } = useContext(SynthContext);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function ControlPanel() {
       <button onClick={() => handleCopyPattern()}>Copy</button>
       <button onClick={() => handlePastePattern()}>Paste</button>
       <button onClick={() => handleNewSong()}>New song</button>
+      <button onClick={() => toggleLoadSongModal()}>Load</button>
       <input type="number" min="1" max="9" value={octave} onChange={(e) => handleOctaveChange(e)} />
       <input type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
       {song ? (

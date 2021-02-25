@@ -4,7 +4,7 @@ import * as Tone from 'tone';
 import * as C from '../constants';
 import { cloneDeep } from 'lodash';
 import { AuthContext } from './AuthContextProvider';
-import { firebaseAddSong, firebaseUpdateSong } from '../firebase';
+import { firebaseAddSong, firebaseUpdateSong, firebaseGetOwnSongs } from '../firebase';
 
 export const SynthContext = createContext({});
 
@@ -14,11 +14,12 @@ export default function SynthContextProvider({ children }) {
   const [currentStep, setCurrentStep] = useState(null);
   const [songMode, setSongMode] = useState(true);
   const [patternMode, setPatternMode] = useState(false);
-  const [song, setSong] = useState(null);
+  const [song, setSong] = useState(cloneDeep(C.emptySong));
   const [copiedPattern, setCopiedPattern] = useState(null);
   const [octave, setOctave] = useState(4);
   const [masterListIndex, setMasterListIndex] = useState(0);
   const [songList, setSongList] = useState(null);
+  const [showLoadSongModal, setShowLoadSongModal] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -48,6 +49,10 @@ export default function SynthContextProvider({ children }) {
     setSongMode(false);
   };
 
+  const toggleLoadSongModal = () => {
+    setShowLoadSongModal((prev) => !prev);
+  };
+
   const handleSave = () => {
     let songId;
     Object.keys(songList).forEach((songInList) => {
@@ -60,13 +65,13 @@ export default function SynthContextProvider({ children }) {
       setSong(updatedSong);
       localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
       firebaseUpdateSong(currentUser.uid, songId, song);
+      firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
     } else {
       const updatedSong = cloneDeep(song);
       setSong(updatedSong);
       localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
       firebaseAddSong(currentUser.uid, updatedSong);
-      console.log(currentUser.uid);
-      console.log(updatedSong);
+      firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
     }
   };
 
@@ -153,6 +158,9 @@ export default function SynthContextProvider({ children }) {
         handlePatternSelect,
         songList,
         setSongList,
+        showLoadSongModal,
+        setShowLoadSongModal,
+        toggleLoadSongModal,
       }}
     >
       {children}
