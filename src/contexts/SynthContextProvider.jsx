@@ -20,6 +20,7 @@ export default function SynthContextProvider({ children }) {
   const [masterListIndex, setMasterListIndex] = useState(0);
   const [songList, setSongList] = useState(null);
   const [showLoadSongModal, setShowLoadSongModal] = useState(false);
+  const [usersList, setUsersList] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -161,6 +162,8 @@ export default function SynthContextProvider({ children }) {
         showLoadSongModal,
         setShowLoadSongModal,
         toggleLoadSongModal,
+        usersList,
+        setUsersList,
       }}
     >
       {children}

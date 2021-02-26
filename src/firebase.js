@@ -36,6 +36,7 @@ export const firebaseAddSong = (userId, song) => {
   console.log(payload);
   db.collection('songs').doc().set(payload);
 };
+
 export const firebaseUpdateSong = (userId, songId, song) => {
   let payload = {
     userId,
@@ -61,6 +62,25 @@ export const firebaseGetOwnSongs = (userId) => {
         songsToReturn[doc.id] = doc.data();
       });
       return songsToReturn;
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
+};
+
+export const firebaseGetUsers = (searchQuery, userId) => {
+  return db
+    .collection('users')
+    .where('userName', '>=', searchQuery)
+    .get()
+    .then((querySnapshot) => {
+      let usersToReturn = {};
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, ' => ', doc.data());
+        usersToReturn[doc.id] = doc.data();
+      });
+      return usersToReturn;
     })
     .catch((error) => {
       console.log('Error getting documents: ', error);

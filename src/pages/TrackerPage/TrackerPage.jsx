@@ -39,7 +39,7 @@ export default function TrackerPage() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser && !loading) {
       history.push('/');
     }
   }, [currentUser]);
@@ -52,16 +52,6 @@ export default function TrackerPage() {
             <h1>Welcome</h1>
             <MasterList />
             <ControlPanel />
-            {/* <select onChange={(e) => handleSongChange(e)}>
-        {songList &&
-          Object.keys(songList).map((song, index) => {
-            return (
-              <option key={index} value={songList[song].title}>
-                {songList[song].title}
-              </option>
-            );
-          })}
-      </select> */}
             <button onClick={handleSignOut}>sign out</button>
             <InputsSection />
           </div>
