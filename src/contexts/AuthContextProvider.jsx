@@ -10,9 +10,11 @@ export default function AuthContextProvider({ children }) {
   const signup = (email, password) => {
     auth.createUserWithEmailAndPassword(email, password);
   };
-  const login = (email, password) => {
+
+  const login =  async (email, password) => {
     return auth.signInWithEmailAndPassword(email, password);
   };
+
   const logout = () => {
     return auth.signOut();
   };

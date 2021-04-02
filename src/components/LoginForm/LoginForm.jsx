@@ -16,7 +16,8 @@ export default function LoginForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(email, password);
+    login(email, password)
+    .then(res => console.log(res));
   };
 
   useEffect(() => {

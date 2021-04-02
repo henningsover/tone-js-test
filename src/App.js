@@ -13,12 +13,6 @@ import { Switch, Route } from 'react-router-dom';
 import { GlobalStyle } from './globalStyled';
 
 function App() {
-  const { isPlaying, song, setSong } = useContext(SynthContext);
-
-  useEffect(() => {
-    const newSong = cloneDeep(C.emptySong);
-    setSong(newSong);
-  }, []);
 
   return (
     // <div>

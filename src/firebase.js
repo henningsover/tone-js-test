@@ -68,6 +68,26 @@ export const firebaseGetOwnSongs = (userId) => {
     });
 };
 
+export const firebaseGetUsersSongs = (userId) => {
+  return db
+    .collection('songs')
+    .where('userId', '==', userId)
+    .where('published', '==', true)
+    .get()
+    .then((querySnapshot) => {
+      let songsToReturn = {};
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, ' => ', doc.data());
+        songsToReturn[doc.id] = doc.data();
+      });
+      return songsToReturn;
+    })
+    .catch((error) => {
+      console.log('Error getting documents: ', error);
+    });
+}
+
 export const firebaseGetUsers = (searchQuery, userId) => {
   return db
     .collection('users')

@@ -14,8 +14,10 @@ import LoadSongModal from '../../components/LoadSongModal';
 import * as S from './styled';
 
 export default function TrackerPage() {
-  const { isPlaying, song, setSong, songList, setSongList } = useContext(SynthContext);
+  const { isPlaying, song, setSong, songList, setSongList, handleNewSong } = useContext(SynthContext);
   const { currentUser, logout, loading } = useContext(AuthContext);
+
+  const [isOwnSong, setIsOwnSong] = useState(false)
 
   const history = useHistory();
 
@@ -34,15 +36,33 @@ export default function TrackerPage() {
     logout();
   };
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log(currentUser);
+  // }, [currentUser]);
 
   useEffect(() => {
     if (!currentUser && !loading) {
       history.push('/');
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if(currentUser) {
+      handleNewSong()
+    }
+  },[currentUser])
+
+  useEffect(() => {
+    if(currentUser && song.userId === currentUser.uid) {
+      setIsOwnSong(true)
+    } else {
+      setIsOwnSong(false)
+    }
+  },[song])
+
+  useEffect(() => {
+    console.log(isOwnSong)
+  },[isOwnSong])
 
   return (
     <S.Container>
@@ -51,7 +71,7 @@ export default function TrackerPage() {
           <div id="content-wrapper">
             <h1>Welcome</h1>
             <MasterList />
-            <ControlPanel />
+            <ControlPanel isOwnSong={isOwnSong} />
             <button onClick={handleSignOut}>sign out</button>
             <InputsSection />
           </div>

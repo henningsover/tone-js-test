@@ -51,6 +51,7 @@ export default function SynthContextProvider({ children }) {
   };
 
   const toggleLoadSongModal = () => {
+    setUsersList(null)
     setShowLoadSongModal((prev) => !prev);
   };
 
@@ -119,7 +120,7 @@ export default function SynthContextProvider({ children }) {
 
   const handleNewSong = () => {
     const newSong = cloneDeep(C.emptySong);
-    console.log(newSong);
+    newSong.userId = currentUser.uid
     setSong(newSong);
   };
 

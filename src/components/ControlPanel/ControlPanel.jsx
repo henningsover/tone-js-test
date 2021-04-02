@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 
-export default function ControlPanel() {
+export default function ControlPanel({isOwnSong}) {
   const {
     start,
     stop,
@@ -33,7 +33,7 @@ export default function ControlPanel() {
       <button onClick={() => stop()}>Stop</button>
       <button onClick={() => handleSongMode()}>Song</button>
       <button onClick={() => handlePatternMode()}>Pattern</button>
-      <button onClick={() => handleSave()}>Save</button>
+      {isOwnSong && <button onClick={() => handleSave()}>Save</button>}
       <button onClick={() => handleNewPattern()}>New pattern</button>
       <button onClick={() => handleClearPattern()}>Clear</button>
       <button onClick={() => handleCopyPattern()}>Copy</button>
