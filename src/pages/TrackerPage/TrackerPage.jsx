@@ -4,17 +4,15 @@ import Synthesizer from '../../Synthesizer';
 import InputsSection from '../../components/InputsSection';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 import { AuthContext } from '../../contexts/AuthContextProvider';
-import * as C from '../../constants';
 import MasterList from '../../components/MasterList';
 import { cloneDeep } from 'lodash';
 import ControlPanel from '../../components/ControlPanel';
-import { firebaseGetOwnSongs, auth } from '../../firebase';
 import { useHistory } from 'react-router-dom';
 import LoadSongModal from '../../components/LoadSongModal';
 import * as S from './styled';
 
 export default function TrackerPage() {
-  const { isPlaying, song, setSong, songList, setSongList, handleNewSong } = useContext(SynthContext);
+  const { isPlaying, song, setSong, songList, handleNewSong } = useContext(SynthContext);
   const { currentUser, logout, loading } = useContext(AuthContext);
 
   const [isOwnSong, setIsOwnSong] = useState(false)
@@ -35,10 +33,6 @@ export default function TrackerPage() {
   const handleSignOut = () => {
     logout();
   };
-
-  // useEffect(() => {
-  //   console.log(currentUser);
-  // }, [currentUser]);
 
   useEffect(() => {
     if (!currentUser && !loading) {
@@ -68,13 +62,14 @@ export default function TrackerPage() {
     <S.Container>
       {loading ? null : (
         <>
-          <div id="content-wrapper">
-            <h1>Welcome</h1>
-            <MasterList />
-            <ControlPanel isOwnSong={isOwnSong} />
-            <button onClick={handleSignOut}>sign out</button>
+          <S.TrackerPageWrapper id="content-wrapper">
             <InputsSection />
-          </div>
+            <S.RightCol>
+              <MasterList />
+              <ControlPanel isOwnSong={isOwnSong} />
+              <button onClick={handleSignOut}>sign out</button>
+            </S.RightCol>
+          </S.TrackerPageWrapper>
           <LoadSongModal />
         </>
       )}
