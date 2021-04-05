@@ -8,7 +8,8 @@ export const ControlPanel = styled.div`
 
 export const ControlPanelGridRow = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  grid-template-columns: 1fr 1fr;
+  height: 120px;
 `
 
 export const ControlPanelCol = styled.div`
@@ -29,6 +30,7 @@ export const ControlPanelInput = styled.input`
 export const ControlPanelHeading = styled.span`
   font-size: 13px;
   text-align: center;
+  margin-bottom: 1em;
 `
 
 export const ControlPanelButton = styled.button`
@@ -37,6 +39,27 @@ export const ControlPanelButton = styled.button`
 `
 
 export const ControlPanelSelect = styled.select`
-  flex-grow: 1;
-  max-width: 110px;
+  width: 100%;
+  height: 100%;
+`
+
+export const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const FlexColContainer = styled(FlexCol)`
+  padding: 20px;
+  border: 1px solid black;
+`
+
+export const GridInternal = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  align-items: center;
+`
+
+export const ControlPanelLabel = styled.span`
+  font-size: 10px;
 `

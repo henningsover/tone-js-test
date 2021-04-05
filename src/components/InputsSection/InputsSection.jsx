@@ -73,7 +73,7 @@ export default function InputsSection() {
   return (
     <>
       {song && (
-        <section style={{ display: 'flex', flexDirection: 'row' }}>
+        <section style={{ display: 'flex', flexDirection: 'row', minWidth: 808 }}>
           <SynthInputsContainer id={'synth1Inputs'} pattern={synth1Pattern} setPattern={setSynth1Pattern} />
           <SynthInputsContainer id={'synth2Inputs'} pattern={synth2Pattern} setPattern={setSynth2Pattern} />
           <SynthInputsContainer id={'synth3Inputs'} pattern={synth3Pattern} setPattern={setSynth3Pattern} />

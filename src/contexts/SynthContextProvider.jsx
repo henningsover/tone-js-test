@@ -124,6 +124,12 @@ export default function SynthContextProvider({ children }) {
     setSong(newSong);
   };
 
+  const handlePublish = (e) => {
+    const updatedSong = cloneDeep(song);
+    updatedSong.published = e.target.checked
+    setSong(updatedSong)
+  }
+
   return (
     <SynthContext.Provider
       value={{
@@ -152,6 +158,7 @@ export default function SynthContextProvider({ children }) {
         handleSongMode,
         handleSongName,
         handleSave,
+        handlePublish,
         handleCopyPattern,
         handlePastePattern,
         handleClearPattern,

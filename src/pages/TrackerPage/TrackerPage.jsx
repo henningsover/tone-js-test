@@ -65,7 +65,6 @@ export default function TrackerPage() {
           <S.TrackerPageWrapper id="content-wrapper">
             <InputsSection />
             <S.RightCol>
-              <MasterList />
               <ControlPanel isOwnSong={isOwnSong} />
               <button onClick={handleSignOut}>sign out</button>
             </S.RightCol>

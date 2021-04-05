@@ -29,6 +29,17 @@ export default function Synthesizer({ patterns }) {
     let stepIndex = 0;
     setCurrentStep(stepIndex);
 
+    // const fullScore = {
+    //   track1: [],
+    //   track2: [],
+    //   track3: [],
+    //   track4: [],
+    // }
+
+    // song.masterList.forEach(pattern => {
+    //   console.log(song.patterns.synth1[pattern][0])
+    // })
+
     const getPattern = (index) => {
       const pattern = songMode ? song.masterList[internalMasterListIndex] : currentPattern;
       switch (index) {

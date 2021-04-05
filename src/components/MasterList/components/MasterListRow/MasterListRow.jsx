@@ -16,7 +16,7 @@ export default function MasterListRow({ pattern, masterListIndex }) {
   };
   //TODO - set currentPattern when li is pressed
   return (
-    <li style={{ display: 'flex', justifyContent: 'space-between', paddingRight: 10 }}>
+    <li style={{ display: 'flex', justifyContent: 'space-between', minHeight:20 }}>
       <span>{`${masterListIndex}:`}</span>
       <input type="number" onChange={(e) => handleOnChange(e)} value={pattern} />
     </li>

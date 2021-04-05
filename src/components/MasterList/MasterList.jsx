@@ -3,6 +3,8 @@ import { SynthContext } from '../../contexts/SynthContextProvider';
 import MasterListRow from './components/MasterListRow';
 import { cloneDeep } from 'lodash';
 
+import * as S from './styled'
+
 export default function MasterList() {
   const { song, setSong } = useContext(SynthContext);
 
@@ -23,16 +25,20 @@ export default function MasterList() {
   };
 
   return (
-    <div>
-      <ol id="masterList" style={{ listStyle: 'none', maxHeight: 88, width: 190, overflow: 'scroll' }}>
+    <S.Wrapper>
+      <S.MasterListWrapper>
+      <S.MasterList>
         {song.masterList &&
           song.masterList.length > 0 &&
           song.masterList.map((pattern, index) => {
             return <MasterListRow key={index} pattern={pattern} masterListIndex={index} />;
           })}
-      </ol>
-      <button onClick={() => handleAddToMasterList()}>+</button>
-      <button onClick={() => handleRemoveFromMasterList()}>-</button>
-    </div>
+      </S.MasterList>
+      </S.MasterListWrapper>
+      <S.ButtonsContainer>
+        <S.MasterListButton onClick={() => handleAddToMasterList()}>+</S.MasterListButton>
+        <S.MasterListButton onClick={() => handleRemoveFromMasterList()}>-</S.MasterListButton>
+      </S.ButtonsContainer>
+    </S.Wrapper>
   );
 }
