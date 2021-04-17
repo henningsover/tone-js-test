@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 import Track from '../data/TrackKit';
 import * as Tone from 'tone';
 import * as C from '../constants';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { AuthContext } from './AuthContextProvider';
 import { firebaseAddSong, firebaseUpdateSong, firebaseGetOwnSongs } from '../firebase';
 
@@ -18,9 +18,8 @@ export default function SynthContextProvider({ children }) {
   const [copiedPattern, setCopiedPattern] = useState(null);
   const [octave, setOctave] = useState(4);
   const [masterListIndex, setMasterListIndex] = useState(0);
-  const [songList, setSongList] = useState(null);
+  const [songList, setSongList] = useState({});
   const [showLoadSongModal, setShowLoadSongModal] = useState(false);
-  const [usersList, setUsersList] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -51,29 +50,35 @@ export default function SynthContextProvider({ children }) {
   };
 
   const toggleLoadSongModal = () => {
-    setUsersList(null)
     setShowLoadSongModal((prev) => !prev);
   };
 
   const handleSave = () => {
-    let songId;
-    Object.keys(songList).forEach((songInList) => {
-      if (songList[songInList].title === song.title) {
-        songId = songInList;
-      }
-    });
-    if (songId) {
+
+      let songId;
+
+      Object.keys(songList).forEach((songInList) => {
+        if (songList[songInList].title === song.title) {
+
+          songId = songInList;
+
+        }
+      });
+
+      if (songId) {
+
+        const updatedSong = cloneDeep(song);
+        setSong(updatedSong);
+        firebaseUpdateSong(currentUser.uid, songId, song);
+        firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
+
+      } else {
+
       const updatedSong = cloneDeep(song);
       setSong(updatedSong);
-      localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
-      firebaseUpdateSong(currentUser.uid, songId, song);
-      firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
-    } else {
-      const updatedSong = cloneDeep(song);
-      setSong(updatedSong);
-      localStorage.setItem(`${song.title}`, JSON.stringify(updatedSong));
       firebaseAddSong(currentUser.uid, updatedSong);
       firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
+
     }
   };
 
@@ -124,10 +129,21 @@ export default function SynthContextProvider({ children }) {
     setSong(newSong);
   };
 
-  const handlePublish = (e) => {
+  const handlePublish = () => {
     const updatedSong = cloneDeep(song);
-    updatedSong.published = e.target.checked
+    const check = updatedSong.published
+    updatedSong.published = !check
     setSong(updatedSong)
+  }
+
+  const getOwnSongs = () => {
+    firebaseGetOwnSongs(currentUser.uid).then((res) => {
+      if(isEmpty(res)) {
+        setSongList({})
+      } else {
+        setSongList(res)
+      }
+    });
   }
 
   return (
@@ -170,8 +186,7 @@ export default function SynthContextProvider({ children }) {
         showLoadSongModal,
         setShowLoadSongModal,
         toggleLoadSongModal,
-        usersList,
-        setUsersList,
+        getOwnSongs
       }}
     >
       {children}

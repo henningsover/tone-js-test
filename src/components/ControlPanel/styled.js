@@ -9,7 +9,6 @@ export const ControlPanel = styled.div`
 export const ControlPanelGridRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 120px;
 `
 
 export const ControlPanelCol = styled.div`
@@ -24,7 +23,7 @@ export const FlexContainer = styled.div`
 `
 
 export const ControlPanelInput = styled.input`
-  /* width: 100% */
+  width: 100%;
 `
 
 export const ControlPanelHeading = styled.span`
@@ -35,12 +34,19 @@ export const ControlPanelHeading = styled.span`
 
 export const ControlPanelButton = styled.button`
   flex-grow: 1;
-  max-width: 110px;
+  max-width: 80px;
 `
 
 export const ControlPanelSelect = styled.select`
   width: 100%;
   height: 100%;
+`
+
+export const ButtonsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  width: 50%;
 `
 
 export const FlexCol = styled.div`
@@ -55,9 +61,15 @@ export const FlexColContainer = styled(FlexCol)`
 
 export const GridInternal = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   align-items: center;
+`
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 `
 
 export const ControlPanelLabel = styled.span`

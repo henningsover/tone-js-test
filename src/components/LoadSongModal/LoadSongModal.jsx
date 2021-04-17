@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { firebaseGetOwnSongs, firebaseGetUsersSongs, auth, firebaseGetUsers } from '../../firebase';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { firebaseGetUsersSongs, firebaseGetUsers } from '../../firebase';
 import {isEmpty} from 'lodash'
 import * as S from './styled';
 import { SynthContext } from '../../contexts/SynthContextProvider';
@@ -7,24 +7,17 @@ import { AuthContext } from '../../contexts/AuthContextProvider';
 
 export default function LoadSongModal() {
   const {
-    showLoadSongModal,
     toggleLoadSongModal,
-    setSongList,
     songList,
     setSong,
-    usersList,
-    setUsersList,
   } = useContext(SynthContext);
   const { currentUser } = useContext(AuthContext);
 
+  const [loadedUsers, setLoadedUsers] = useState(null)
+  const [songsToDisplay, setSongsToDisplay] = useState(null)
+
   const modalRef = useRef();
   const searchRef = useRef();
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     firebaseGetOwnSongs(currentUser.uid).then((res) => setSongList(res));
-  //   }
-  // }, [currentUser]);
 
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
@@ -33,7 +26,7 @@ export default function LoadSongModal() {
   };
 
   const handleSongSelection = (songId) => {
-    setSong(songList[songId]);
+    setSong(songsToDisplay[songId]);
     toggleLoadSongModal();
   };
 
@@ -42,81 +35,79 @@ export default function LoadSongModal() {
       const searchTerm = searchRef.current.value;
       if (searchTerm !== '') {
         firebaseGetUsers(searchTerm, currentUser.uid).then((res) => {
-          setUsersList(res)});
+          setLoadedUsers(res)});
       } else {
-        setUsersList(null);
+        setLoadedUsers(null);
       }
     }, 500);
     return () => clearTimeout(usersSearch);
   };
 
-  const handleGetOwnSongs = (userId) => {
-    firebaseGetOwnSongs(userId).then((res) => {
-      if(isEmpty(res)) {
-        setSongList(null)
-      } else {
-        setSongList(res)
-      }
-    });
+  const handleDisplayOwnSongs = () => {
+    if(isEmpty(songList)) {
+      setSongsToDisplay(null)
+    } else {
+      setSongsToDisplay(songList)
+    }
   };
 
   const handleGetUsersSongs = (userId) => {
     firebaseGetUsersSongs(userId).then((res) => {
       if(isEmpty(res)) {
-        setSongList(null)
+        setSongsToDisplay(null)
       } else {
-        setSongList(res)
+        setSongsToDisplay(res)
       }
     })
   }
 
   useEffect(() => {
-    handleGetOwnSongs(currentUser.uid);
-  }, []);
+    if(!isEmpty(songList)) {
+
+      handleDisplayOwnSongs()
+
+    }
+  }, [songList])
 
   return (
-    <>
-      {showLoadSongModal ? (
-        <S.Background ref={modalRef} onClick={(e) => closeModal(e)}>
-          <S.ModalWrapper>
-            <div>
-              <input ref={searchRef} type="text" placeholder="Search for a user" onChange={handleUserSearch} />
-              <ul>
-                <li onClick={() => handleGetOwnSongs(currentUser.uid)}>
-                  {currentUser.displayName ? currentUser.displayName : currentUser.email}
-                </li>
-                {usersList &&
-                  Object.keys(usersList).map((user, index) => {
-                    return <li 
-                              key={index}
-                              onClick={() => handleGetUsersSongs(usersList[user].userId)}
-                            >
-                              <span>{usersList[user].userName}</span>
-                          </li>;
-                  })}
-              </ul>
-            </div>
-            <div>
-              <ul>
-                {songList? 
-                  Object.keys(songList).map((song, index) => {
-                    return (
-                      <li
+    <S.Background ref={modalRef} onClick={(e) => closeModal(e)}>
+      <S.ModalWrapper>
+        <div>
+          <input ref={searchRef} type="text" placeholder="Search for a user" onChange={handleUserSearch} />
+          <ul>
+            <li onClick={() => handleDisplayOwnSongs()}>
+              {currentUser.displayName ? currentUser.displayName : currentUser.email}
+            </li>
+            {loadedUsers &&
+              Object.keys(loadedUsers).map((user, index) => {
+                return <li 
                           key={index}
-                          onClick={() => handleSongSelection(song)}
-                      >
-                        <span>{songList[song].title}</span>
-                      </li>
-                    );
-                  }):
-                  <p>No songs found</p>
-                }
-              </ul>
-            </div>
-            <S.CloseModalButton onClick={toggleLoadSongModal} />
-          </S.ModalWrapper>
-        </S.Background>
-      ) : null}
-    </>
+                          onClick={() => handleGetUsersSongs(loadedUsers[user].userId)}
+                        >
+                          <span>{loadedUsers[user].userName}</span>
+                      </li>;
+              })}
+          </ul>
+        </div>
+        <div>
+          <ul>
+            {songsToDisplay? 
+              Object.keys(songsToDisplay).map((song, index) => {
+                return (
+                  <li
+                      key={index}
+                      onClick={() => handleSongSelection(song)}
+                  >
+                    <span>{songsToDisplay[song].title}</span>
+                  </li>
+                );
+              }):
+              <p>No songs found</p>
+            }
+          </ul>
+        </div>
+        <S.CloseModalButton onClick={toggleLoadSongModal} />
+      </S.ModalWrapper>
+    </S.Background>
   );
 }

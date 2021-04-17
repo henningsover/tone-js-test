@@ -18,10 +18,8 @@ export default function ControlPanel({isOwnSong}) {
     handleCopyPattern,
     handlePastePattern,
     handleNewSong,
-    handleOctaveChange,
     handleSongName,
     handlePatternSelect,
-    octave,
     song,
     currentPattern,
     toggleLoadSongModal,
@@ -34,9 +32,15 @@ export default function ControlPanel({isOwnSong}) {
   }, [currentPattern]);
   return (
     <S.ControlPanel>
+      <S.FlexColContainer>
+        <S.ContentWrapper>
+          <span>Bpm</span>
+          <span>Octave</span>
+        </S.ContentWrapper>
+      </S.FlexColContainer>
       <S.ControlPanelGridRow>
         <MasterList />
-        <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", border:"1px solid", padding:"0 5px"}}>
+        <div style={{display:"grid", gap:10, border:"1px solid", padding:20}}>
           <S.FlexCol>
             <S.ControlPanelHeading>Playback</S.ControlPanelHeading>
             <div style={{display:"flex", flexDirection:"row"}}>
@@ -53,33 +57,30 @@ export default function ControlPanel({isOwnSong}) {
           </S.FlexCol>
         </div>
       </S.ControlPanelGridRow>
+
       <S.FlexColContainer>
           <S.ControlPanelHeading>Handle song</S.ControlPanelHeading>
-            <S.GridInternal>
-              <S.FlexCol>
-                <S.ControlPanelLabel>Title:</S.ControlPanelLabel>
+            <S.ContentWrapper>
+              <div style={{width:"50%", marginRight: 10}}>
                 <S.ControlPanelInput type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
-              </S.FlexCol>
-              <S.FlexCol>
-                <S.ControlPanelLabel>Bpm:</S.ControlPanelLabel>
-                <S.ControlPanelInput type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
-              </S.FlexCol>
-              <S.FlexCol>
-                <S.ControlPanelLabel>Published:</S.ControlPanelLabel>
-                <input type="checkbox" checked={song.published} onChange={(e) => handlePublish(e)}/>
-              </S.FlexCol>
-              <S.ControlPanelButton onClick={() => handleNewSong()}>New</S.ControlPanelButton>
-              <S.ControlPanelButton onClick={() => toggleLoadSongModal()}>Load</S.ControlPanelButton>
-              {isOwnSong && 
-              <S.ControlPanelButton onClick={() => handleSave()}>Save</S.ControlPanelButton>
-              }
-          </S.GridInternal>
+              </div>
+              <S.ButtonsContainer>
+                <S.ControlPanelButton onClick={() => handleNewSong()}>New</S.ControlPanelButton>
+                <S.ControlPanelButton onClick={() => toggleLoadSongModal()}>Load</S.ControlPanelButton>
+                {isOwnSong && 
+                  <>
+                    <S.ControlPanelButton onClick={() => handleSave()}>Save</S.ControlPanelButton>
+                    <S.ControlPanelButton onClick={() => handlePublish()}>{song.published ? 'Unpublish' : 'Publish'}</S.ControlPanelButton>
+                  </>
+                }
+              </S.ButtonsContainer>
+          </S.ContentWrapper>
       </S.FlexColContainer>
 
       <S.FlexColContainer>
         <S.ControlPanelHeading>Handle Pattern</S.ControlPanelHeading>
-          <S.GridInternal>
-            <div>
+          <S.ContentWrapper>
+            <div style={{width:"50%", marginRight: 10}}>
               <S.ControlPanelSelect id="patternSelect" onChange={(e) => handlePatternSelect(e)}>
                 {Object.keys(song.patterns.synth1).map((pattern, index) => {
                   return (
@@ -90,70 +91,14 @@ export default function ControlPanel({isOwnSong}) {
                 })}
               </S.ControlPanelSelect>
             </div>
-            <S.ControlPanelButton onClick={() => handleNewPattern()}>New pattern</S.ControlPanelButton>
-            <S.ControlPanelButton onClick={() => handleClearPattern()}>Clear</S.ControlPanelButton>
-            <S.ControlPanelButton onClick={() => handleCopyPattern()}>Copy</S.ControlPanelButton>
-            <S.ControlPanelButton onClick={() => handlePastePattern()}>Paste</S.ControlPanelButton>
-          </S.GridInternal>
+            <S.ButtonsContainer>
+              <S.ControlPanelButton onClick={() => handleNewPattern()}>New</S.ControlPanelButton>
+              <S.ControlPanelButton onClick={() => handleClearPattern()}>Clear</S.ControlPanelButton>
+              <S.ControlPanelButton onClick={() => handleCopyPattern()}>Copy</S.ControlPanelButton>
+              <S.ControlPanelButton onClick={() => handlePastePattern()}>Paste</S.ControlPanelButton>
+            </S.ButtonsContainer>
+          </S.ContentWrapper>
       </S.FlexColContainer>
-
-      
-      {/* <S.ControlPanelGridRow>
-        <S.ControlPanelInput type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
-      </S.ControlPanelGridRow>
-
-      <S.ControlPanelGridRow>
-        <S.ControlPanelCol>
-          <S.ControlPanelHeading>Playback</S.ControlPanelHeading>
-          <S.FlexContainer>
-            <S.ControlPanelButton onClick={() => start()}>Play</S.ControlPanelButton>
-            <S.ControlPanelButton onClick={() => stop()}>Stop</S.ControlPanelButton>
-          </S.FlexContainer>
-        </S.ControlPanelCol>
-        <S.ControlPanelCol>
-          <S.ControlPanelHeading>Playback mode</S.ControlPanelHeading>
-          <S.FlexContainer>
-            <S.ControlPanelButton onClick={() => handleSongMode()}>Song</S.ControlPanelButton>
-            <S.ControlPanelButton onClick={() => handlePatternMode()}>Pattern</S.ControlPanelButton>
-          </S.FlexContainer>
-        </S.ControlPanelCol>
-      </S.ControlPanelGridRow>
-
-      <S.ControlPanelCol>
-        <S.ControlPanelHeading>Handle song</S.ControlPanelHeading>
-        <S.FlexContainer>
-          <S.ControlPanelButton onClick={() => handleNewSong()}>New</S.ControlPanelButton>
-          <S.ControlPanelButton onClick={() => toggleLoadSongModal()}>Load</S.ControlPanelButton>
-        {isOwnSong && 
-          <S.ControlPanelButton onClick={() => handleSave()}>Save</S.ControlPanelButton>
-        }
-        </S.FlexContainer>
-      </S.ControlPanelCol>
-
-      <S.ControlPanelCol>
-      <S.ControlPanelHeading>Handle pattern</S.ControlPanelHeading>
-      <S.FlexContainer>
-        <S.ControlPanelButton onClick={() => handleCopyPattern()}>Copy</S.ControlPanelButton>
-        <S.ControlPanelButton onClick={() => handlePastePattern()}>Paste</S.ControlPanelButton>
-        <S.ControlPanelButton onClick={() => handleClearPattern()}>Clear</S.ControlPanelButton>
-      </S.FlexContainer>
-      </S.ControlPanelCol>
-
-      <S.FlexContainer>
-      {song ? (
-        <S.ControlPanelSelect id="patternSelect" onChange={(e) => handlePatternSelect(e)}>
-          {Object.keys(song.patterns.synth1).map((pattern, index) => {
-            return (
-              <option key={index} value={pattern}>
-                {pattern}
-              </option>
-            );
-          })}
-        </S.ControlPanelSelect>
-      ) : null}
-        <S.ControlPanelInput type="number" min="1" max="9" value={octave} onChange={(e) => handleOctaveChange(e)} />
-        <S.ControlPanelButton onClick={() => handleNewPattern()}>New pattern</S.ControlPanelButton>
-      </S.FlexContainer> */}
 
     </S.ControlPanel>
   );

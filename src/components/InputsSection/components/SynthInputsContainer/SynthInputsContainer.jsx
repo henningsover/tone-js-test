@@ -71,7 +71,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
           return (
             <div key={index} className="synth-inputs-container">
               <input
-                style={{ maxWidth: 50 }}
+                style={{ maxWidth: 50, width: 50 }}
                 // key={index}
                 value={pattern[step][0]}
                 className="synth-input"
@@ -81,7 +81,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 // onChange={(e) => onChangeHandler(e, index, synthToUpdate)}
               />
               <input
-                style={{ maxWidth: 50 }}
+                style={{ maxWidth: 50, width: 50 }}
                 type="number"
                 min="0"
                 max="6"
@@ -91,7 +91,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 onChange={(e) => handleInstrumentChange(e, index, 1)}
               />
               <input
-                style={{ maxWidth: 50 }}
+                style={{ maxWidth: 50, width: 50 }}
                 type="number"
                 min="0"
                 max="1"
@@ -101,7 +101,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 onChange={(e) => handleEffectNumberChange(e, index, 2)}
               />
               <input
-                style={{ maxWidth: 50 }}
+                style={{ maxWidth: 50, width: 50 }}
                 type="number"
                 min="0"
                 max="99"

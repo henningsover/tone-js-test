@@ -28,6 +28,7 @@ export default class Track {
     if (this.currentInstrument !== this.instrumentList[instNumber]) {
       this.currentInstrument = this.instrumentList[instNumber];
       this.currentInstrument.gain.chain(this.vibrato, this.trackGain);
+      console.log(this.vibrato.numberOfOutputs)
     }
   }
 

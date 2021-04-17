@@ -28,9 +28,9 @@ export default class Instrument {
       sine: 1,
       sawtooth: 0.5,
       triangle: 2,
-      snare: 0.7,
-      hihat: 0.7,
-      kick: 0.5,
+      snare: 0.5,
+      hihat: 0.5,
+      kick: 0.3,
     };
   }
 
@@ -103,7 +103,7 @@ export default class Instrument {
         },
       },
       kick: {
-        volume: 2,
+        volume: 1,
         octaves: 2,
         envelope: {
           decay: 0.4,

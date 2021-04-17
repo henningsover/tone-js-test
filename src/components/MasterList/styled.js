@@ -21,7 +21,7 @@ export const MasterList = styled.ol`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   height: 30px;
   border: 1px solid black;
   padding: 5px;
@@ -29,4 +29,5 @@ export const ButtonsContainer = styled.div`
 
 export const MasterListButton = styled.button`
   margin: 0 5px;
+  padding: 0 10px;
 `

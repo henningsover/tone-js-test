@@ -12,7 +12,7 @@ import LoadSongModal from '../../components/LoadSongModal';
 import * as S from './styled';
 
 export default function TrackerPage() {
-  const { isPlaying, song, setSong, songList, handleNewSong } = useContext(SynthContext);
+  const { isPlaying, song, setSong, songList, handleNewSong, getOwnSongs, showLoadSongModal } = useContext(SynthContext);
   const { currentUser, logout, loading } = useContext(AuthContext);
 
   const [isOwnSong, setIsOwnSong] = useState(false)
@@ -42,6 +42,7 @@ export default function TrackerPage() {
 
   useEffect(() => {
     if(currentUser) {
+      getOwnSongs()
       handleNewSong()
     }
   },[currentUser])
@@ -69,7 +70,7 @@ export default function TrackerPage() {
               <button onClick={handleSignOut}>sign out</button>
             </S.RightCol>
           </S.TrackerPageWrapper>
-          <LoadSongModal />
+          {showLoadSongModal && <LoadSongModal />}
         </>
       )}
       {isPlaying ? (
