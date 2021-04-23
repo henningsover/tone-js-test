@@ -8,6 +8,13 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
   const { currentPatternIndex, song, setSong, octave, currentStep } = useContext(SynthContext);
   const synthToUpdate = id.replace('Inputs', '');
 
+  const isValidInput =(value, min, max) => {
+    if (value > max | value < min) {
+      return false
+    }
+    return true
+  }
+
   const updatePattern = (value, indexInPattern, indexInStep) => {
     const updatedPattern = cloneDeep(pattern);
     updatedPattern[indexInPattern][indexInStep] = value;
@@ -29,25 +36,25 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
   const handleInstrumentChange = (e, indexInPattern, indexInStep) => {
     e.preventDefault();
     const instValue = e.target.value;
-    const regex = /^[0-9]$|^$/;
-    const OK = regex.test(instValue);
-    if (OK) {
+    if (isValidInput(parseInt(instValue), 0, 6)) {
       updatePattern(instValue, indexInPattern, indexInStep);
-    } else {
-      e.target.value = '';
     }
   };
 
   const handleEffectNumberChange = (e, indexInPattern, indexInStep) => {
     e.preventDefault();
-    const effectValue = e.target.value;
-    updatePattern(effectValue, indexInPattern, indexInStep);
+    const effectNumber = e.target.value;
+    if (isValidInput(parseInt(effectNumber), 0, 1)) {
+      updatePattern(effectNumber, indexInPattern, indexInStep);
+    }
   };
 
   const handleEffectValueChange = (e, indexInPattern, indexInStep) => {
     e.preventDefault();
     const effectValue = e.target.value;
-    updatePattern(effectValue, indexInPattern, indexInStep);
+    if (isValidInput(parseInt(effectValue), 0, 99)) {
+      updatePattern(effectValue, indexInPattern, indexInStep);
+    }
   };
 
   useEffect(() => {

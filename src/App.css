@@ -1,3 +1,7 @@
 .current-pattern {
   background-color: rgb(140, 185, 236);
 }
+
+.current-pattern input {
+  background-color: rgb(140, 185, 236);
+}
