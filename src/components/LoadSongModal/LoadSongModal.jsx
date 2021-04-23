@@ -10,6 +10,8 @@ export default function LoadSongModal() {
     toggleLoadSongModal,
     songList,
     setSong,
+    setCurrentPatternIndex,
+    setMasterListIndex,
   } = useContext(SynthContext);
   const { currentUser } = useContext(AuthContext);
 
@@ -26,6 +28,8 @@ export default function LoadSongModal() {
   };
 
   const handleSongSelection = (songId) => {
+    setCurrentPatternIndex(0)
+    setMasterListIndex(0)
     setSong(songsToDisplay[songId]);
     toggleLoadSongModal();
   };
