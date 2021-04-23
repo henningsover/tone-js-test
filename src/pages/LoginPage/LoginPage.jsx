@@ -49,8 +49,11 @@ export default function LoginPage() {
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="email" placeholder="Email" value={email} onChange={(e) => handleEmailChange(e)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => handlePasswordChange(e)} />
-        <button type="submit">Login</button>
+        <button disabled={loading} type="submit">Login</button>
       </form>
+      <div>
+          <Link to="/forgot-password">Forgot Password?</Link>
+        </div>
       <Link to="/signup">Create account</Link>
     </div>
   );
