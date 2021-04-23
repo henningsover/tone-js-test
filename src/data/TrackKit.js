@@ -6,7 +6,7 @@ export default class Track {
   constructor() {
     this.currentInstrument = null;
     this.trackGain = new Tone.Gain(0.5);
-    this.vibrato = new Tone.Vibrato(9, 0);
+    // this.vibrato = new Tone.Vibrato(9, 0);
     this.instrumentList = {
       0: new Instrument('square'),
       1: new Instrument('sine'),
@@ -19,6 +19,9 @@ export default class Track {
     // this.effectList = {
     //   0: new Tone.Vibrato(2, 0),
     // };
+    Object.keys(this.instrumentList).forEach(inst => {
+      this.instrumentList[inst].gain.connect(this.trackGain)
+    })
   }
 
   _setCurrentInstrument(time, instNumber) {
@@ -27,17 +30,16 @@ export default class Track {
     }
     if (this.currentInstrument !== this.instrumentList[instNumber]) {
       this.currentInstrument = this.instrumentList[instNumber];
-      this.currentInstrument.gain.chain(this.vibrato, this.trackGain);
-      console.log(this.vibrato.numberOfOutputs)
     }
   }
 
   _handleNote(time, note) {
-    if (note === 'X' && this.currentInstrument.synth.name === 'Synth') {
+    if (this.currentInstrument.synth.name === 'Synth') {
       this.currentInstrument.stop(time);
     }
     if (note !== 'X') {
       this.currentInstrument.play(time + 0.001, note);
+      const play = time + 0.001
     }
   }
 
@@ -47,9 +49,9 @@ export default class Track {
       case 0:
         this.trackGain.gain.value = effectValueToDecimal;
         break;
-      case 1:
-        this.vibrato.depth.value = effectValueToDecimal;
-        break;
+      // case 1:
+      //   this.vibrato.depth.value = effectValueToDecimal;
+      //   break;
     }
   }
 
@@ -73,6 +75,6 @@ export default class Track {
     Object.keys(this.instrumentList).forEach((instrument) => {
       this.instrumentList[instrument].synth.dispose();
     });
-    this.vibrato.dispose();
+    // this.vibrato.dispose();
   }
 }

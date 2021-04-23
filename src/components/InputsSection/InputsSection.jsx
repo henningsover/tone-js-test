@@ -3,19 +3,19 @@ import { SynthContext } from '../../contexts/SynthContextProvider';
 import SynthInputsContainer from './components/SynthInputsContainer';
 
 export default function InputsSection() {
-  const { currentPattern, song, setOctave } = useContext(SynthContext);
+  const { currentPatternIndex, song, setOctave } = useContext(SynthContext);
 
-  const [synth1Pattern, setSynth1Pattern] = useState(song.patterns.synth1[`${currentPattern}`]);
-  const [synth2Pattern, setSynth2Pattern] = useState(song.patterns.synth2[`${currentPattern}`]);
-  const [synth3Pattern, setSynth3Pattern] = useState(song.patterns.synth3[`${currentPattern}`]);
-  const [synth4Pattern, setSynth4Pattern] = useState(song.patterns.synth4[`${currentPattern}`]);
+  const [synth1Pattern, setSynth1Pattern] = useState(song.patterns.synth1[`${currentPatternIndex}`]);
+  const [synth2Pattern, setSynth2Pattern] = useState(song.patterns.synth2[`${currentPatternIndex}`]);
+  const [synth3Pattern, setSynth3Pattern] = useState(song.patterns.synth3[`${currentPatternIndex}`]);
+  const [synth4Pattern, setSynth4Pattern] = useState(song.patterns.synth4[`${currentPatternIndex}`]);
 
   useEffect(() => {
-    setSynth1Pattern(song.patterns.synth1[`${currentPattern}`]);
-    setSynth2Pattern(song.patterns.synth2[`${currentPattern}`]);
-    setSynth3Pattern(song.patterns.synth3[`${currentPattern}`]);
-    setSynth4Pattern(song.patterns.synth4[`${currentPattern}`]);
-  }, [currentPattern, song]);
+    setSynth1Pattern(song.patterns.synth1[`${currentPatternIndex}`]);
+    setSynth2Pattern(song.patterns.synth2[`${currentPatternIndex}`]);
+    setSynth3Pattern(song.patterns.synth3[`${currentPatternIndex}`]);
+    setSynth4Pattern(song.patterns.synth4[`${currentPatternIndex}`]);
+  }, [currentPatternIndex, song]);
 
   const noteInputControls = (e) => {
     const acceptedKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'KeyQ', 'KeyW'];

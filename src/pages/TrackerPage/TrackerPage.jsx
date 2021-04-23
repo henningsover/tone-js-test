@@ -4,48 +4,48 @@ import Synthesizer from '../../Synthesizer';
 import InputsSection from '../../components/InputsSection';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 import { AuthContext } from '../../contexts/AuthContextProvider';
-import MasterList from '../../components/MasterList';
-import { cloneDeep } from 'lodash';
 import ControlPanel from '../../components/ControlPanel';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import LoadSongModal from '../../components/LoadSongModal';
 import * as S from './styled';
 
 export default function TrackerPage() {
-  const { isPlaying, song, setSong, songList, handleNewSong, getOwnSongs, showLoadSongModal } = useContext(SynthContext);
+  const { isPlaying, song, handleNewSong, getOwnSongs, showLoadSongModal } = useContext(SynthContext);
   const { currentUser, logout, loading } = useContext(AuthContext);
 
+  const [error, setError] = useState('')
   const [isOwnSong, setIsOwnSong] = useState(false)
 
   const history = useHistory();
 
-  const handleSongChange = (e) => {
-    const songTitle = e.target.value;
-    let songToSet;
-    Object.keys(songList).forEach((song) => {
-      if (songList[song].title === songTitle) {
-        songToSet = cloneDeep(songList[song]);
-      }
-      setSong(songToSet);
-    });
-  };
+  const handleSignOut = async () => {
+    setError('')
 
-  const handleSignOut = () => {
-    logout();
+    try {
+
+      await logout();
+      history.push('/login')
+
+    } catch {
+
+      setError('Failed to log out')
+
+    }
+    
   };
 
   useEffect(() => {
-    if (!currentUser && !loading) {
-      history.push('/');
+    if (currentUser === undefined) {
+      history.push('/login')
     }
   }, [currentUser]);
 
   useEffect(() => {
-    if(currentUser) {
+    if(currentUser !== undefined) {
       getOwnSongs()
       handleNewSong()
     }
-  },[currentUser])
+  },[])
 
   useEffect(() => {
     if(currentUser && song.userId === currentUser.uid) {
@@ -67,7 +67,7 @@ export default function TrackerPage() {
             <InputsSection />
             <S.RightCol>
               <ControlPanel isOwnSong={isOwnSong} />
-              <button onClick={handleSignOut}>sign out</button>
+              <button onClick={() =>handleSignOut()}>sign out</button>
             </S.RightCol>
           </S.TrackerPageWrapper>
           {showLoadSongModal && <LoadSongModal />}

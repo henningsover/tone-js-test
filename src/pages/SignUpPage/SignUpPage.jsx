@@ -1,57 +1,69 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContextProvider';
+import { firebaseCreateUser } from '../../firebase';
 
-export default function LoginPage() {
-  const { login, currentUser } = useContext(AuthContext);
-
-  const history = useHistory()
+export default function SignUpPage() {
+  const { signup, currentUser } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
+  
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+  const handlePasswordConfirmChange = (e) => {
+    setPasswordConfirm(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
+    if (password !== passwordConfirm) {
+      return setError('Passwords do not match')
+    }
 
+    try {
       setError('')
       setLoading(true)
-      await login(email, password)
-      history.push('/')
-
+      await signup(email, password);
     } catch {
-      setError('Failed to log in')
+      setError('Failed to create an account')
     }
 
     setLoading(false)
+
   };
 
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser);
+      firebaseCreateUser(currentUser.email, currentUser.uid);
+      console.log('creating user');
     }
   }, [currentUser]);
 
   return (
     <div>
-      <h2>Log In</h2>
+      <h2>Sign Up</h2>
       {error && <span>{error}</span>}
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="email" placeholder="Email" value={email} onChange={(e) => handleEmailChange(e)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => handlePasswordChange(e)} />
-        <button type="submit">Login</button>
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={passwordConfirm}
+          onChange={(e) => handlePasswordConfirmChange(e)}
+        />
+        <button disabled={loading} type="submit">Sign up</button>
       </form>
-      <Link to="/signup">Create account</Link>
+      <Link to="/login">Already a member?</Link>
     </div>
   );
 }

@@ -1,37 +1,21 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import './App.css';
-import Synthesizer from './Synthesizer';
-import InputsSection from './components/InputsSection';
-import { SynthContext } from './contexts/SynthContextProvider';
-import * as C from './constants';
-import MasterList from './components/MasterList';
-import { cloneDeep } from 'lodash';
-import ControlPanel from './components/ControlPanel';
-import LoginPage from './pages/LoginPage/LoginPage';
+import LoginPage from './pages/LoginPage/';
+import SignUpPage from './pages/SignUpPage/SignUpPage';
 import TrackerPage from './pages/TrackerPage';
 import { Switch, Route } from 'react-router-dom';
 import { GlobalStyle } from './globalStyled';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
 
   return (
-    // <div>
-    //   <h1>Welcome</h1>
-    //   {song && <MasterList />}
-    //   <ControlPanel />
-    //   {song && <InputsSection />}
-    //   {isPlaying ? (
-    //     <>
-    //       <Synthesizer patterns={song.patterns} />
-    //     </>
-    //   ) : null}
-    //   <LoginPage />
-    // </div>
     <>
       <GlobalStyle />
       <Switch>
-        <Route path="/tracker" component={TrackerPage} />
-        <Route path="/" component={LoginPage} />
+        <PrivateRoute exact path="/" component={TrackerPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignUpPage} />
       </Switch>
     </>
   );

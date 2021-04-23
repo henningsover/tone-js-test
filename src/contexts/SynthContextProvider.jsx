@@ -10,7 +10,7 @@ export const SynthContext = createContext({});
 
 export default function SynthContextProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPattern, setCurrentPattern] = useState(0);
+  const [currentPatternIndex, setCurrentPatternIndex] = useState(0);
   const [currentStep, setCurrentStep] = useState(null);
   const [songMode, setSongMode] = useState(true);
   const [patternMode, setPatternMode] = useState(false);
@@ -20,6 +20,9 @@ export default function SynthContextProvider({ children }) {
   const [masterListIndex, setMasterListIndex] = useState(0);
   const [songList, setSongList] = useState({});
   const [showLoadSongModal, setShowLoadSongModal] = useState(false);
+
+  const masterGain = new Tone.Gain(0.5);
+  masterGain.toDestination();
 
   const { currentUser } = useContext(AuthContext);
 
@@ -35,14 +38,14 @@ export default function SynthContextProvider({ children }) {
 
   const handlePatternSelect = (e) => {
     setSongMode(false);
-    setCurrentPattern(e.target.value);
+    setCurrentPatternIndex(e.target.value);
   };
 
   const handleSongMode = () => {
     setSongMode(true);
     setPatternMode(false);
     setMasterListIndex(0);
-    setCurrentPattern(song.masterList[0]);
+    setCurrentPatternIndex(song.masterList[0]);
   };
   const handlePatternMode = () => {
     setPatternMode(true);
@@ -85,22 +88,22 @@ export default function SynthContextProvider({ children }) {
   const handleNewPattern = () => {
     const lastPattern = Object.keys(song.patterns.synth1).length - 1;
     const updatedSong = cloneDeep(song);
-    console.log(C.emptySynthPattern);
     Object.keys(song.patterns).forEach((synth) => {
       updatedSong.patterns[synth][lastPattern + 1] = C.emptySynthPattern;
     });
+    setCurrentPatternIndex(lastPattern + 1);
+    setSongMode(false)
     setSong(updatedSong);
-    setCurrentPattern(lastPattern + 1);
   };
 
   const handleCopyPattern = () => {
-    setCopiedPattern(currentPattern);
+    setCopiedPattern(currentPatternIndex);
   };
 
   const handlePastePattern = () => {
     const updatedSong = cloneDeep(song);
     Object.keys(song.patterns).forEach((synth) => {
-      updatedSong.patterns[synth][currentPattern] = updatedSong.patterns[synth][copiedPattern];
+      updatedSong.patterns[synth][currentPatternIndex] = updatedSong.patterns[synth][copiedPattern];
     });
     setSong(updatedSong);
   };
@@ -108,7 +111,7 @@ export default function SynthContextProvider({ children }) {
   const handleClearPattern = () => {
     const updatedSong = cloneDeep(song);
     Object.keys(song.patterns).forEach((synth) => {
-      updatedSong.patterns[synth][currentPattern] = C.emptySynthPattern;
+      updatedSong.patterns[synth][currentPatternIndex] = C.emptySynthPattern;
     });
     setSong(updatedSong);
   };
@@ -126,6 +129,7 @@ export default function SynthContextProvider({ children }) {
   const handleNewSong = () => {
     const newSong = cloneDeep(C.emptySong);
     newSong.userId = currentUser.uid
+    setCurrentPatternIndex(0)
     setSong(newSong);
   };
 
@@ -151,8 +155,8 @@ export default function SynthContextProvider({ children }) {
       value={{
         isPlaying,
         setIsPlaying,
-        currentPattern,
-        setCurrentPattern,
+        currentPatternIndex,
+        setCurrentPatternIndex,
         currentStep,
         setCurrentStep,
         songMode,
@@ -186,7 +190,8 @@ export default function SynthContextProvider({ children }) {
         showLoadSongModal,
         setShowLoadSongModal,
         toggleLoadSongModal,
-        getOwnSongs
+        getOwnSongs,
+        masterGain
       }}
     >
       {children}

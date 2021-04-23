@@ -5,16 +5,16 @@ import { getNote } from '../../inputsHelper';
 import { cloneDeep } from 'lodash';
 
 export default function SynthInputsContainer({ id, pattern, setPattern }) {
-  const { currentPattern, song, setSong, octave, currentStep } = useContext(SynthContext);
+  const { currentPatternIndex, song, setSong, octave, currentStep } = useContext(SynthContext);
   const synthToUpdate = id.replace('Inputs', '');
 
   const updatePattern = (value, indexInPattern, indexInStep) => {
     const updatedPattern = cloneDeep(pattern);
     updatedPattern[indexInPattern][indexInStep] = value;
     const updatedSong = cloneDeep(song);
-    updatedSong.patterns[`${synthToUpdate}`][currentPattern] = updatedPattern;
+    updatedSong.patterns[`${synthToUpdate}`][currentPatternIndex] = updatedPattern;
     setSong(updatedSong);
-    setPattern(updatedSong.patterns[`${synthToUpdate}`][currentPattern]);
+    setPattern(updatedSong.patterns[`${synthToUpdate}`][currentPatternIndex]);
   };
 
   const handleNoteChange = (e, indexInPattern, indexInStep) => {

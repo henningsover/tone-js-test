@@ -1,25 +1,29 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { SynthContext } from './contexts/SynthContextProvider';
 import * as Tone from 'tone';
 import Track from './data/TrackKit';
 
 export default function Synthesizer({ patterns }) {
   const {
-    setCurrentPattern,
-    currentPattern,
+    setCurrentPatternIndex,
+    currentPatternIndex,
     setCurrentStep,
     songMode,
     song,
     masterListIndex,
     setMasterListIndex,
+    masterGain
   } = useContext(SynthContext);
 
   useEffect(() => {
     const tracks = [new Track(), new Track(), new Track(), new Track()];
 
-    const masterGain = new Tone.Gain(0.5);
-    masterGain.toDestination();
+    let currentPattern = []
+
+    // const masterGain = new Tone.Gain(0.5);
+    // masterGain.toDestination();
     Tone.Transport.bpm.value = 120;
+    Tone.Transport.timeSignature = [8,4]
 
     tracks.forEach((track) => {
       track.trackGain.connect(masterGain);
@@ -29,40 +33,23 @@ export default function Synthesizer({ patterns }) {
     let stepIndex = 0;
     setCurrentStep(stepIndex);
 
-    // const fullScore = {
-    //   track1: [],
-    //   track2: [],
-    //   track3: [],
-    //   track4: [],
-    // }
+    const getCurrentPattern = () => {
+      const pattern = songMode ? song.masterList[internalMasterListIndex] : currentPatternIndex;
 
-    // song.masterList.forEach(pattern => {
-    //   console.log(song.patterns.synth1[pattern][0])
-    // })
-
-    const getPattern = (index) => {
-      const pattern = songMode ? song.masterList[internalMasterListIndex] : currentPattern;
-      switch (index) {
-        case 0:
-          return patterns.synth1[pattern];
-        case 1:
-          return patterns.synth2[pattern];
-        case 2:
-          return patterns.synth3[pattern];
-        case 3:
-          return patterns.synth4[pattern];
-        default:
-          break;
-      }
+      currentPattern = [
+        patterns.synth1[pattern],
+        patterns.synth2[pattern],
+        patterns.synth3[pattern],
+        patterns.synth4[pattern]
+      ]
     };
 
     const repeat = (time) => {
       if (stepIndex === 0) {
-        setCurrentStep(stepIndex);
+        getCurrentPattern()
       }
-
       tracks.forEach((track, index) => {
-        const pattern = getPattern(index);
+        const pattern = currentPattern[index];
         track.decode(pattern[stepIndex], time);
       });
 
@@ -74,13 +61,13 @@ export default function Synthesizer({ patterns }) {
         stepIndex = 0;
         if (songMode) {
           internalMasterListIndex++;
-          setMasterListIndex(internalMasterListIndex);
           if (song.masterList[internalMasterListIndex] === undefined) {
             internalMasterListIndex = 0;
             setMasterListIndex(internalMasterListIndex);
-            setCurrentPattern(song.masterList[0]);
+            setCurrentPatternIndex(song.masterList[0]);
           } else {
-            setCurrentPattern(song.masterList[internalMasterListIndex]);
+            setMasterListIndex(internalMasterListIndex);
+            setCurrentPatternIndex(song.masterList[internalMasterListIndex]);
           }
         }
       }
@@ -95,6 +82,7 @@ export default function Synthesizer({ patterns }) {
 
     return () => {
       Tone.Transport.stop();
+      Tone.Transport.position = 0;
       Tone.Transport.cancel();
       tracks.forEach((track) => {
         track.dispose();

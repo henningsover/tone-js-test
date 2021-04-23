@@ -7,15 +7,15 @@ export default function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  const signup = (email, password) => {
-    auth.createUserWithEmailAndPassword(email, password);
+  const signup = async (email, password) => {
+    return auth.createUserWithEmailAndPassword(email, password);
   };
 
   const login =  async (email, password) => {
     return auth.signInWithEmailAndPassword(email, password);
   };
 
-  const logout = () => {
+  const logout = async () => {
     return auth.signOut();
   };
 
@@ -30,7 +30,7 @@ export default function AuthContextProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser, signup, login, logout, loading }}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 }

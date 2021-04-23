@@ -40,6 +40,10 @@ export const emptyPattern = {
   synth4: { 0: emptySynthPattern },
 };
 
+export const patterns = {
+  0: {...emptyPattern}
+}
+
 export const emptySong = {
   patterns: { ...emptyPattern },
   masterList: ['0'],

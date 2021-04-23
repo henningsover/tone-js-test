@@ -90,7 +90,7 @@ export default class Instrument {
         },
       },
       hihat: {
-        volume: 5,
+        volume: 4,
         noise: {
           type: 'white',
           playbackRate: 10,
@@ -106,7 +106,7 @@ export default class Instrument {
         volume: 1,
         octaves: 2,
         envelope: {
-          decay: 0.4,
+          decay: 0.3,
           sustain: 0.1,
           release: 0.01,
         },

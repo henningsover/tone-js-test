@@ -21,15 +21,15 @@ export default function ControlPanel({isOwnSong}) {
     handleSongName,
     handlePatternSelect,
     song,
-    currentPattern,
+    currentPatternIndex,
     toggleLoadSongModal,
   } = useContext(SynthContext);
 
   useEffect(() => {
     if (song) {
-      document.getElementById('patternSelect').selectedIndex = currentPattern;
+      document.getElementById('patternSelect').selectedIndex = currentPatternIndex;
     }
-  }, [currentPattern]);
+  }, [currentPatternIndex]);
   return (
     <S.ControlPanel>
       <S.FlexColContainer>
