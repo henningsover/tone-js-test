@@ -60,24 +60,26 @@ export default function TrackerPage() {
   },[isOwnSong])
 
   return (
-    <S.Container>
-      {loading ? null : (
-        <>
-          <S.TrackerPageWrapper id="content-wrapper">
-            <InputsSection />
-            <S.RightCol>
-              <ControlPanel isOwnSong={isOwnSong} />
-              <button onClick={() =>handleSignOut()}>sign out</button>
-            </S.RightCol>
-          </S.TrackerPageWrapper>
-          {showLoadSongModal && <LoadSongModal />}
-        </>
-      )}
-      {isPlaying ? (
-        <>
-          <Synthesizer patterns={song.patterns} />
-        </>
-      ) : null}
-    </S.Container>
+    <S.Background>
+      <S.Container>
+        {loading ? null : (
+          <>
+            <S.TrackerPageWrapper id="content-wrapper">
+              <InputsSection />
+              <S.RightCol>
+                <ControlPanel isOwnSong={isOwnSong} />
+                <button onClick={() =>handleSignOut()}>sign out</button>
+              </S.RightCol>
+            </S.TrackerPageWrapper>
+            {showLoadSongModal && <LoadSongModal />}
+          </>
+        )}
+        {isPlaying ? (
+          <>
+            <Synthesizer patterns={song.patterns} />
+          </>
+        ) : null}
+      </S.Container>
+    </S.Background>
   );
 }

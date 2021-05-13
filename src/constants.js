@@ -45,6 +45,7 @@ export const patterns = {
 }
 
 export const emptySong = {
+  bpm: 120,
   patterns: { ...emptyPattern },
   masterList: ['0'],
   title: 'new song',

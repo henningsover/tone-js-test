@@ -12,6 +12,7 @@ export default function LoadSongModal() {
     setSong,
     setCurrentPatternIndex,
     setMasterListIndex,
+    setBpm
   } = useContext(SynthContext);
   const { currentUser } = useContext(AuthContext);
 

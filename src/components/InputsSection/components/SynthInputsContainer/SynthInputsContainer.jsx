@@ -3,6 +3,7 @@ import { SynthContext } from '../../../../contexts/SynthContextProvider';
 import '../../../../App.css';
 import { getNote } from '../../inputsHelper';
 import { cloneDeep } from 'lodash';
+import * as S from './styled'
 
 export default function SynthInputsContainer({ id, pattern, setPattern }) {
   const { currentPatternIndex, song, setSong, octave, currentStep } = useContext(SynthContext);
@@ -76,9 +77,8 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
       {pattern &&
         Object.keys(pattern).map((step, index) => {
           return (
-            <div key={index} className="synth-inputs-container">
-              <input
-                style={{ maxWidth: 50, width: 50 }}
+            <S.SynthInputRow key={index} className="synth-inputs-container">
+              <S.NoteInput
                 // key={index}
                 value={pattern[step][0]}
                 className="synth-input"
@@ -87,8 +87,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 onKeyDown={(e) => handleNoteChange(e, index, 0)}
                 // onChange={(e) => onChangeHandler(e, index, synthToUpdate)}
               />
-              <input
-                style={{ maxWidth: 50, width: 50 }}
+              <S.IntrumentInput
                 type="number"
                 min="0"
                 max="6"
@@ -97,8 +96,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 data-index-in-step="1"
                 onChange={(e) => handleInstrumentChange(e, index, 1)}
               />
-              <input
-                style={{ maxWidth: 50, width: 50 }}
+              <S.EffectInput
                 type="number"
                 min="0"
                 max="1"
@@ -107,8 +105,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 data-index-in-step="2"
                 onChange={(e) => handleEffectNumberChange(e, index, 2)}
               />
-              <input
-                style={{ maxWidth: 50, width: 50 }}
+              <S.EffectValInput
                 type="number"
                 min="0"
                 max="99"
@@ -117,7 +114,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
                 data-index-in-step="3"
                 onChange={(e) => handleEffectValueChange(e, index, 3)}
               />
-            </div>
+            </S.SynthInputRow>
           );
         })}
     </div>

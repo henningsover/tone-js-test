@@ -116,10 +116,6 @@ export default function SynthContextProvider({ children }) {
     setSong(updatedSong);
   };
 
-  const handleOctaveChange = (e) => {
-    setOctave(parseInt(e.target.value));
-  };
-
   const handleSongName = (e) => {
     const updatedSong = cloneDeep(song);
     updatedSong.title = e.target.value;
@@ -145,6 +141,12 @@ export default function SynthContextProvider({ children }) {
       if(isEmpty(res)) {
         setSongList({})
       } else {
+        Object.keys(res).forEach((songId) => {
+          if (res[songId].bpm === undefined) {
+            res[songId].bpm = 120
+            firebaseUpdateSong(currentUser.uid, songId, res[songId]);
+          }
+        })
         setSongList(res)
       }
     });
@@ -182,7 +184,6 @@ export default function SynthContextProvider({ children }) {
         handleCopyPattern,
         handlePastePattern,
         handleClearPattern,
-        handleOctaveChange,
         handlePatternMode,
         handlePatternSelect,
         songList,

@@ -22,7 +22,7 @@ export default function Synthesizer({ patterns }) {
 
     // const masterGain = new Tone.Gain(0.5);
     // masterGain.toDestination();
-    Tone.Transport.bpm.value = 120;
+    Tone.Transport.bpm.value = song.bpm;
     Tone.Transport.timeSignature = [8,4]
 
     tracks.forEach((track) => {

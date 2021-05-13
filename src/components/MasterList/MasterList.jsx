@@ -36,8 +36,8 @@ export default function MasterList() {
       </S.MasterList>
       </S.MasterListWrapper>
       <S.ButtonsContainer>
-        <S.MasterListButton onClick={() => handleAddToMasterList()}>+</S.MasterListButton>
         <S.MasterListButton onClick={() => handleRemoveFromMasterList()}>-</S.MasterListButton>
+        <S.MasterListButton onClick={() => handleAddToMasterList()}>+</S.MasterListButton>
       </S.ButtonsContainer>
     </S.Wrapper>
   );

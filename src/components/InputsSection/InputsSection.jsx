@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 import SynthInputsContainer from './components/SynthInputsContainer';
 
+import * as S from './styled'
+
 export default function InputsSection() {
   const { currentPatternIndex, song, setOctave } = useContext(SynthContext);
 
@@ -73,12 +75,12 @@ export default function InputsSection() {
   return (
     <>
       {song && (
-        <section style={{ display: 'flex', flexDirection: 'row', minWidth: 808 }}>
+        <S.InputsSection>
           <SynthInputsContainer id={'synth1Inputs'} pattern={synth1Pattern} setPattern={setSynth1Pattern} />
           <SynthInputsContainer id={'synth2Inputs'} pattern={synth2Pattern} setPattern={setSynth2Pattern} />
           <SynthInputsContainer id={'synth3Inputs'} pattern={synth3Pattern} setPattern={setSynth3Pattern} />
           <SynthInputsContainer id={'synth4Inputs'} pattern={synth4Pattern} setPattern={setSynth4Pattern} />
-        </section>
+        </S.InputsSection>
       )}
     </>
   );

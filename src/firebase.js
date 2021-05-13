@@ -44,6 +44,7 @@ export const firebaseUpdateSong = (userId, songId, song) => {
     published: song.published,
     patterns: song.patterns,
     masterList: song.masterList,
+    bpm: song.bpm
   };
   console.log(payload);
   db.collection('songs').doc(songId).update(payload);
