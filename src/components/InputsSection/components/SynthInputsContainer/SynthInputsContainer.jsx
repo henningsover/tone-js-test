@@ -73,7 +73,7 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
   }, [currentStep]);
 
   return (
-    <div id={id} style={{ display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid' }}>
+    <S.SynthInputContainer id={id} style={{ display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid' }}>
       {pattern &&
         Object.keys(pattern).map((step, index) => {
           return (
@@ -117,6 +117,6 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
             </S.SynthInputRow>
           );
         })}
-    </div>
+    </S.SynthInputContainer>
   );
 }

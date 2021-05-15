@@ -68,7 +68,7 @@ export default function TrackerPage() {
               <InputsSection />
               <S.RightCol>
                 <ControlPanel isOwnSong={isOwnSong} />
-                <button onClick={() =>handleSignOut()}>sign out</button>
+                {/* <button onClick={() =>handleSignOut()}>sign out</button> */}
               </S.RightCol>
             </S.TrackerPageWrapper>
             {showLoadSongModal && <LoadSongModal />}

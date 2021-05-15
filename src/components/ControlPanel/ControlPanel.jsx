@@ -68,8 +68,8 @@ export default function ControlPanel({isOwnSong}) {
   }, [currentPatternIndex]);
   return (
     <S.ControlPanel>
-      <S.FlexColContainer>
-        <S.ContentWrapper>
+      <S.TopRow>
+        <S.BpmOctaveWrapper>
           <S.FlexCol>
             <S.ControlPanelHeading>Bpm</S.ControlPanelHeading>
             <div style={{display:"flex", flexDirection:"row"}}>
@@ -86,9 +86,9 @@ export default function ControlPanel({isOwnSong}) {
               <S.ButtonSmall onClick={() => increaseOctave()}>+</S.ButtonSmall>
             </div>
           </S.FlexCol>
-        </S.ContentWrapper>
-      </S.FlexColContainer>
-      <S.FlexRow>
+        </S.BpmOctaveWrapper>
+      </S.TopRow>
+      <S.PlaybackMasterRow>
         <MasterList />
         <S.PlaybackContainer>
           <S.FlexCol>
@@ -106,7 +106,7 @@ export default function ControlPanel({isOwnSong}) {
             </S.ButtonsRow>
           </S.FlexCol>
         </S.PlaybackContainer>
-      </S.FlexRow>
+      </S.PlaybackMasterRow>
 
       <S.FlexColContainer>
           <S.ControlPanelHeading>Handle song</S.ControlPanelHeading>
@@ -115,14 +115,14 @@ export default function ControlPanel({isOwnSong}) {
                 <S.ControlPanelInput type="text" value={song ? song.title : ''} onChange={(e) => handleSongName(e)} />
               </S.InputWrapper>
               <S.ButtonsWrapper>
-                <S.ButtonsRow style={{marginBottom: 20}}>
+                <S.ButtonsRow style={{marginBottom: 10}}>
                   <S.ControlPanelButton onClick={() => handleNewSong()}>New</S.ControlPanelButton>
                   <S.ControlPanelButton onClick={() => toggleLoadSongModal()}>Load</S.ControlPanelButton>
                 </S.ButtonsRow>
                 {isOwnSong && 
                   <S.ButtonsRow>
                     <S.ControlPanelButton onClick={() => handleSave()}>Save</S.ControlPanelButton>
-                    <S.ControlPanelButton onClick={() => handlePublish()}>{song.published ? 'Unpublish' : 'Publish'}</S.ControlPanelButton>
+                    <S.ControlPanelButton onClick={() => handlePublish()}>{song.published ? 'Hide' : 'Show'}</S.ControlPanelButton>
                   </S.ButtonsRow>
                 }
               </S.ButtonsWrapper>
@@ -144,7 +144,7 @@ export default function ControlPanel({isOwnSong}) {
               </S.ControlPanelSelect>
             </S.InputWrapper>
             <S.ButtonsWrapper>
-              <S.ButtonsRow style={{marginBottom: 20}}>
+              <S.ButtonsRow style={{marginBottom: 10}}>
                 <S.ControlPanelButton onClick={() => handleNewPattern()}>New</S.ControlPanelButton>
                 <S.ControlPanelButton onClick={() => handleClearPattern()}>Clear</S.ControlPanelButton>
               </S.ButtonsRow>

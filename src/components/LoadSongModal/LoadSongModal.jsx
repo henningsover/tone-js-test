@@ -77,41 +77,46 @@ export default function LoadSongModal() {
   return (
     <S.Background ref={modalRef} onClick={(e) => closeModal(e)}>
       <S.ModalWrapper>
-        <div>
+        <S.Controls>
           <input ref={searchRef} type="text" placeholder="Search for a user" onChange={handleUserSearch} />
-          <ul>
-            <li onClick={() => handleDisplayOwnSongs()}>
-              {currentUser.displayName ? currentUser.displayName : currentUser.email}
-            </li>
-            {loadedUsers &&
-              Object.keys(loadedUsers).map((user, index) => {
-                return <li 
-                          key={index}
-                          onClick={() => handleGetUsersSongs(loadedUsers[user].userId)}
-                        >
-                          <span>{loadedUsers[user].userName}</span>
-                      </li>;
-              })}
-          </ul>
-        </div>
-        <div>
-          <ul>
-            {songsToDisplay? 
-              Object.keys(songsToDisplay).map((song, index) => {
-                return (
-                  <li
-                      key={index}
-                      onClick={() => handleSongSelection(song)}
-                  >
-                    <span>{songsToDisplay[song].title}</span>
-                  </li>
-                );
-              }):
-              <p>No songs found</p>
-            }
-          </ul>
-        </div>
-        <S.CloseModalButton onClick={toggleLoadSongModal} />
+          <S.CloseModalButton onClick={toggleLoadSongModal} />
+        </S.Controls>
+        <S.LeftCol>
+            <ul>
+              <S.ListItem onClick={() => handleDisplayOwnSongs()}>
+                <p>{currentUser.displayName ? currentUser.displayName : currentUser.email}</p>
+              </S.ListItem>
+              {loadedUsers &&
+                Object.keys(loadedUsers)
+                .filter(user => { return loadedUsers[user].userId !== currentUser.uid })
+                .map((user, index) => {
+                  return <S.ListItem 
+                            key={index}
+                            onClick={() => handleGetUsersSongs(loadedUsers[user].userId)}
+                          ><p>{loadedUsers[user].userName}</p>
+                        </S.ListItem>;
+                })}
+            </ul>
+          </S.LeftCol>
+          <S.RightCol>
+            <ul>
+              {songsToDisplay? 
+                Object.keys(songsToDisplay).map((song, index) => {
+                  return (
+                    <S.ListItem
+                        key={index}
+                        onClick={() => handleSongSelection(song)}
+                    >
+                      <p>{songsToDisplay[song].title}</p>
+                    </S.ListItem>
+                  );
+                }):
+                <S.ListItem>
+                  <p>No songs found</p>
+                </S.ListItem>
+              }
+            </ul>
+          </S.RightCol>
       </S.ModalWrapper>
     </S.Background>
   );

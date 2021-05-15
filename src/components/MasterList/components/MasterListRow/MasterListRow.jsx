@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { SynthContext } from '../../../../contexts/SynthContextProvider';
 
+import * as S from './styled'
+
 export default function MasterListRow({ pattern, masterListIndex }) {
   const { song, setSong } = useContext(SynthContext);
 
@@ -16,9 +18,9 @@ export default function MasterListRow({ pattern, masterListIndex }) {
   };
   //TODO - set currentPattern when li is pressed
   return (
-    <li style={{ display: 'flex', justifyContent: 'space-between', minHeight:20 }}>
+    <S.ListItem>
       <span>{`${masterListIndex}:`}</span>
-      <input type="number" onChange={(e) => handleOnChange(e)} value={pattern} />
-    </li>
+      <S.MasterListInput type="number" onChange={(e) => handleOnChange(e)} value={pattern} />
+    </S.ListItem>
   );
 }
