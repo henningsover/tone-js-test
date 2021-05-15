@@ -23,6 +23,20 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 
+  a:focus,
+  button:focus,
+  input:focus,
+  :focus {
+    outline: none;
+  }
+
+  a::-moz-focus-inner,
+  button::-moz-focus-inner,
+  input::-moz-focus-inner,
+  ::-moz-focus-inner {
+    border: 0;
+  }
+
   /* Firefox */
   input[type=number] {
     -moz-appearance: textfield;

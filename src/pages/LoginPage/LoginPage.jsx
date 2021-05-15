@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContextProvider';
 
+import * as S from '../../components/common/styles/AuthStyles'
+
 export default function LoginPage() {
   const { login, currentUser } = useContext(AuthContext);
 
@@ -43,18 +45,23 @@ export default function LoginPage() {
   }, [currentUser]);
 
   return (
-    <div>
-      <h2>Log In</h2>
-      {error && <span>{error}</span>}
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => handleEmailChange(e)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => handlePasswordChange(e)} />
-        <button disabled={loading} type="submit">Login</button>
-      </form>
-      <div>
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </div>
-      <Link to="/signup">Create account</Link>
-    </div>
+    <S.PageContainer>
+      <S.ContentWrapper>
+        <S.CardWrapper>
+          <S.Heading>MasterThesisTracker</S.Heading>
+          <S.AuthHeading>Login</S.AuthHeading>
+          {error && <span>{error}</span>}
+          <S.AuthForm onSubmit={(e) => handleSubmit(e)}>
+            <S.AuthInput type="email" placeholder="Email" value={email} onChange={(e) => handleEmailChange(e)} />
+            <S.AuthInput type="password" placeholder="Password" value={password} onChange={(e) => handlePasswordChange(e)} />
+            <S.SubmitButton disabled={loading} type="submit">Login</S.SubmitButton>
+          </S.AuthForm>
+        </S.CardWrapper>
+        <S.LinksWrapper>
+            <Link to="/forgot-password">Forgot Password?</Link>
+            <Link to="/signup">Create account</Link>
+        </S.LinksWrapper>
+      </S.ContentWrapper>
+    </S.PageContainer>
   );
 }

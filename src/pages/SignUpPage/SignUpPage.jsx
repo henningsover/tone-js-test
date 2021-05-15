@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContextProvider';
 import { firebaseCreateUser } from '../../firebase';
 
+import * as S from '../../components/common/styles/AuthStyles'
+
 export default function SignUpPage() {
   const { signup, currentUser } = useContext(AuthContext);
 
@@ -49,21 +51,28 @@ export default function SignUpPage() {
   }, [currentUser]);
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      {error && <span>{error}</span>}
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => handleEmailChange(e)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => handlePasswordChange(e)} />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={passwordConfirm}
-          onChange={(e) => handlePasswordConfirmChange(e)}
-        />
-        <button disabled={loading} type="submit">Sign up</button>
-      </form>
-      <Link to="/login">Already a member?</Link>
-    </div>
+    <S.PageContainer>
+      <S.ContentWrapper>
+        <S.CardWrapper>
+          <S.Heading>MasterThesisTracker</S.Heading>
+          <S.AuthHeading>Sign Up</S.AuthHeading>
+          {error && <span>{error}</span>}
+          <S.AuthForm onSubmit={(e) => handleSubmit(e)}>
+            <S.AuthInput type="email" placeholder="Email" value={email} onChange={(e) => handleEmailChange(e)} />
+            <S.AuthInput type="password" placeholder="Password" value={password} onChange={(e) => handlePasswordChange(e)} />
+            <S.AuthInput
+              type="password"
+              placeholder="Confirm Password"
+              value={passwordConfirm}
+              onChange={(e) => handlePasswordConfirmChange(e)}
+            />
+            <S.SubmitButton disabled={loading} type="submit">Sign up</S.SubmitButton>
+          </S.AuthForm>
+        </S.CardWrapper>
+        <S.LinksWrapper>
+          <Link to="/login">Already a member?</Link>
+        </S.LinksWrapper>
+      </S.ContentWrapper>
+    </S.PageContainer>
   );
 }
