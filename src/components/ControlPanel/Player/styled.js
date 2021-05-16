@@ -11,6 +11,7 @@ export const Heading = styled.h1`
   text-align: center;
   letter-spacing: 10px;
   margin-bottom: 30px;
+  font-size: 25px;
 `
 
 export const Player = styled.div`

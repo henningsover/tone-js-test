@@ -16,12 +16,13 @@ export const TrackerPageWrapper = styled.div`
   flex-direction: column-reverse;
   margin: auto;
   background-color: #5f8999;
-  margin-top: 90px;
+  margin-top: 150px;
 
 
   @media(min-width: 690px) {
     padding-bottom: 20px;
     max-width: min-content;
+    margin-top: 90px;
   }
 
   @media (min-width: 930px) {

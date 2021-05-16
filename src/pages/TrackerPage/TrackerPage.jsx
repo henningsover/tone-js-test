@@ -10,34 +10,27 @@ import { useHistory, Redirect } from 'react-router-dom';
 
 import LoadSongModal from '../../components/LoadSongModal';
 import UpdateUserModal from '../../components/UpdateUserModal'
+import TutorialModal from '../../components/TutorialModal'
 import DefaultLayout from '../../layout/DefaultLayout'
 import * as S from './styled';
 
 export default function TrackerPage() {
-  const { isPlaying, song, handleNewSong, getOwnSongs, showLoadSongModal } = useContext(SynthContext);
-  const { currentUser, logout, loading, showUpdateUserModal, toggleUpdateUserModal } = useContext(AuthContext);
+  const { 
+    isPlaying,
+    song,
+    handleNewSong,
+    getOwnSongs,
+    showLoadSongModal,
+    showTutorialModal } = useContext(SynthContext);
 
-  const [error, setError] = useState('')
+  const { currentUser,
+    loading,
+    showUpdateUserModal} = useContext(AuthContext);
+
   const [isOwnSong, setIsOwnSong] = useState(false)
   const [windowSize, setWindowSize] = useState(window.innerWidth)
 
   const history = useHistory();
-
-  const handleSignOut = async () => {
-    setError('')
-
-    try {
-
-      await logout();
-      history.push('/login')
-
-    } catch {
-
-      setError('Failed to log out')
-
-    }
-    
-  };
 
   const handleResize = () => {
     setWindowSize(window.innerWidth)
@@ -90,6 +83,7 @@ export default function TrackerPage() {
               </S.TrackerPageWrapper>
               {showLoadSongModal && <LoadSongModal />}
               {showUpdateUserModal && <UpdateUserModal />}
+              {showTutorialModal && <TutorialModal />}
             </>
           )}
 

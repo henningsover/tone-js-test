@@ -20,6 +20,7 @@ export default function SynthContextProvider({ children }) {
   const [masterListIndex, setMasterListIndex] = useState(0);
   const [songList, setSongList] = useState({});
   const [showLoadSongModal, setShowLoadSongModal] = useState(false);
+  const [showTutorialModal, setShowTutorialModal] = useState(false);
 
   const masterGain = new Tone.Gain(0.5);
   masterGain.toDestination();
@@ -54,6 +55,10 @@ export default function SynthContextProvider({ children }) {
 
   const toggleLoadSongModal = () => {
     setShowLoadSongModal((prev) => !prev);
+  };
+
+  const toggleTutorialModal = () => {
+    setShowTutorialModal((prev) => !prev);
   };
 
   const handleSave = () => {
@@ -191,6 +196,8 @@ export default function SynthContextProvider({ children }) {
         showLoadSongModal,
         setShowLoadSongModal,
         toggleLoadSongModal,
+        toggleTutorialModal,
+        showTutorialModal,
         getOwnSongs,
         masterGain
       }}

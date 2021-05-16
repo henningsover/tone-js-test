@@ -9,6 +9,14 @@ export const PageContainer = styled.main`
 
 export const Heading = styled.h1`
   margin-bottom: 30px;
+  font-size: 15px;
+
+  @media(min-width: 400px) {
+    font-size: 20px;
+  }
+  @media(min-width: 650px) {
+    font-size: 30px;
+  }
 `
 
 export const AuthHeading = styled.h2`
@@ -46,11 +54,16 @@ export const CardWrapper = styled.div`
 `
 
 export const ContentWrapper = styled.div`
-  width: 650px;
+  width: 100vw;
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media(min-width: 650px) {
+    width: 650px;
+  }
+
 `
 
 export const SubmitButton = styled.button`

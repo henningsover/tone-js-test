@@ -45,11 +45,11 @@ export default function UpdateUserModal() {
     setLoading(true)
     setError('')
 
-    if (username !== currentUser.displayName) {
+    if (username.trim() !== currentUser.displayName && username.trim() !== '') {
       promises.push(updateUsername(username))
     }
 
-    if (password) {
+    if (password.trim() !== '') {
       promises.push(updatePassword(password))
     }
 

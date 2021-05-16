@@ -149,6 +149,7 @@ export const ButtonsRow = styled.div`
 export const FlexColContainer = styled(FlexCol)`
   padding: 20px 0px;
   border: 1px solid black;
+  flex-grow: 1;
 `
 
 export const GridInternal = styled.div`
@@ -209,5 +210,6 @@ export const InputWrapper = styled.div`
 export const TopRow = styled.div`
   padding: 20px;
   border: 1px solid black;
+  flex-grow: 1;
 `
 
