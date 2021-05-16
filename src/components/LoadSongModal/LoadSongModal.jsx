@@ -5,6 +5,8 @@ import * as S from './styled';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 import { AuthContext } from '../../contexts/AuthContextProvider';
 
+import BaseModal from '../common/BaseModal'
+
 export default function LoadSongModal() {
   const {
     toggleLoadSongModal,
@@ -12,21 +14,13 @@ export default function LoadSongModal() {
     setSong,
     setCurrentPatternIndex,
     setMasterListIndex,
-    setBpm
   } = useContext(SynthContext);
   const { currentUser } = useContext(AuthContext);
 
   const [loadedUsers, setLoadedUsers] = useState(null)
   const [songsToDisplay, setSongsToDisplay] = useState(null)
 
-  const modalRef = useRef();
   const searchRef = useRef();
-
-  const closeModal = (e) => {
-    if (modalRef.current === e.target) {
-      toggleLoadSongModal();
-    }
-  };
 
   const handleSongSelection = (songId) => {
     setCurrentPatternIndex(0)
@@ -75,11 +69,10 @@ export default function LoadSongModal() {
   }, [songList])
 
   return (
-    <S.Background ref={modalRef} onClick={(e) => closeModal(e)}>
-      <S.ModalWrapper>
+    <BaseModal toggleModal={toggleLoadSongModal}>
+      <S.Wrapper>
         <S.Controls>
           <S.SearchInput ref={searchRef} type="text" placeholder="Search for a user" onChange={handleUserSearch} />
-          <S.CloseModalButton onClick={toggleLoadSongModal} />
         </S.Controls>
         <S.UserListWrapper>
             <ul>
@@ -117,7 +110,7 @@ export default function LoadSongModal() {
               }
             </ul>
           </S.SongListWrapper>
-      </S.ModalWrapper>
-    </S.Background>
+        </S.Wrapper>
+    </BaseModal>
   );
 }

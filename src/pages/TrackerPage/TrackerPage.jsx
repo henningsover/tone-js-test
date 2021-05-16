@@ -7,12 +7,15 @@ import { AuthContext } from '../../contexts/AuthContextProvider';
 import ControlPanel from '../../components/ControlPanel';
 import Player from '../../components/ControlPanel/Player'
 import { useHistory, Redirect } from 'react-router-dom';
+
 import LoadSongModal from '../../components/LoadSongModal';
+import UpdateUserModal from '../../components/UpdateUserModal'
+import DefaultLayout from '../../layout/DefaultLayout'
 import * as S from './styled';
 
 export default function TrackerPage() {
   const { isPlaying, song, handleNewSong, getOwnSongs, showLoadSongModal } = useContext(SynthContext);
-  const { currentUser, logout, loading } = useContext(AuthContext);
+  const { currentUser, logout, loading, showUpdateUserModal, toggleUpdateUserModal } = useContext(AuthContext);
 
   const [error, setError] = useState('')
   const [isOwnSong, setIsOwnSong] = useState(false)
@@ -67,34 +70,36 @@ export default function TrackerPage() {
   },[isOwnSong])
 
   return (
-    <S.Background>
-      <S.Container>
-        {loading ? null : (
-          <>
-            <S.TrackerPageWrapper id="content-wrapper">
+    <DefaultLayout>
+      <S.Background>
+        <S.Container>
+          {loading ? null : (
+            <>
+              <S.TrackerPageWrapper id="content-wrapper">
 
-              {windowSize > 690 && (
-                <>
-                  <InputsSection />
-                    <S.RightCol>
-                    <ControlPanel isOwnSong={isOwnSong} />
-                  </S.RightCol>
-                </>
-              )}
+                {windowSize > 690 && (
+                  <>
+                    <InputsSection />
+                      <S.RightCol>
+                      <ControlPanel isOwnSong={isOwnSong} />
+                    </S.RightCol>
+                  </>
+                )}
 
-              {windowSize <= 690 && <Player />}
+                {windowSize <= 690 && <Player />}
+              </S.TrackerPageWrapper>
+              {showLoadSongModal && <LoadSongModal />}
+              {showUpdateUserModal && <UpdateUserModal />}
+            </>
+          )}
 
-            </S.TrackerPageWrapper>
-            {showLoadSongModal && <LoadSongModal />}
-          </>
-        )}
-
-        {isPlaying ? (
-          <>
-            <Synthesizer patterns={song.patterns} />
-          </>
-        ) : null}
-      </S.Container>
-    </S.Background>
+          {isPlaying ? (
+            <>
+              <Synthesizer patterns={song.patterns} />
+            </>
+          ) : null}
+        </S.Container>
+      </S.Background>
+    </DefaultLayout>
   );
 }

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Background = styled.main`
   background-color: #02022b;
+  min-height: 100vh;
 `
 
 export const Container = styled.div`
@@ -15,6 +16,7 @@ export const TrackerPageWrapper = styled.div`
   flex-direction: column-reverse;
   margin: auto;
   background-color: #5f8999;
+  margin-top: 90px;
 
 
   @media(min-width: 690px) {

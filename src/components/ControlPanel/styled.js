@@ -96,6 +96,10 @@ export const ControlPanelButton = styled.button`
   max-width: 80px;
   min-width: 80px;
 
+  @media(min-width: 930px) {
+    padding: 5px 0;
+  }
+
   @media(min-width: 1115px) {
     min-width: unset;
   }

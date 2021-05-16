@@ -6,6 +6,7 @@ export const AuthContext = createContext({});
 export default function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [showUpdateUserModal, setShowUpdateUserModal] = useState(false)
 
   const signup = (email, password) => {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -21,6 +22,20 @@ export default function AuthContextProvider({ children }) {
 
   const resetPassword = (email) => {
     return auth.sendPasswordResetEmail(email)
+  }
+
+  const updateUsername = (username ) => {
+    return currentUser.updateProfile({
+      displayName: username
+    })
+  }
+
+  const updatePassword = (password) => {
+    return currentUser.updatePassword(password)
+  }
+
+  const toggleUpdateUserModal = () => {
+    setShowUpdateUserModal((prev) => !prev);
   }
 
   useEffect(() => {
@@ -41,7 +56,12 @@ export default function AuthContextProvider({ children }) {
         login,
         logout,
         loading,
-        resetPassword
+        resetPassword,
+        showUpdateUserModal,
+        setShowUpdateUserModal,
+        toggleUpdateUserModal,
+        updateUsername,
+        updatePassword
       }
     }>
       {!loading && children}
