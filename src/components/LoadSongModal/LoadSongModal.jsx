@@ -78,10 +78,10 @@ export default function LoadSongModal() {
     <S.Background ref={modalRef} onClick={(e) => closeModal(e)}>
       <S.ModalWrapper>
         <S.Controls>
-          <input ref={searchRef} type="text" placeholder="Search for a user" onChange={handleUserSearch} />
+          <S.SearchInput ref={searchRef} type="text" placeholder="Search for a user" onChange={handleUserSearch} />
           <S.CloseModalButton onClick={toggleLoadSongModal} />
         </S.Controls>
-        <S.LeftCol>
+        <S.UserListWrapper>
             <ul>
               <S.ListItem onClick={() => handleDisplayOwnSongs()}>
                 <p>{currentUser.displayName ? currentUser.displayName : currentUser.email}</p>
@@ -97,8 +97,8 @@ export default function LoadSongModal() {
                         </S.ListItem>;
                 })}
             </ul>
-          </S.LeftCol>
-          <S.RightCol>
+          </S.UserListWrapper>
+          <S.SongListWrapper>
             <ul>
               {songsToDisplay? 
                 Object.keys(songsToDisplay).map((song, index) => {
@@ -116,7 +116,7 @@ export default function LoadSongModal() {
                 </S.ListItem>
               }
             </ul>
-          </S.RightCol>
+          </S.SongListWrapper>
       </S.ModalWrapper>
     </S.Background>
   );

@@ -13,13 +13,20 @@ export const Container = styled.div`
 export const TrackerPageWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  max-width: min-content;
   margin: auto;
+  background-color: #5f8999;
 
-  @media (min-width: 1010px) {
+
+  @media(min-width: 690px) {
+    padding-bottom: 20px;
+    max-width: min-content;
+  }
+
+  @media (min-width: 930px) {
     display: flex;
     flex-direction: row;
     max-width: unset;
+    padding: unset;
   }
 `
 

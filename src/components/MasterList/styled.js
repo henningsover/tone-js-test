@@ -4,6 +4,15 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
+
+  @media(min-width:930px) {
+    width: unset;
+  }
+
+  @media(min-width: 1115px) {
+    min-width: unset;
+    width: 50%;
+  }
 `
 
 export const MasterListWrapper = styled.div`
@@ -11,6 +20,14 @@ export const MasterListWrapper = styled.div`
   flex-grow: 1;
   padding: 5px;
   border: 1px solid black;
+  
+  @media(min-width:930px) {
+    padding: 5px 20px;
+  }
+
+  @media(min-width: 1010px) {
+    padding: 5px;
+  }
 `
 
 export const MasterList = styled.ol`

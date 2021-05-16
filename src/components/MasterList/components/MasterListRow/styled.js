@@ -10,7 +10,7 @@ export const ListItem = styled.li`
 export const MasterListInput = styled.input`
   width: 50%;
 
-  @media(min-width: 1010px) {
+  @media(min-width: 930px) {
     width: 75%;
   }
 `

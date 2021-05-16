@@ -7,7 +7,7 @@ export const ControlPanel = styled.div`
   overflow: scroll;
   border: 1px solid black;
 
-  @media(min-width: 1010px) {
+  @media(min-width: 930px) {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -20,13 +20,20 @@ export const FlexRow = styled.div`
   flex-direction: row;
 `
 
-export const PlaybackMasterRow = styled(FlexRow)`
+export const PlaybackMasterRow = styled.div`
   grid-row-start: 1;
   grid-column-start: 1;
+  display: flex;
+  flex-direction: row;
 
-  @media(min-width: 1010px) {
+  @media(min-width: 930px) {
     grid-row-start: unset;
     grid-column-start: unset;
+    flex-direction: column;
+  }
+
+  @media(min-width: 1010px) {
+    flex-direction: row;
   }
 `
 
@@ -38,8 +45,13 @@ export const PlaybackContainer = styled.div`
   width: 50%;
   min-width: 200px;
 
+  @media(min-width:930px) {
+    width: unset;
+  }
+
   @media(min-width: 1115px) {
     min-width: unset;
+    width: 50%;
   }
 `
 
@@ -164,7 +176,7 @@ export const BpmOctaveWrapper = styled.div`
   grid-column-start: 2;
   height: 100%;
 
-  @media(min-width: 1010px) {
+  @media(min-width: 930px) {
     grid-row-start: unset
   }
 

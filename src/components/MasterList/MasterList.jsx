@@ -27,13 +27,13 @@ export default function MasterList() {
   return (
     <S.Wrapper>
       <S.MasterListWrapper>
-      <S.MasterList>
-        {song.masterList &&
-          song.masterList.length > 0 &&
-          song.masterList.map((pattern, index) => {
-            return <MasterListRow key={index} pattern={pattern} masterListIndex={index} />;
-          })}
-      </S.MasterList>
+        <S.MasterList>
+          {song.masterList &&
+            song.masterList.length > 0 &&
+            song.masterList.map((pattern, index) => {
+              return <MasterListRow key={index} pattern={pattern} masterListIndex={index} />;
+            })}
+        </S.MasterList>
       </S.MasterListWrapper>
       <S.ButtonsContainer>
         <S.MasterListButton onClick={() => handleRemoveFromMasterList()}>-</S.MasterListButton>

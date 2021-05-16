@@ -41,4 +41,12 @@ export const GlobalStyle = createGlobalStyle`
   input[type=number] {
     -moz-appearance: textfield;
   }
+
+  .current-pattern {
+  background-color: #B70909;
+}
+
+.current-pattern input {
+  background-color: #B70909;
+}
 `;

@@ -12,10 +12,7 @@ export const Background = styled.div`
 `;
 
 export const ModalWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 3fr;
-  width: 800px;
+  width: 100vw;
   height: 500px;
   box-shadow: 0 5px, 16px, rgba(0, 0, 0, 0.2);
   background: #fff;
@@ -23,7 +20,13 @@ export const ModalWrapper = styled.div`
   position: relative;
   z-index: 10;
   border-radius: 10px;
-  padding: 20px;
+
+  @media(min-width: 690px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    width: 800px;
+  }
 `;
 
 export const Controls = styled.div`
@@ -36,15 +39,33 @@ export const Controls = styled.div`
   align-items: center;
 `
 
-export const RightCol = styled.div `
-  padding: 5px 20px;
-  overflow: scroll;
+export const SearchInput = styled.input`
+  width: 70vw;
+  height: 30px;
+  padding-left: 5px;
 `
 
-export const LeftCol = styled.div`
+export const UserListWrapper = styled.div`
   padding: 5px 20px;
-  border-right: 1px solid black;
   overflow: scroll;
+  border-top: 1px solid black;
+  max-height: 110px;
+
+  @media(min-width:690px) {
+    border-right: 1px solid black;
+  }
+`
+
+export const SongListWrapper = styled.div `
+  padding: 5px 20px;
+  overflow: scroll;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  max-height: 110px;
+
+  @media(min-width:690px) {
+    border: none;
+  }
 `
 
 export const ListItem = styled.li`

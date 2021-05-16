@@ -5,6 +5,7 @@ import InputsSection from '../../components/InputsSection';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 import { AuthContext } from '../../contexts/AuthContextProvider';
 import ControlPanel from '../../components/ControlPanel';
+import Player from '../../components/ControlPanel/Player'
 import { useHistory, Redirect } from 'react-router-dom';
 import LoadSongModal from '../../components/LoadSongModal';
 import * as S from './styled';
@@ -15,6 +16,7 @@ export default function TrackerPage() {
 
   const [error, setError] = useState('')
   const [isOwnSong, setIsOwnSong] = useState(false)
+  const [windowSize, setWindowSize] = useState(window.innerWidth)
 
   const history = useHistory();
 
@@ -34,6 +36,10 @@ export default function TrackerPage() {
     
   };
 
+  const handleResize = () => {
+    setWindowSize(window.innerWidth)
+  }
+
   useEffect(() => {
     if (currentUser === undefined) {
       history.push('/login')
@@ -45,6 +51,7 @@ export default function TrackerPage() {
       getOwnSongs()
       handleNewSong()
     }
+    window.addEventListener("resize", handleResize)
   },[])
 
   useEffect(() => {
@@ -65,15 +72,23 @@ export default function TrackerPage() {
         {loading ? null : (
           <>
             <S.TrackerPageWrapper id="content-wrapper">
-              <InputsSection />
-              <S.RightCol>
-                <ControlPanel isOwnSong={isOwnSong} />
-                {/* <button onClick={() =>handleSignOut()}>sign out</button> */}
-              </S.RightCol>
+
+              {windowSize > 690 && (
+                <>
+                  <InputsSection />
+                    <S.RightCol>
+                    <ControlPanel isOwnSong={isOwnSong} />
+                  </S.RightCol>
+                </>
+              )}
+
+              {windowSize <= 690 && <Player />}
+
             </S.TrackerPageWrapper>
             {showLoadSongModal && <LoadSongModal />}
           </>
         )}
+
         {isPlaying ? (
           <>
             <Synthesizer patterns={song.patterns} />

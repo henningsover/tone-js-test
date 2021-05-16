@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { SynthContext } from '../../../../contexts/SynthContextProvider';
-import '../../../../App.css';
+// import '../../../../App.css';
 import { getNote } from '../../inputsHelper';
 import { cloneDeep } from 'lodash';
 import * as S from './styled'
