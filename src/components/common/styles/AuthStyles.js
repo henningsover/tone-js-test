@@ -4,12 +4,13 @@ export const PageContainer = styled.main`
   display: flex;
   align-items: center;
   min-height: 100vh;
-  background-color: #4d4de8;
+  background-color: #02022b;
 `
 
 export const Heading = styled.h1`
   margin-bottom: 30px;
   font-size: 15px;
+  color: aliceblue;
 
   @media(min-width: 400px) {
     font-size: 20px;
@@ -23,6 +24,7 @@ export const AuthHeading = styled.h2`
   margin-bottom: 20px;
   letter-spacing: 5px;
   font-size: 15px;
+  color: aliceblue;
 `
 
 export const AuthForm = styled.form `
@@ -36,9 +38,13 @@ export const AuthInput = styled.input`
   padding: 5px;
   font-size: 10px;
   outline: none;
+  background-color: aliceblue;
+  border-style: none;
 
   &:focus {
     outline: none;
+    box-shadow: 0px 0px 0px 3px #070b42;
+    border-radius: 2px;
   }
 `
 
@@ -48,9 +54,7 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 80px 0px;
-  background: aliceblue;
-  -webkit-box-shadow: 7px 6px 16px 0px #171555; 
-  box-shadow: 7px 6px 16px 0px #171555;
+  background: #5f8999;
 `
 
 export const ContentWrapper = styled.div`
@@ -68,7 +72,7 @@ export const ContentWrapper = styled.div`
 
 export const SubmitButton = styled.button`
   padding: 5px;
-  background: #4d4de8;
+  background: #191966;
   border: none;
   color: aliceblue;
 

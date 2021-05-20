@@ -14,10 +14,7 @@ export default function MasterList() {
     setSong(updatedSong);
   };
   const handleRemoveFromMasterList = () => {
-    console.log('try remove')
-    console.log(song.masterList.length)
     if(song.masterList.length > 1) {
-      console.log('bigger than one')
       const updatedSong = cloneDeep(song);
       updatedSong.masterList.splice(-1, 1);
       setSong(updatedSong);

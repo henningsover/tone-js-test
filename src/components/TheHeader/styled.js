@@ -1,10 +1,9 @@
 import styled from 'styled-components'
-import { GiHamburgerMenu } from 'react-icons/gi'
 
 export const TheHeader = styled.header`
   position: absolute;
   height: 90px;
-  background: #ffffff21;
+  background-color: #5f8999;
   width: 100vw;
   color: aliceblue;
   display: flex;
@@ -40,16 +39,15 @@ export const ButtonsContainer = styled.div`
 
 export const HeaderButton = styled.button`
   padding: 10px;
-`
+  background-color: aliceblue;
+  color: black;
+  border: 3px solid #5f8999;
 
-export const MenuButton = styled(GiHamburgerMenu)`
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    z-index: 10;
-    color: black;
+  &:hover {
+    border-color: #070b42;
+  }
+
+  &:active {
+    background-color: #d8dfe6;
+  }
 `

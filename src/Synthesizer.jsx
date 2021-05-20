@@ -7,7 +7,7 @@ export default function Synthesizer({ patterns }) {
   const {
     setCurrentPatternIndex,
     currentPatternIndex,
-    setCurrentStep,
+    setCurrentStepIndex,
     songMode,
     song,
     masterListIndex,
@@ -20,8 +20,6 @@ export default function Synthesizer({ patterns }) {
 
     let currentPattern = []
 
-    // const masterGain = new Tone.Gain(0.5);
-    // masterGain.toDestination();
     Tone.Transport.bpm.value = song.bpm;
     Tone.Transport.timeSignature = [8,4]
 
@@ -31,9 +29,9 @@ export default function Synthesizer({ patterns }) {
 
     let internalMasterListIndex = masterListIndex;
     let stepIndex = 0;
-    setCurrentStep(stepIndex);
+    setCurrentStepIndex(stepIndex);
 
-    const getCurrentPattern = () => {
+    const getNextPattern = () => {
       const pattern = songMode ? song.masterList[internalMasterListIndex] : currentPatternIndex;
 
       currentPattern = [
@@ -46,7 +44,7 @@ export default function Synthesizer({ patterns }) {
 
     const repeat = (time) => {
       if (stepIndex === 0) {
-        getCurrentPattern()
+        getNextPattern()
       }
       tracks.forEach((track, index) => {
         const pattern = currentPattern[index];
@@ -54,10 +52,10 @@ export default function Synthesizer({ patterns }) {
       });
 
       if (stepIndex < Object.keys(patterns.synth1[0]).length - 1) {
-        setCurrentStep(stepIndex);
+        setCurrentStepIndex(stepIndex);
         stepIndex++;
       } else {
-        setCurrentStep(stepIndex);
+        setCurrentStepIndex(stepIndex);
         stepIndex = 0;
         if (songMode) {
           internalMasterListIndex++;

@@ -1,12 +1,12 @@
 import React from 'react';
 import * as Tone from 'tone';
-import Instrument from './InstrumentKitTest';
+import Instrument from './InstrumentKit';
 
 export default class Track {
   constructor() {
     this.currentInstrument = null;
     this.trackGain = new Tone.Gain(0.5);
-    // this.vibrato = new Tone.Vibrato(9, 0);
+    this.vibrato = new Tone.Vibrato(9, 0);
     this.instrumentList = {
       0: new Instrument('square'),
       1: new Instrument('sine'),
@@ -16,30 +16,38 @@ export default class Track {
       5: new Instrument('snare'),
       6: new Instrument('hihat'),
     };
-    // this.effectList = {
-    //   0: new Tone.Vibrato(2, 0),
-    // };
     Object.keys(this.instrumentList).forEach(inst => {
-      this.instrumentList[inst].gain.connect(this.trackGain)
+
+      this.instrumentList[inst].gain.chain(this.vibrato, this.trackGain)
+
     })
   }
 
   _setCurrentInstrument(time, instNumber) {
-    if (this.currentInstrument !== null && this.currentInstrument.synth.name === 'Synth') {
+    if (this.currentInstrument !== null && 
+      this.currentInstrument.synth.name === 'Synth') {
+
       this.currentInstrument.stop(time);
+
     }
+
     if (this.currentInstrument !== this.instrumentList[instNumber]) {
+
       this.currentInstrument = this.instrumentList[instNumber];
+
     }
   }
 
   _handleNote(time, note) {
     if (this.currentInstrument.synth.name === 'Synth') {
+
       this.currentInstrument.stop(time);
+
     }
     if (note !== 'X') {
+
       this.currentInstrument.play(time + 0.001, note);
-      const play = time + 0.001
+
     }
   }
 
@@ -49,9 +57,10 @@ export default class Track {
       case 0:
         this.trackGain.gain.value = effectValueToDecimal;
         break;
-      // case 1:
-      //   this.vibrato.depth.value = effectValueToDecimal;
-      //   break;
+      case 1:
+        this.vibrato.depth.value = effectValueToDecimal;
+        break;
+      default: break;
     }
   }
 

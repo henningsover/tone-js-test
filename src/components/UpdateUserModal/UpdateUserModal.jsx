@@ -72,7 +72,7 @@ export default function UpdateUserModal() {
         {error && <S.ErrorMsg>{error}</S.ErrorMsg>}
         {message && <S.Msg>{message}</S.Msg>}
         <S.AuthForm onSubmit={(e) => handleSubmit(e)}>
-          <label htmlFor="username">Username</label>
+          <S.AuthLabel htmlFor="username">Username</S.AuthLabel>
           <S.AuthInput
             placeholder={currentUser.displayName ? currentUser.displayName : "Username"}
             name="username"
@@ -80,7 +80,7 @@ export default function UpdateUserModal() {
             required
             onChange={(e) => handleUsernameChange(e)} />
 
-          <label htmlFor="password">Password</label>
+          <S.AuthLabel htmlFor="password">Password</S.AuthLabel>
           <S.AuthInput
             name="password"
             type="password"
@@ -88,7 +88,7 @@ export default function UpdateUserModal() {
             value={password}
             onChange={(e) => handlePasswordChange(e)} />
 
-            <label htmlFor="passwordConfirm">Confirm Password</label>
+            <S.AuthLabel htmlFor="passwordConfirm">Confirm Password</S.AuthLabel>
             <S.AuthInput
               name="passwordConfirm"
               type="password"

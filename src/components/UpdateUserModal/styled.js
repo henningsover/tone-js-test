@@ -37,14 +37,22 @@ export const AuthForm = styled.form `
   width: 100%;
 `
 
+export const AuthLabel = styled.label`
+  font-size: 13px;
+  margin-bottom: 5px;
+`
+
 export const AuthInput = styled.input`
   margin-bottom: 20px;
   padding: 5px;
   font-size: 10px;
-  outline: none;
-
+  border-style: none;
+  border: 1px solid #b7b5b5;
   &:focus {
     outline: none;
+    box-shadow: 0px 0px 0px 2px #070b42;
+    border-radius: 2px;
+    border-color: #070b42
   }
 `
 

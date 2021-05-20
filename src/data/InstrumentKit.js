@@ -2,125 +2,138 @@ import React from 'react';
 import * as Tone from 'tone';
 
 export default class Instrument {
-  constructor() {
-    this.synth = null;
-    this.freqEnv = null;
-    this.gain = new Tone.Gain();
+  constructor(inst) {
+    this.synthType = this.synthTypes[inst];
+    this.settings = this.defaultSettings[inst];
+    this.synth = new Tone[this.synthType](this.settings);
+    this.gain = new Tone.Gain(this.gainSettings[inst]);
+    this.synth.connect(this.gain);
+  }
+
+  get synthTypes() {
+    return {
+      square: 'Synth',
+      sine: 'Synth',
+      sawtooth: 'Synth',
+      triangle: 'Synth',
+      snare: 'NoiseSynth',
+      hihat: 'NoiseSynth',
+      kick: 'MembraneSynth',
+    };
   }
 
   get gainSettings() {
     return {
-      square: 0.8,
-      sawtooth: 1,
-      triangle: 1,
+      square: 0.5,
+      sine: 1,
+      sawtooth: 0.5,
+      triangle: 2,
+      snare: 0.5,
+      hihat: 0.5,
+      kick: 0.3,
+    };
+  }
+
+  get envelopeDefaults() {
+    return {
+      Synth: {
+        attack: 0.001,
+        decay: 0.1,
+        sustain: 0.3,
+        release: 0.01,
+      },
+      NoiseSynth: {
+        attack: 0,
+        decay: 0.25,
+        sustain: 0,
+      },
     };
   }
 
   get defaultSettings() {
     return {
-      Synth: {
+      triangle: {
         oscillator: {
           type: 'triangle',
         },
-        envelope: {
-          attack: 0.005,
-          decay: 0.1,
-          sustain: 0.3,
-          release: 0,
-        },
+        envelope: { ...this.envelopeDefaults[this.synthType] },
       },
-      NoiseSynth: {
+      square: {
+        oscillator: {
+          type: 'square',
+        },
+        envelope: { ...this.envelopeDefaults[this.synthType] },
+      },
+      sawtooth: {
+        oscillator: {
+          type: 'sawtooth',
+        },
+        envelope: { ...this.envelopeDefaults[this.synthType] },
+      },
+      sine: {
+        oscillator: {
+          type: 'sine',
+        },
+        envelope: { ...this.envelopeDefaults[this.synthType] },
+      },
+      snare: {
+        volume: 5,
         noise: {
           type: 'white',
-        },
-        envelope: {
-          attack: 0,
-          decay: 0.25,
-          sustain: 0,
-        },
-      },
-    };
-  }
-
-  get percussionSettings() {
-    return {
-      S: {
-        noise: {
-          type: 'white',
-          playbackRate: 0.5,
-        },
-        envelope: {
-          attack: 0,
-          decay: 0.6,
-          sustain: 0,
-        },
-        gain: 0.8,
-      },
-      HH: {
-        noise: {
-          type: 'white',
-          playbackRate: 0.5,
-        },
-        envelope: {
-          attack: 0,
-          decay: 0.1,
-          sustain: 0,
-        },
-        gain: 0.9,
-      },
-      K: {
-        noise: {
-          type: 'brown',
-          playbackRate: 0.8,
+          playbackRate: 3,
         },
         envelope: {
           attack: 0,
           decay: 0.2,
-          sustain: 0,
+          sustain: 0.15,
+          release: 0.04,
         },
-        gain: 2,
+      },
+      hihat: {
+        volume: 4,
+        noise: {
+          type: 'white',
+          playbackRate: 10,
+        },
+        envelope: {
+          attack: 0.001,
+          decay: 0.1,
+          sustain: 0,
+          release: 0,
+        },
+      },
+      kick: {
+        volume: 1,
+        octaves: 2,
+        envelope: {
+          decay: 0.3,
+          sustain: 0.1,
+          release: 0.01,
+        },
       },
     };
   }
 
-  setPlayMethod(playMethod) {
-    this.playMethod = playMethod;
+  play(time, note) {
+    if (this.synth.name === 'MembraneSynth') {
+      this.synth.triggerAttackRelease(note, '16n', time);
+    }
+    if (this.synth.name === 'Synth') {
+      this.synth.triggerAttack(note, time);
+    }
+    if (this.synth.name === 'NoiseSynth') {
+      this.synth.triggerAttackRelease('16n', time);
+    }
   }
 
-  updateOscillatorType(oscType) {
-    this.synth.oscillator.type = oscType;
-  }
-
-  _setGain(oscType) {
-    this.gain.gain.value = this.gainSettings[oscType];
+  stop(time) {
+    this.synth.triggerRelease(time);
   }
 
   updateGain(value) {
     this.gain.gain.value = value;
   }
-
-  updatePercussionType(perc) {
-    let settings = this.percussionSettings[perc];
-    this.synth.set({ ...settings });
-  }
-
-  updateSynthType(oscType) {
-    // If we have already defined the synth
-    if (this.synth) {
-      this.synth.disconnect(this.gain);
-      this.synth.dispose();
-    }
-    //The new Synth!
-    const synthType = oscType === 'noise' ? 'NoiseSynth' : 'Synth';
-    let settings = this.defaultSettings[synthType];
-    let newSynth = new Tone[synthType](settings);
-    this.synth = newSynth;
-    if (oscType !== 'noise') {
-      this.synth.oscillator.type = oscType;
-      this._setGain(oscType);
-    }
-    this.synth.connect(this.gain);
+  updateSynth(oscType) {
+    this.synth.set(this.defaultSettings[oscType]);
   }
 }
-
-export class Drum extends Instrument {}

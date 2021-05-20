@@ -25,6 +25,12 @@ export const firebaseCreateUser = (user, userId) => {
   });
 };
 
+// export const firebaseUpdateDisplayName = (user, displayName) => {
+//   return db.collection('users').doc(user).update({
+//     displayName
+//   });
+// }
+
 export const firebaseAddSong = (userId, song) => {
   let payload = {
     userId,
@@ -32,6 +38,7 @@ export const firebaseAddSong = (userId, song) => {
     published: song.published,
     patterns: song.patterns,
     masterList: song.masterList,
+    bpm: song.bpm
   };
   console.log(payload);
   db.collection('songs').doc().set(payload);
@@ -58,8 +65,6 @@ export const firebaseGetOwnSongs = (userId) => {
     .then((querySnapshot) => {
       let songsToReturn = {};
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, ' => ', doc.data());
         songsToReturn[doc.id] = doc.data();
       });
       return songsToReturn;
@@ -78,8 +83,6 @@ export const firebaseGetUsersSongs = (userId) => {
     .then((querySnapshot) => {
       let songsToReturn = {};
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, ' => ', doc.data());
         songsToReturn[doc.id] = doc.data();
       });
       return songsToReturn;
@@ -97,8 +100,6 @@ export const firebaseGetUsers = (searchQuery, userId) => {
     .then((querySnapshot) => {
       let usersToReturn = {};
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, ' => ', doc.data());
         usersToReturn[doc.id] = doc.data();
       });
       return usersToReturn;

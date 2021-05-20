@@ -43,10 +43,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .current-pattern {
-  background-color: #B70909;
+  background-color: #292a42;
 }
 
 .current-pattern input {
-  background-color: #B70909;
+  background-color: #292a42;
 }
 `;

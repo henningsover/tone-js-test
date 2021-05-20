@@ -11,7 +11,7 @@ export const SynthContext = createContext({});
 export default function SynthContextProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPatternIndex, setCurrentPatternIndex] = useState(0);
-  const [currentStep, setCurrentStep] = useState(null);
+  const [currentStepIndex, setCurrentStepIndex] = useState(null);
   const [songMode, setSongMode] = useState(true);
   const [patternMode, setPatternMode] = useState(false);
   const [song, setSong] = useState(cloneDeep(C.emptySong));
@@ -34,7 +34,7 @@ export default function SynthContextProvider({ children }) {
 
   const stop = () => {
     setIsPlaying(false);
-    setCurrentStep(null);
+    setCurrentStepIndex(null);
   };
 
   const handlePatternSelect = (e) => {
@@ -164,8 +164,8 @@ export default function SynthContextProvider({ children }) {
         setIsPlaying,
         currentPatternIndex,
         setCurrentPatternIndex,
-        currentStep,
-        setCurrentStep,
+        currentStepIndex,
+        setCurrentStepIndex,
         songMode,
         setSongMode,
         patternMode,

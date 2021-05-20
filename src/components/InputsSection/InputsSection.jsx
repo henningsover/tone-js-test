@@ -20,7 +20,10 @@ export default function InputsSection() {
   }, [currentPatternIndex, song]);
 
   const noteInputControls = (e) => {
-    const acceptedKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', 'KeyQ', 'KeyW'];
+    const acceptedKeys = [
+      'ArrowUp','ArrowDown', 'ArrowRight',
+      'ArrowLeft', 'KeyQ', 'KeyW'
+    ];
     const charCode = e.code;
     if (acceptedKeys.includes(charCode)) {
       const inputs = document.querySelectorAll('.synth-input');
@@ -76,10 +79,10 @@ export default function InputsSection() {
     <>
       {song && (
         <S.InputsSection>
-          <SynthInputsContainer id={'synth1Inputs'} pattern={synth1Pattern} setPattern={setSynth1Pattern} />
-          <SynthInputsContainer id={'synth2Inputs'} pattern={synth2Pattern} setPattern={setSynth2Pattern} />
-          <SynthInputsContainer id={'synth3Inputs'} pattern={synth3Pattern} setPattern={setSynth3Pattern} />
-          <SynthInputsContainer id={'synth4Inputs'} pattern={synth4Pattern} setPattern={setSynth4Pattern} />
+          <SynthInputsContainer id={'synth1Inputs'} pattern={synth1Pattern} />
+          <SynthInputsContainer id={'synth2Inputs'} pattern={synth2Pattern} />
+          <SynthInputsContainer id={'synth3Inputs'} pattern={synth3Pattern} />
+          <SynthInputsContainer id={'synth4Inputs'} pattern={synth4Pattern} />
         </S.InputsSection>
       )}
     </>

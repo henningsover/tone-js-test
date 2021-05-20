@@ -27,6 +27,12 @@ export const SearchInput = styled.input`
   width: 70vw;
   height: 30px;
   padding-left: 5px;
+  border-style: none;
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 3px #070b42;
+    border-radius: 2px;
+  }
 
   @media(min-width:690px) {
     width: 400px;

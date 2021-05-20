@@ -26,7 +26,9 @@ export default function LoadSongModal() {
     setCurrentPatternIndex(0)
     setMasterListIndex(0)
     setSong(songsToDisplay[songId]);
-    toggleLoadSongModal();
+    setTimeout(() => {
+      toggleLoadSongModal();
+    }, [500])
   };
 
   const handleUserSearch = () => {

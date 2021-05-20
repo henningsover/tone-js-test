@@ -35,6 +35,16 @@ export const MasterList = styled.ol`
   height: 80px;
   max-height: 80px;
   overflow: scroll;
+
+  @media(min-width: 1010px) {
+    height: 100px;
+    max-height: 100px;
+  }
+
+  @media(min-width: 1115px) {
+    max-height: 110px;
+    height: unset;
+  }
 `
 
 export const ButtonsContainer = styled.div`
@@ -48,4 +58,15 @@ export const ButtonsContainer = styled.div`
 export const MasterListButton = styled.button`
   margin: 0 5px;
   padding: 0 10px;
+  background-color: aliceblue;
+  color: black;
+  border: 3px solid #5f8999;
+
+  &:hover {
+    border-color: #070b42;
+  }
+
+  &:active {
+    background-color: #d8dfe6;
+  }
 `

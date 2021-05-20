@@ -12,6 +12,7 @@ export const Heading = styled.h1`
   letter-spacing: 10px;
   margin-bottom: 30px;
   font-size: 25px;
+  color: aliceblue;
 `
 
 export const Player = styled.div`
@@ -22,4 +23,15 @@ export const PlayerButton = styled.button`
   width: 50%;
   height: 100px;
   font-size: 20px;
+  background-color: aliceblue;
+  color: black;
+  border: 5px solid #5f8999;
+
+  &:hover {
+    border-color: #070b42;
+  }
+
+  &:active {
+    background-color: #d8dfe6;
+  }
 `

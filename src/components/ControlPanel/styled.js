@@ -75,9 +75,30 @@ export const ControlPanelInput = styled.input`
   width: 200px;
   height: 20px;
   font-size: 10px;
+  border-style: none;
+  padding-left: 5px;
+  background-color: aliceblue;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 3px #070b42;
+    border-radius: 2px;
+  }
 
   @media(min-width: 1100px) {
     width: 100%;
+  }
+`
+
+export const ButtonsInput = styled.input`
+  width: 50px;
+  padding: 2px;
+  text-align: center;
+  background-color: aliceblue;
+  border: 2px solid #5f8999;
+
+  &:focus {
+    outline: none;
   }
 `
 
@@ -95,6 +116,17 @@ export const ControlPanelButton = styled.button`
   flex-grow: 1;
   max-width: 80px;
   min-width: 80px;
+  background-color: aliceblue;
+  color: black;
+  border: 3px solid #5f8999;
+
+  &:hover {
+    border-color: #070b42;
+  }
+
+  &:active {
+    background-color: #bbbcc8;
+  }
 
   @media(min-width: 930px) {
     padding: 5px 0;
@@ -108,11 +140,25 @@ export const ControlPanelButton = styled.button`
 export const ButtonSmall = styled.button`
   margin: 0 5px;
   padding: 0 10px;
+  background-color: aliceblue;
+  color: black;
+  border: 3px solid #5f8999;
+
+  &:hover {
+    border-color: #070b42;
+  }
+
+  &:active {
+    background-color: #d8dfe6;
+  }
 `
 
 export const ControlPanelSelect = styled.select`
   width: 200px;
   height: 100%;
+  background-color: aliceblue;
+  border: 2px solid #5f8999;
+  padding: 3px;
 
   @media(min-width: 1100px) {
     width: 100%;

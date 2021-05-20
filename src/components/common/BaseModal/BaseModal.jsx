@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import * as S from './styled';
 
 export default function LoadSongModal({toggleModal, size, children}) {

@@ -5,8 +5,8 @@ import { getNote } from '../../inputsHelper';
 import { cloneDeep } from 'lodash';
 import * as S from './styled'
 
-export default function SynthInputsContainer({ id, pattern, setPattern }) {
-  const { currentPatternIndex, song, setSong, octave, currentStep } = useContext(SynthContext);
+export default function SynthInputsContainer({ id, pattern }) {
+  const { currentPatternIndex, song, setSong, octave, currentStepIndex } = useContext(SynthContext);
   const synthToUpdate = id.replace('Inputs', '');
 
   const isValidInput =(value, min, max) => {
@@ -22,7 +22,6 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
     const updatedSong = cloneDeep(song);
     updatedSong.patterns[`${synthToUpdate}`][currentPatternIndex] = updatedPattern;
     setSong(updatedSong);
-    setPattern(updatedSong.patterns[`${synthToUpdate}`][currentPatternIndex]);
   };
 
   const handleNoteChange = (e, indexInPattern, indexInStep) => {
@@ -60,17 +59,17 @@ export default function SynthInputsContainer({ id, pattern, setPattern }) {
 
   useEffect(() => {
     const inputs = document.getElementById(id).querySelectorAll('.synth-inputs-container');
-    if (currentStep !== null) {
+    if (currentStepIndex !== null) {
       inputs.forEach((input) => {
         input.classList.remove('current-pattern');
       });
-      inputs[currentStep].classList.add('current-pattern');
+      inputs[currentStepIndex].classList.add('current-pattern');
     } else {
       inputs.forEach((input) => {
         input.classList.remove('current-pattern');
       });
     }
-  }, [currentStep]);
+  }, [currentStepIndex]);
 
   return (
     <S.SynthInputContainer id={id} style={{ display: 'flex', flexDirection: 'column', borderWidth: 1, borderStyle: 'solid' }}>

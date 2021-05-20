@@ -73,7 +73,7 @@ export default function ControlPanel({isOwnSong}) {
           <S.FlexCol>
             <S.ControlPanelHeading>Bpm</S.ControlPanelHeading>
             <div style={{display:"flex", flexDirection:"row"}}>
-              <input style={{width: 50}} type="number" min="0" max="200" value={song.bpm} readOnly />
+              <S.ButtonsInput style={{width: 50}} type="number" min="0" max="200" value={song.bpm} readOnly />
               <S.ButtonSmall onClick={() => decreaseBpm()}>-</S.ButtonSmall>
               <S.ButtonSmall onClick={() => increaseBpm()}>+</S.ButtonSmall>
             </div>
@@ -81,7 +81,7 @@ export default function ControlPanel({isOwnSong}) {
           <S.FlexCol>
             <S.ControlPanelHeading>Octave</S.ControlPanelHeading>
             <div style={{display:"flex", flexDirection:"row"}}>
-              <input style={{width: 50}} type="number" min="0" max="200" value={octave} readOnly />
+              <S.ButtonsInput style={{width: 50}} type="number" min="0" max="200" value={octave} readOnly />
               <S.ButtonSmall onClick={() => decreaseOctave()}>-</S.ButtonSmall>
               <S.ButtonSmall onClick={() => increaseOctave()}>+</S.ButtonSmall>
             </div>
