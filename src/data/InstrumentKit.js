@@ -129,11 +129,4 @@ export default class Instrument {
   stop(time) {
     this.synth.triggerRelease(time);
   }
-
-  updateGain(value) {
-    this.gain.gain.value = value;
-  }
-  updateSynth(oscType) {
-    this.synth.set(this.defaultSettings[oscType]);
-  }
 }

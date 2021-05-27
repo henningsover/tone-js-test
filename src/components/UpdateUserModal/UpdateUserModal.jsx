@@ -23,7 +23,6 @@ export default function UpdateUserModal() {
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value)
-    console.log(currentUser)
   }
 
   const handlePasswordChange = (e) => {

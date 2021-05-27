@@ -157,7 +157,7 @@ export const ControlPanelSelect = styled.select`
   width: 200px;
   height: 100%;
   background-color: aliceblue;
-  border: 2px solid #5f8999;
+  border: 1px solid #5f8999;
   padding: 3px;
 
   @media(min-width: 1100px) {

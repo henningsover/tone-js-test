@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { SynthContext } from './contexts/SynthContextProvider';
 import * as Tone from 'tone';
 import Track from './data/TrackKit';

@@ -5,7 +5,7 @@ import InputsSection from '../../components/InputsSection';
 import { SynthContext } from '../../contexts/SynthContextProvider';
 import { AuthContext } from '../../contexts/AuthContextProvider';
 import ControlPanel from '../../components/ControlPanel';
-import Player from '../../components/ControlPanel/Player'
+import Player from '../../components/Player'
 import { useHistory, Redirect } from 'react-router-dom';
 
 import LoadSongModal from '../../components/LoadSongModal';
@@ -57,10 +57,6 @@ export default function TrackerPage() {
       setIsOwnSong(false)
     }
   },[song])
-
-  useEffect(() => {
-    console.log(isOwnSong)
-  },[isOwnSong])
 
   return (
     <DefaultLayout>

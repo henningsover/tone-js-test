@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { SynthContext } from '../../../../contexts/SynthContextProvider';
 import { cloneDeep } from 'lodash';
 
@@ -7,12 +7,14 @@ import * as S from './styled'
 export default function MasterListRow({ pattern, masterListIndex }) {
   const { song, setSong } = useContext(SynthContext);
 
+  const inputRef = useRef(pattern)
+
   const handleOnChange = (e) => {
     e.preventDefault();
-    const updatedSong = cloneDeep(song)
-    if (song.patterns.synth1[`${e.target.value}`]) {
-      const masterListValue = parseInt(e.target.value);
-      updatedSong.masterList[masterListIndex] = masterListValue;
+    const key = parseInt(e.key)
+    if (typeof key === 'number' && song.patterns.synth1[key] !== undefined) {
+      const updatedSong = cloneDeep(song)
+      updatedSong.masterList[masterListIndex] = key;
       setSong(updatedSong);
     }
   };
@@ -20,7 +22,7 @@ export default function MasterListRow({ pattern, masterListIndex }) {
   return (
     <S.ListItem>
       <span>{`${masterListIndex}:`}</span>
-      <S.MasterListInput type="number" onChange={(e) => handleOnChange(e)} value={pattern} />
+      <S.MasterListInput type="number" ref={inputRef} onKeyDown={(e) => handleOnChange(e)} value={pattern}/>
     </S.ListItem>
   );
 }

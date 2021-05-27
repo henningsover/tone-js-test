@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContextProvider';
 import { firebaseCreateUser } from '../../firebase';
 
@@ -7,6 +7,8 @@ import * as S from '../../components/common/styles/AuthStyles'
 
 export default function SignUpPage() {
   const { signup, currentUser } = useContext(AuthContext);
+
+  const history = useHistory()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,9 +34,12 @@ export default function SignUpPage() {
     }
 
     try {
+
       setError('')
       setLoading(true)
       await signup(email, password);
+      history.push('/')
+
     } catch {
       setError('Failed to create an account')
     }
@@ -46,7 +51,6 @@ export default function SignUpPage() {
   useEffect(() => {
     if (currentUser) {
       firebaseCreateUser(currentUser.email, currentUser.uid);
-      console.log('creating user');
     }
   }, [currentUser]);
 

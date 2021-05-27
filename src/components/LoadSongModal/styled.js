@@ -48,6 +48,7 @@ export const UserListWrapper = styled.div`
   @media(min-width:690px) {
     border-top: unset;
     border-right: 1px solid black;
+    max-height: 360px;
   }
 `
 
@@ -59,6 +60,7 @@ export const SongListWrapper = styled.div `
   max-height: 110px;
 
   @media(min-width:690px) {
+    max-height: 360px;
     border: none;
   }
 `

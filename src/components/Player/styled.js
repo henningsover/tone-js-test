@@ -19,6 +19,12 @@ export const Player = styled.div`
   width: 100%;
 `
 
+export const ButtonsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
 export const PlayerButton = styled.button`
   width: 50%;
   height: 100px;

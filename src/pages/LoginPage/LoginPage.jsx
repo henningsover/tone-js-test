@@ -38,12 +38,6 @@ export default function LoginPage() {
     setLoading(false)
   };
 
-  useEffect(() => {
-    if (currentUser) {
-      console.log(currentUser);
-    }
-  }, [currentUser]);
-
   return (
     <S.PageContainer>
       <S.ContentWrapper>
